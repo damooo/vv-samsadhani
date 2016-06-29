@@ -35,8 +35,7 @@ print header(-type=>"text/html" , -charset=>"utf-8");
 
 #Declaration of all the variables
 my $word1;
-my $wordutf;
-my $ans;
+my $wordutf="";
 my $ans="";
 my $encoding="";
 my $rt;
@@ -68,7 +67,7 @@ print "function generate_waxXiwa_forms(encod,rt,gen){
 
 print "</script>\n";
 
-my $ans = `SCLINSTALLDIR/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE`;
+$ans = `SCLINSTALLDIR/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE`;
 
 print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."encoding:$encoding\t"."morfword:$word1\n"."output::wordutf:$wordutf\t"."tempnew_data:$ans\n############################\n\n";
 

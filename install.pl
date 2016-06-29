@@ -2,12 +2,11 @@
 
 my $cmdname = $0;
 $cmdname =~ s/^.*\///;
-if ($#ARGV >= 0 && $ARGV[0] eq "-f") {
-    docmd("rm -rf build");
-}
 my $builddir = "build";
 my $installdir = $builddir;
-$installdir =~ s/build/install/;
+if ($#ARGV >= 0 && $ARGV[0] eq "-f") {
+    docmd("rm -rf $builddir");
+}
 
 # Copy all directory contents other than "omits" into builddir
 my @omits = ($builddir, $installdir, "SPEC", $cmdname);
