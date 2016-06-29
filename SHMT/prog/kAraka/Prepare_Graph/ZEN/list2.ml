@@ -7,6 +7,8 @@
 (* ©2002 Institut National de Recherche en Informatique et en Automatique *)
 (**************************************************************************)
 
+module Bytes = String;
+
 (* We complement [List] here with a few auxiliary list service functions. *)
 
 (*i module List2 = struct i*)

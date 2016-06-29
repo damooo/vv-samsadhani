@@ -101,8 +101,8 @@ install:
 	cd ashtadhyayi_simulator/june12; make install
 	cp -pr sankshepa_ramayanam HTDOCSDIR
 	cp -pr dhaatupaatha HTDOCSDIR
-	cp -pr shishu HTDOCSDIR
-	cd sbg; make install
+	-@cp -pr shishu HTDOCSDIR
+	-@cd sbg && make install
 #	cp -pr ../scl/* SCLINSTALLDIR
 
 install_NN:
