@@ -4,8 +4,20 @@ my $cmdname = $0;
 $cmdname =~ s/^.*\///;
 my $builddir = "build";
 my $installdir = $builddir;
-if ($#ARGV >= 0 && $ARGV[0] eq "-f") {
-    docmd("rm -rf $builddir");
+if ($#ARGV >= 0) {
+    if ($ARGV[0] eq "-f") {
+        docmd("rm -rf $builddir");
+    }
+    elsif ($ARGV[0] eq "-deps") {
+        #docmd("sudo apt-get update");
+        docmd("sudo apt-get install make g++ apache2 graphviz flex bison")
+            || die "Error installing prerequisite packages.\n";
+        docmd("sudo apt-get install ocaml camlp4-extra lttoolbox")
+            || die "Error installing prerequisite packages.\n";
+        docmd("sudo a2enmod cgi && sudo service apache2 restart")
+            || die "Error installing Apache2 CGI support.\n";
+        exit(0);
+    }
 }
 
 # Copy all directory contents other than "omits" into builddir
