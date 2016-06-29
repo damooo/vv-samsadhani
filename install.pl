@@ -24,7 +24,7 @@ docmd("mkdir -p $builddir $installdir");
 docmd("rsync -a " . join(' ', @contents) . " $builddir/");
 unless (-f "$builddir/spec.txt") {
     docmd("cp -a SPEC/spec_users.txt $builddir/spec.txt");
-    docmd("perl -i -p -e \"s#SCLINSTALLDIR=.*#SCLINSTALLDIR=$installdir#;\" $builddir/spec.txt")
+    docmd("perl -i -p -e \"s#SCLINSTALLDIR=.*#SCLINSTALLDIR=$installdir#; s#SCLURL=.*#SCLURL=/scl#; s#CGIURL=.*#CGIURL=/cgi-bin/scl#;\" $builddir/spec.txt")
 }
 
 docmd("(cd $builddir && ./configure && make && sudo make install)");
