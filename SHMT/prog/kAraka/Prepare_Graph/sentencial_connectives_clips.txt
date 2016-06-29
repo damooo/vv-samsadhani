@@ -1,0 +1,242 @@
+;===============================================================================
+;Added by sheetal
+;praWamam aham SqNomi aWa liKAmi.
+;rla
+(defrule assign_rel_for_aWa
+(test (eq (slot-val-match avy word aWa) TRUE))
+=>
+(do-for-all-facts
+((?a avy) (?w1 wif) (?w2 wif))
+(and
+(< ?a:id ?w2:id)
+(> ?a:id ?w1:id)
+(eq ?a:word aWa))
+
+(bind ?k (gdbm_lookup "avy_relation_list.gdbm" ?a:rt))
+(printout bar "(" ?a:id " " ?a:mid " "  ?k " "  ?w2:id " " ?w2:mid ") " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rl63a " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "prawiyogI"))
+(printout bar "(" ?w1:id " " ?w1:mid " "  ?k " "  ?a:id " " ?a:mid ") " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rl63a " ?k ?l crlf )
+))
+;===============================================================================
+;Added by sheetal
+;mayUraH nqwyawi yaxA meGaH varRawi.
+;rly2
+(defrule assign_rel_for_yaxA
+(test (eq (slot-val-match avy word yaxA) TRUE))
+(test (neq (slot-val-match avy word waxA) TRUE))
+=>
+(do-for-all-facts
+((?yaxA avy)(?yw wif)(?ww wif))
+(and
+(eq ?yaxA:word yaxA)
+(<> ?yw:id ?yaxA:id)
+(< ?ww:id ?yw:id)
+(< ?ww:id ?yaxA:id)
+(eq (gdbm_lookup "avy_verb_list.gdbm" ?yaxA:rt) "1"))
+
+(bind ?k (gdbm_lookup "avy_relation_list.gdbm" ?yaxA:rt))
+(printout bar "(" ?yaxA:id " " ?yaxA:mid " " ?k " " ?yw:id " " ?yw:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rly2 " ?k ?l crlf )
+
+))
+;=======================================================================================
+;Added by sheetal
+;meGaH varRawi waxA mayUraH nqwyawi.
+;rlw
+(defrule assign_rel_for_waxA
+(test (eq (slot-val-match avy word waxA) TRUE))
+(test (neq (slot-val-match avy word yaxA) TRUE))
+=>
+(do-for-all-facts
+((?waxA avy)(?yw wif)(?ww wif))
+(and
+(eq ?waxA:word waxA)
+(< ?yw:id ?waxA:id)
+(< ?yw:id ?ww:id)
+(<> ?ww:id ?waxA:id)
+(eq (gdbm_lookup "avy_verb_list.gdbm" ?waxA:rt) "1"))
+
+(bind ?k (gdbm_lookup "avy_relation_list.gdbm" ?waxA:rt))
+(printout bar "(" ?waxA:id " " ?waxA:mid " " ?k " " ?ww:id " " ?ww:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlw " ?k ?l crlf )
+
+))
+;=======================================================================================
+;Added by sheetal
+;ayam bahu-prayAsam kqwavAn waWApi saH a-saPalaH aBUw.
+;rlyw1
+(defrule assign_bAXaka_abAXiwa_for_waWApi
+(test (neq (slot-val-match avy word yaxyapi) TRUE))
+(test (eq (slot-val-match avy word waWApi) TRUE))
+=>
+(do-for-all-facts
+((?wpi avy)(?yw wif kqw)(?ww wif))
+(and
+(eq ?wpi:word waWApi)
+;(<> ?yw:id ?ww:id)
+(< ?yw:id ?wpi:id)
+(> ?ww:id ?wpi:id))
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anuyogI"))
+(printout bar "(" ?ww:id " " ?ww:mid " " ?k " " ?wpi:id " " ?wpi:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlw1 " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "prawiyogI"))
+(printout bar "(" ?yw:id " " ?yw:mid " " ?k " " ?wpi:id " " ?wpi:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlyw1 " ?k ?l crlf )
+))
+;=======================================================================================
+;Added by sheetal
+;yawaH saH samaye na AgawaH wawaH(awaH) saH praveSaparIkRAyAm na anumawaH.
+;rlyH
+(defrule assign_yawaH_wawaH
+(test (eq (slot-val-match avy word yawaH) TRUE))
+(or (test (eq (slot-val-match avy word wawaH) TRUE))(test (eq (slot-val-match avy word awaH) TRUE)))
+=>
+(do-for-all-facts
+((?ywH avy)(?wwH avy)(?yw wif kqw)(?ww wif kqw))
+(and
+(or (eq ?wwH:word wawaH)(eq ?wwH:word awaH))
+(eq ?ywH:word yawaH)
+;(<> ?ywH:id ?wwH:id)
+(> ?yw:id ?ywH:id)
+(< ?yw:id ?wwH:id)
+(> ?ww:id ?wwH:id))
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anuyogI"))
+(printout bar "(" ?wwH:id " " ?wwH:mid " " ?k " " ?ww:id " " ?ww:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlyH " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "prawiyogI"))
+(printout bar "(" ?yw:id " " ?yw:mid " " ?k " " ?ywH:id " " ?ywH:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlyH " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "sambanXaH"))
+(printout bar "(" ?ywH:id " " ?ywH:mid " " ?k " " ?wwH:id " " ?wwH:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlyH " ?k ?l crlf )
+
+))
+;=======================================================================================
+;Added by sheetal
+;yaxi mexinI naSyew api yukwam.
+;rlya
+(defrule assign_yaxi_api
+(test (eq (slot-val-match avy word yaxi) TRUE))
+(or (test (eq (slot-val-match avy word api) TRUE))(test (eq (slot-val-match avy word waWApi) TRUE)))
+=>
+(do-for-all-facts
+((?yaxi avy)(?api avy)(?yw wif kqw)(?aw wif kqw))
+(and
+(or (eq ?api:word api)(eq ?api:word waWApi))
+(eq ?yaxi:word yaxi)
+(<> ?yaxi:id ?api:id)
+(> ?yw:id ?yaxi:id)
+(> ?aw:id ?api:id)
+(< ?yw:id ?api:id)
+(> ?aw:id ?yaxi:id))
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anuyogI"))
+(printout bar "(" ?api:id " " ?api:mid " " ?k " " ?aw:id " " ?aw:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlya " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "prawiyogI"))
+(printout bar "(" ?yw:id " " ?yw:mid " " ?k " " ?yaxi:id " " ?yaxi:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlya " ?k ?l crlf )
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam"))
+;(printout bar "( -1 -1  " ?k " " ?yw:id " " ?yw:mid "  ) " )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "sambanXaH"))
+(printout bar "(" ?yaxi:id " " ?yaxi:mid " " ?k " " ?api:id " " ?api:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlya " ?k ?l crlf )
+
+))
+;=======================================================================================
+;Added by sheetal
+;yAvaw ayam prANena na viyujyawe wAvaw imam gqhANa.
+;rlyvw
+(defrule assign_yAvaw_wAvaw
+(or (test (eq (slot-val-match avy word yAvaw) TRUE))(test (eq (slot-val-match sup word yAvaw) TRUE)))
+(or (test (eq (slot-val-match avy word wAvaw) TRUE))(test (eq (slot-val-match sup word wAvaw) TRUE)))
+=>
+(do-for-all-facts
+((?yvw avy sup)(?wvw avy sup)(?yw wif kqw)(?ww wif kqw))
+(and
+(eq ?wvw:word wAvaw)
+(eq ?yvw:word yAvaw)
+(<> ?yvw:id ?wvw:id)
+(> ?yw:id ?yvw:id)
+(> ?ww:id ?wvw:id)
+(< ?yw:id ?wvw:id)
+(> ?ww:id ?yvw:id)
+;(eq (gdbm_lookup "avy_verb_list.gdbm" ?wvw:rt) "1")
+;(eq (gdbm_lookup "avy_verb_list.gdbm" ?yvw:rt) "1")
+)
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "prawiyogI"))
+(printout bar "(" ?yw:id " " ?yw:mid " "  ?k " " ?yvw:id " " ?yvw:mid ") " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlyvw " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anuyogI"))
+(printout bar "(" ?wvw:id " " ?wvw:mid " "  ?k " " ?ww:id " " ?ww:mid ") " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlyvw " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "sambanXaH"))
+(printout bar "(" ?yvw:id " " ?yvw:mid " " ?k " " ?wvw:id " " ?wvw:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlyvw " ?k ?l crlf )
+
+))
+;=======================================================================================
+;Added by sheetal
+;yaWA rAjA prIwim eRyawi waWA rAGavaH prIwim eRyawi.
+;rlyaWA
+(defrule assign_yaWA_waWA
+(test (eq (slot-val-match avy word yaWA) TRUE))
+(test (eq (slot-val-match avy word waWA) TRUE))
+=>
+(do-for-all-facts
+((?yaWA avy)(?waWA avy)(?yw wif kqw)(?ww wif kqw))
+(and
+(eq ?waWA:word waWA)
+(eq ?yaWA:word yaWA)
+(<> ?yaWA:id ?waWA:id)
+(> ?yw:id ?yaWA:id)
+(> ?ww:id ?waWA:id)
+(< ?yw:id ?waWA:id)
+(> ?ww:id ?yaWA:id)
+)
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anuyogI"))
+(printout bar "(" ?waWA:id " " ?waWA:mid " " ?k " " ?ww:id " " ?ww:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlya " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "prawiyogI"))
+(printout bar "(" ?yw:id " " ?yw:mid " " ?k " " ?yaWA:id " " ?yaWA:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlya " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "sambanXaH"))
+(printout bar "(" ?yaWA:id " " ?yaWA:mid " " ?k " " ?waWA:id " " ?waWA:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlya " ?k ?l crlf )
+
+))
+

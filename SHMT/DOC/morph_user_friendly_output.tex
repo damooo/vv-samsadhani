@@ -1,0 +1,168 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage[none]{hyphenat}
+
+\newcommand{\superscript}[1]{\ensuremath{^\textrm{#1}}}
+\newcommand{\subscript}[1]{\ensuremath{_\textrm{#1}}}
+\newcommand{\tab}{\hspace*{2em}}
+
+\begin{document}
+\title{Morph User Friendly Output Format}
+\author{Amba Kulkarni \\On behalf of Sanskrit Consortium}
+
+\frenchspacing
+\noindent
+\maketitle
+
+\section{Morph user friendly output specifications}
+The morph analysis is produced as a stem/root followed by a feature structure.
+Feature Structure is a set of values seperated by ';'s, and sometimes by '{}'s. Multiple feature structures are separated by `/'.
+
+According to P{\=a}\d{n}ini there are only two basic categories at the level of inflectional morphology. However, for the sake of computational purpose, we also consider avyaya as one of the categories. Later, when we would deal with the Vedic Sanskrit, we may require an additional category, upasarga.\\
+
+\noindent 
+The basic categories for morphological analysis of Sanskrit, therefore, are 
+
+\begin{itemize}
+\item sup (noun)
+\item ti\.{n} (verb)
+\item avyaya (indeclinable)
+\item upasarga (pre-position?)
+\end{itemize}
+
+\noindent 
+\textbf {Inflectional morphology}\\
+Format for output of inflectional morphology is\\
+\textbf{sup}:  stem\{li\.{n}gam\}\{vibhakti\d{h};vacanam\}\\
+\textbf{avy:}  stem\{``avyaya''\}\\
+\textbf{ti\.{n}:} root\{prayoga\d{h};lak{\=a}ra\d{h};puru\d{s}a\d{h};vacanam;pad{\=\i};ga\d{n};dh{\=a}tu\_with\_it;san{\=a}di\d{h}\} \\
+\textbf{upasarga:}  stem{``upasarga''} (Note: This category is required only for Vedic Sanskrit literature.)\\
+
+\noindent 
+\textbf {Derivational morphology}\\
+\textbf{avytaddhita}: stem\{taddhita\_pratyaya\d{h}\}\{li\.{n}am\} \\
+\textbf{avyk\d{r}t}: root\{``k\d{r}t\_pratyaya\d{h}'':k\d{r}t\_pratyaya\d{h};dh{\=a}tu\d{h};ga\d{n}a\d{h}\} \\
+\textbf{k\d{r}t}:  root\{``k\d{r}t\_pratyaya\d{h}'':k\d{r}t\_pratyaya\d{h};dh{\=a}wu\d{h};ga\d{n}a\d{h};li\.{n}am\}\{vibhakti\d{h};vacanam\}\\
+\textbf{taddhita}: stem\{taddhita\_pratyaya\d{h}\}\{li\.{n}gam\}\{vibhakti\d{h};vacanam\}\\
+
+\noindent 
+The values of each of these features is given below.\\
+\begin{itemize}
+\item li\.{n}gam
+\begin{itemize}
+\item pu\.{m}
+\item str{\=\i}
+\item napu\.{m}
+\item a (to indicate any possible lifgam, e.g. in case of sarvan{\=a}ma asmad)
+\end{itemize}
+
+\item vacanam
+\begin{itemize}
+\item 1 (ekavacanam)
+\item 2 (dvivacanam)
+\item 3 (bahuvacanam)
+\end{itemize}
+
+\item puru\d{s}a\d{h}
+\begin{itemize}
+\item u (uttama)
+\item ma (madhyama)
+\item pra (prathama)
+\end{itemize}
+
+\item vibhakti\d{h}
+\begin{itemize}
+\item 1 (pratham{\=a})
+\item 2 (dvit{\=\i}y{\=a})
+\item 3 (t\d{r}tiy{\=a})
+\item 4 (caturth{\=\i})
+\item 5 (pa\~ncam{\=\i})
+\item 6 (\d{s}a\d{s}\d{t}h{\=\i})
+\item 7 (saptam{\=\i})
+\item 8 (sambodhana)
+\end{itemize}
+
+\item lak{\=a}ra
+\begin{itemize}
+\item la\d{t}
+\item li\d{t}
+\item l\d{ut}
+\item l\d{r}\d{t}
+\item lo\d{t}
+\item la\.{n}
+\item vidhili\.{n}
+\item {\=a}\'{s}{\=\i}{\=\i}rli\.{n}
+\item lu\.{n}
+\item l\d{r}\.{n}
+\end{itemize}
+
+\item pad{\=\i}
+\begin{itemize}
+\item {\=a}tmanepad{\=\i}
+\item parasmaipad{\=\i}
+\end{itemize}
+
+\item prayoga\d{h}
+\begin{itemize}
+\item kartari
+\item karma\d{n}i
+\item bh{\=a}ve
+\end{itemize}
+
+\item ga\d{n}a
+\begin{itemize}
+\item 1  (bhv{\=a}di\d{h})
+\item 2  (ad{\=a}di\d{h})
+\item 3  (juhoty{\=a}di\d{h})
+\item 4  (div{\=a}di\d{h})
+\item 5  (sv{\=a}di\d{h})
+\item 6  (tux{\=a}di\d{h})
+\item 7  (ruX{\=a}di\d{h})
+\item 8  (tan{\=a}di\d{h})
+\item 9  (kry{\=a}di\d{h})
+\item 10 (cur{\=a}di\d{h})
+\end{itemize}
+
+\item k\d{r}t\_pratyaya\d{h}
+\begin{itemize}
+\item t\d{r}c
+\item tumun
+\item tavyat
+\item yak
+\item \'{s}at\d{r}
+\item \'{s}{\=a}nac
+\item gha\~{n}
+\item \d{n}amul
+\item \d{n}vul
+\item \d{n}yat
+\item lyu\d{t}
+\item yat
+\item ktv{\=a}
+\item lyap
+\item kta
+\item ktavatu
+\item an{\=\i}yar
+\end{itemize}
+
+\item taddhita\_pratyaya\d{h}
+\begin{itemize}
+\item tal
+\item matup
+\item tarap
+\item tamap
+\item tva
+\item vat
+\item tasil
+\item karam
+\item artham
+\item p{\=u}rvaka
+\item maya\d{t}
+\item v{\=a}ram
+\item k\d{r}tvasuc
+\item d{\=a}
+\item \'{s}as
+\end{itemize}
+\end{itemize}
+\end{document}

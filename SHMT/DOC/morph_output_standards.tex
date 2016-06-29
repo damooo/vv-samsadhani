@@ -1,0 +1,234 @@
+\documentclass{llncs}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{epsfig}
+\usepackage[none]{hyphenat}
+
+\newcommand{\superscript}[1]{\ensuremath{^\textrm{#1}}}
+\newcommand{\subscript}[1]{\ensuremath{_\textrm{#1}}}
+\newcommand{\tab}{\hspace*{2em}}
+
+\begin{document}
+\title{Morph output standards}
+\author{Amba Kulkarni}
+\institute{On behalf of Sanskrit Consortium}
+\date{}
+
+\frenchspacing
+\noindent
+\maketitle
+
+\section{Morph output specifications}
+The morph analysis is produced as root followed by feature structure.
+Feature Structure is an attribute/value pair. Multiple feature structures are separated by `\textbar'.
+
+According to P{\=a}\d{n}ini there are only two basic categories at the level of inflectional morphology. However, for the sake of computational purpose, we also consider avyaya as one of the categories. Later, when we would deal with the Vedic Sanskrit, we may require an additional category, upasarga.\\
+
+\noindent 
+The basic categories for morphological analysis of Sanskrit, therefore, are 
+
+\begin{itemize}
+\item sup (noun)
+\item ti\.{n} (verb)
+\item avyaya (indeclinable)
+\item upasarga (pre-position?)
+\end{itemize}
+
+\noindent 
+\textbf {Inflectional morphology}\\
+Following are the features associated with various categories.\\
+sup:  rt,varga\d{h},li\.{n}gam,vibhakti\d{h},vacanam,level \\
+ti\.{n}:  rt,dh{\=a}tu\d{h},lak{\=a}ra\d{h},prayoga\d{h},puru\d{s}a\d{h},vacanam,pad{\=\i},ga\d{n}a\d{n},san{\=a}di\d{h},level \\
+avy:  rt,level \\
+upasarga:  rt,level (Note: This category is required only for Vedic Sanskrit literature.)\\
+
+The levelcorresponds to the level of analysis as described below:\\
+level 1: inflectional morphology \\
+level 2: analysis of k\d{r}dantas \\
+level 3: analysis of taddhitas \\
+level 4: analysis of compounds \\
+
+\noindent 
+\textbf {Derivational morphology}\\
+avytaddhita: rt,taddhita\_pratyaya\d{h},li\.{n}am,level \\
+avyk\d{r}t: rt,k\d{r}t\_pratyaya\d{h},dh{\=a}tu\d{h},ga\d{n}a\d{h},san{\=a}di\d{h},level \\
+k\d{r}t:  rt,k\d{r}t\_pratyaya\d{h},li\.{n}am,vibhakti\d{h},vacanam,dh{\=a}wu\d{h},ga\d{n}a\d{h},k\d{r}t\_vb\_rt,level\\
+taddhita: rt,taddhita\_pratyaya\d{h},taddhita\_rt,li\.{n}gam,vibhakti\d{h},vacanam,level\\
+
+\noindent 
+The values of each of these features for Sanskrit is given below.\\
+\begin{itemize}
+\item varga\d{h}
+\begin{itemize}
+\item n{\=a} (a n{\=a}mapada)
+\item sarva (a sarvan{\=a}ma)
+\item sa\.mkhyeyam (a cardinal number as an adjective)
+\item sa\.mkhy{\=a} (a cardinal number)
+\item p{\=u}ra\d{n}am (an ordinal number)
+\item avy  (An avyaya)
+\end{itemize}
+In case of derivational morphology, we indicate finer category information. Following are the subcategories of noun.
+\begin{itemize}
+\item sa-p{\=u}-pa  (sam{\=a}sa p{\=u}rva pada)
+\item sa-u-pa-pu\.{m} (sam{\=a}sa uttarapada in pulli\.{n}ga)
+\item sa-u-pa-napu\.{m} (sam{\=a}sa uttarapada in napunsakali\.{n}ga)
+\item sa-u-pa-str{\=\i} (sam{\=a}sa uttarapada in str{\=\i}li\.{n}ga)
+\item n{\=a}\_matup (derived taddhita)
+\item n{\=a}\_tva (derived taddhita)
+\item n{\=a}\_tamap (derived taddhita)
+\item n{\=a}\_tarap (derived taddhita)
+\item n{\=a}\_maya\d{t} (derived taddhita)
+\item n{\=a}\_tal (derived taddhita)
+\item n{\=a}\_k{\=-a}ra (derived compound)
+\item n{\=a}\_t\d{r}c (derived k\d{r}danta)
+\item n{\=a}\_\'{s}at\d{r} (derived k\d{r}danta)
+\item n{\=a}\_ktavatu (derived k\d{r}danta)
+\end{itemize}
+
+\item li\.{n}gam
+\begin{itemize}
+\item pu\.{m}
+\item str{\=\i}
+\item napu\.{m}
+\item a (to indicate any possible lifgam, e.g. in case of sarvan{\=a}ma asmad)
+\end{itemize}
+
+\item vacanam
+\begin{itemize}
+\item 1 (ekavacanam)
+\item 2 (dvivacanam)
+\item 3 (bahuvacanam)
+\end{itemize}
+
+\item puru\d{s}a\d{h}
+\begin{itemize}
+\item u (uttama)
+\item ma (madhyama)
+\item pra (prathama)
+\end{itemize}
+
+\item vibhakti\d{h}
+\begin{itemize}
+\item 1 (pratham{\=a})
+\item 2 (dvit{\=\i}y{\=a})
+\item 3 (t\d{r}tiy{\=a})
+\item 4 (caturth{\=\i})
+\item 5 (pa\~ncam{\=\i})
+\item 6 (\d{s}a\d{s}\d{t}h{\=\i})
+\item 7 (saptam{\=\i})
+\item 8 (sambodhana)
+\end{itemize}
+
+\item lak{\=a}ra
+\begin{itemize}
+\item la\d{t}
+\item li\d{t}
+\item l\d{ut}
+\item l\d{r}\d{t}
+\item lo\d{t}
+\item la\.{n}
+\item vidhili\.{n}
+\item {\=a}\'{s}{\=\i}{\=\i}rli\.{n}
+\item lu\.{n}
+\item l\d{r}\.{n}
+\end{itemize}
+
+\item pad{\=\i}
+\begin{itemize}
+\item {\=a}tmanepad{\=\i}
+\item parasmaipad{\=\i}
+\end{itemize}
+
+\item prayoga\d{h}
+\begin{itemize}
+\item kartari
+\item karma\d{n}i
+\item bh{\=a}ve
+\end{itemize}
+
+\item ga\d{n}a
+\begin{itemize}
+\item 1  (bhv{\=a}di\d{h})
+\item 2  (ad{\=a}di\d{h})
+\item 3  (juhoty{\=a}di\d{h})
+\item 4  (div{\=a}di\d{h})
+\item 5  (sv{\=a}di\d{h})
+\item 6  (tux{\=a}di\d{h})
+\item 7  (ruX{\=a}di\d{h})
+\item 8  (tan{\=a}di\d{h})
+\item 9  (kry{\=a}di\d{h})
+\item 10 (cur{\=a}di\d{h})
+\end{itemize}
+
+List of dh\={a}tu\_with\_it will be given in an appendix.\\
+
+\item k\d{r}t\_pratyaya\d{h}
+\begin{itemize}
+\item t\d{r}c
+\item tumun
+\item tavyat
+\item yak
+\item \'{s}at\d{r}
+\item \'{s}{\=a}nac
+\item gha\~{n}
+\item \d{n}amul
+\item \d{n}vul
+\item \d{n}yat
+\item lyu\d{t}
+\item yat
+\item ktv{\=a}
+\item lyap
+\item kta
+\item ktavatu
+\item an{\=\i}yar
+\end{itemize}
+
+\item taddhita\_pratyaya\d{h}
+\begin{itemize}
+\item tal
+\item matup
+\item tarap
+\item tamap
+\item tva
+\item vat
+\item tasil
+\item karam
+\item artham
+\item p{\=u}rvaka
+\item maya\d{t}
+\item v{\=a}ram
+\item k\d{r}tvasuc
+\item d{\=a}
+\item \'{s}as
+\end{itemize}
+
+\subsubsection{Derivational Morphology}
+Here are a few examples of the derivational morphology. (Output is in WX notation)
+\begin{itemize}
+\item 
+pATayawi	paT1\_Nic $<$ prayogaH:karwari $><$ lakAraH:lat $><$ puruRaH:pra$>$
+		$<$ vacanam:1 $><$ paxI:parasmEpaxI $><$ XAwuH:paTaz $>$
+		$<$ gaNaH:BvAxiH $><$ level:1 $>$
+
+\item
+Agawya   Af\_gam1 $<$ vargaH:avy $><$ kqw\_prawyayaH:lyap $><$ XAwuH:gamLz $>$
+	 $<$ gaNaH:BvAxiH $><$ level:1 $>$
+
+\item
+XanavawA    Xana $<$ vargaH:nA $><$ waxXiwa\_prawyayaH:mawup $><$ lifgam:puM $>$
+	    $<$ viBakwiH:3 $><$ vacanam:1 $><$ level:3 $>$ /
+	    Xana $<$ vargaH:nA $><$ waxXiwa\_prawyayaH:mawup $>$ 
+	    $<$ lifgam:napuM $><$ viBakwiH:3 $><$ vacanam:1 $><$ level:3 $>$
+
+\item
+gacCawi    gam1 $<$ lifgam:puM $><$ kqw\_prawyayaH:Sawq $><$ XAwuH:gamLz $>$ 
+	   $<$ gaNaH:BvAxiH $><$ viBakwiH:7 $><$ vacanam:1 $><$ level:2 $>$ / 
+	   gam1 $<$ lifgam:napuM $><$ kqw\_prawyayaH:Sawq $><$ XAwuH:gamLz $>$
+	   $<$ gaNaH:BvAxiH $><$ viBakwiH:7 $><$ vacanam:1 $><$ level:2 $>$ / 
+	   gam1 $<$ prayogaH:karwari $><$ lakAraH:lat $><$ puruRaH:pra $>$
+	   $<$ vacanam:1 $><$ paxI:parasmEpaxI $><$ XAwuH:gamLz $>$ 
+	   $<$ gaNaH:BvAxiH $><$ level:1 $>$
+
+\end{itemize}
+\end{itemize}
+\end{document}

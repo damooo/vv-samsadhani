@@ -1,0 +1,14 @@
+SELL = /bin/sh
+
+all: trans
+
+trans:
+	cd transliteration; ./configure
+	cd converters; ./configure; make
+
+install:
+	cd transliteration; make install
+	cp -pr ../scl_trans/transliteration ../scl_trans/converters SCLINSTALLDIR
+
+uninstall:
+	rm -r SCLINSTALLDIR/transliteration HTDOCSDIR/transliteration CGIDIR/transliteration /tmp/DEMO /tmp/AMARA_DOT	

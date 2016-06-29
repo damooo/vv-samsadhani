@@ -1,0 +1,14 @@
+#!/bin/bash
+source ../spec.txt
+
+if [[ $VERSION = DEVELOP ]]; then
+FORMAT='-f \"\%Uuser \%Ssystem \%Eelapsed \%PCPU \(\%Xtext\+\%Ddata \%Mmax\)k\\n\%Iinputs\+\%Ooutputs \(\%Fmajor\+\%Rminor\)pagefaults \%Wswaps \%C\\n\"'
+COUNTER='statcounter.js'
+else
+FORMAT=''
+COUNTER='statcounter_dummy.js'
+fi
+
+# Do not edit the following lines.
+perl -i -p -e "s#COUNTER#$COUNTER#g; s#DEPTURL#$DEPTURL#g;" index.html
+

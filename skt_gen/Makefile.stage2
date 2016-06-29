@@ -1,0 +1,13 @@
+SHELL = /bin/sh
+
+all:morphgen
+morphgen:
+	cd converters; ./configure; make
+	cd skt_gen; ./configure
+
+install:
+	cd skt_gen; make install
+	cp -pr ../scl_gen/skt_gen ../scl_gen/converters SCLINSTALLDIR
+
+uninstall:
+	rm -r SCLINSTALLDIR/skt_gen HTDOCSDIR/skt_gen LPATHcgi-bin/skt_gen 

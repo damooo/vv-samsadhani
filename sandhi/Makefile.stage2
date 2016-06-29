@@ -1,0 +1,14 @@
+SHELL = /bin/sh
+
+all: san 
+
+san:  
+	cd converters; ./configure; make
+	cd sandhi; ./configure; 
+
+install:
+	cd sandhi; make install
+	cp -pr ../scl_san/sandhi ../scl_san/converters SCLINSTALLDIR
+
+uninstall:
+	rm -r SCLINSTALLDIR/sandhi HTDOCSDIR/sandhi CGIDIR/sandhi /tmp/DEMO /tmp/AMARA_DOT

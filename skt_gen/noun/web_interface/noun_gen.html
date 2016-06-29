@@ -1,0 +1,250 @@
+<!--
+#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either
+#  version 2 of the License, or (at your option) any later
+#  version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+-->
+
+
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title> Noun form generator </title>
+<script type="text/javascript" src="../../google.js"></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript">
+       function validation(){
+	var count=0;
+var data=document.getElementById("rt").value;
+               if(document.getElementById("rt").value==""){
+                       alert("Please enter text in textbox ");
+                       return false;
+               }
+		else {//<![CDATA[
+			for(var i=0;i<data.length;i++){
+				if(data[i]==" "){
+					count=1;
+				}
+			}//]]>
+			if(count==1){
+				alert("Dont use Multiple words,Use single word");
+				return false;
+			}
+		}
+        if(document.getElementById("rt").value!=""){
+     		var inputlang=document.getElementById("encoding").value;
+	
+	
+	var reguni=/[अआइईउऊऋॠऌएऐओऔअंअःकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह ्ािीुूृॄॢेैोौंः]/;
+	var reg=/[aAiIuUqQlLeEoOMHzkKgGfcCjJFtTdDNwWxXnpPbBmyrlvSRsh]/;
+	var regitrans=/[aiuURiLIeoMH.Nkgh~NcChj~nThDtdpbmyrlvwGYsSA^]/;
+	var regslp=/[aAiIuUfFlxeEoOMHkKgGNcCqQjJwWQRtTdDnpPbBmyrlvSzsh]/;
+	var regvel=/[aiurleomhkgncjtdpbyszv \~\"\?\-\_\.\,\!]/;
+	var regrom=/[aÄiÄ«uÅ«á¹›?leoá¹ƒá¸¥khgá¹…cjÃ±á¹­á¸á¹‡tdnpbmyrlvÅ›á¹£s]/;
+	var regkh=/[aAiIuUlReaoMHkghGcjJTDNtdnpbmyrlvzSs]/;
+		
+		if(inputlang=="Unicode"){//<![CDATA[
+			for(var i=0;i<data.length;i++){
+			if(reguni.test(data[i])){
+				
+			}
+			else{
+				alert("Please check encoding notation and input text notation");
+				return false;
+			}
+			}//]]>
+		}
+		else if(inputlang=="Itrans"){//<![CDATA[
+			for(var i=0;i<data.length;i++){
+				if(regitrans.test(data[i])){
+				}
+				else {
+					alert("Please check encoding notation and input text notation");
+					return false;
+				}
+			}//]]>
+			
+		}
+		else if(inputlang=="SLP"){//<![CDATA[
+			for(var i=0;i<data.length;i++){
+                                if(regslp.test(data[i])){
+                                }
+                                else {
+                                	alert("Please check encoding notation and input text notation");
+                                        return false;
+                                }
+                        }//]]>
+      		}
+
+		else if(inputlang=="roman"){//<![CDATA[
+                        for(var i=0;i<data.length;i++){
+                                if(regrom.test(data[i])){
+                                }
+                                else {	
+                                	alert("Please check encoding notation and input text notation");
+                                        return false;
+                                }
+                        }//]]>
+      
+                }		
+
+		else if(inputlang=="KH"){//<![CDATA[
+                        for(var i=0;i<data.length;i++){
+                                if(regkh.test(data[i])){
+                                }
+                                else {
+                                	alert("Please check encoding notation and input text notation");
+                                        return false;
+                                }
+                        }//]]>
+      
+                }
+
+		else if(inputlang=="VH"){//<![CDATA[
+                        for(var i=0;i<data.length;i++){
+                                if(regvel.test(data[i])){
+                                }
+                                else {
+                                	alert("Please check encoding notation and input text notation");
+                                        return false;
+                                }
+                        }//]]>
+      
+                }
+
+		else if(inputlang=="WX"){//<![CDATA[
+                        for(var i=0;i<data.length;i++){
+                                if(reg.test(data[i])){
+                                }
+                                else {
+                                	alert("Please check encoding notation and input text notation");
+                                        return false;
+                                }
+                        }//]]>
+                       
+                }
+     }
+       
+       }
+</script>
+
+<style type="text/css">
+body{
+background:#616D7E;
+}
+
+.navigation {
+  height:75%; width:22%; 
+  color:white;
+  border-color:maroon; 
+  border-style:none; 
+  border-width:1px; 
+  float:left; 
+
+}
+
+.content {
+  height:480px; 
+  width:77%; 
+  border-color:maroon; 
+  border-style:none; 
+  border-width:1px; 
+  float:right;
+}
+
+#container {
+  height:100%; 
+  width:100%; 
+  border-color:maroon; 
+  border-style:none; 
+  border-width:none; 
+  margin:-1px auto 0;
+  background-color:white;
+  position:relative;
+
+  float:left;
+}
+
+
+a:link {
+  color:; 
+  font-weight:bold;
+}
+input[type="text"],select{
+      border:3px solid #999;
+      background:white;
+      height:30px;
+      width:250px;
+
+}
+input[type="submit"]{
+      border:3px solid #D14638;
+	background:#D14638;
+      height:30px;
+      width:150px;
+	color:#fff;
+	font-size:18px;
+}
+
+</style>
+
+
+
+</head>
+<body>
+<div id="container" align="center">
+<font color="#550000" size="5"><b>नामरूपनिष्पादिका</b> (Noun-Generator)</font>
+<form name="test" method="post" action="CGIURL/skt_gen/noun/noun_gen.cgi" target="showMyopt1" onsubmit="return validation()">
+<font color="red"><a href='#' style="color:blue;" onclick="window.open('SCLURL/table.html','Details','width=800, height=500,scrollbars=yes');">Input Encoding:</a>
+
+            <select name="encoding" style="width: 175px" id="encoding">
+            <option value="Unicode">Unicode-Devanagari</option>
+            <option value="WX">WX-alphabetic</option>
+            <option value="Itrans">Itrans-5.3</option>
+            <option value="VH">Velthuis</option>
+            <option value="SLP">SLP1</option>
+            <option value="KH">KH</option>
+            </select> 
+            </font> 
+            <font color="red">
+प्रातिपदिकम् : 
+</font>
+<input type="text" style="width: 100px" name="rt" id="rt" />
+लिङ्गम् :
+            <select name="gen" style="width: 100px">
+            <option value="पुं">पुंलिङ्गम्</option>
+            <option value="नपुं">नपुंसकलिङ्गम्</option>
+            <option value="स्त्री">स्त्रीलिङ्गम्</option>
+            </select> 
+<input type="hidden" id="level" value="1"/>
+<input type="submit" value="रूपाणि दर्शयतु" style="width: 150px" />
+</form>
+
+<div class="content">
+<iframe name="showMyopt1" frameborder="0" width="100%" height="400"></iframe>
+</div>
+</div>
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript" src="htt://localhost/scl/COUNTER"></script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="https://c.statcounter.com/8421849/0/34917efe/0/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+</body>
+</html>

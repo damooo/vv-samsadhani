@@ -1,0 +1,6 @@
+value ch_in = open_in "in1.clp";
+value morphs = analyse (Stream.of_channel ch_in);
+value m1=Pada_structure.Sup (1, 1, "xaSaraWasya", "xaSaraWa", "puM", 6, "eka", 1);
+value m2= Pada_structure.Sup (2, 1, "puwraH", "puwra", "puM", 1, "eka", 1);
+
+value acc2=[];

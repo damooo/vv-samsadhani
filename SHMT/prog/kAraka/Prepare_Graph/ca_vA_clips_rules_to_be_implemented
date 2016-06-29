@@ -1,0 +1,829 @@
+;===============================================================================
+;Added by sheetal
+;puwraH puwrI ca janma-grahaNam akarow eva na.
+;rAmaH sIwA ca vanam gacCawaH.
+;rlca
+(defrule assign_samucciwam_karwari
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(test (eq (slot-val-match wif prayogaH karwari) TRUE))
+(test (> (count-facts sup) 1))
+=>
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?a avy)(?w wif))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(< ?s1:id ?s2:id)
+(= (- ?a:id ?s2:id) 1)
+(< ?a:id ?w:id)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(eq ?s1:vacanam ?s2:vacanam)
+(eq ?w:prayogaH karwari)
+(eq ?w:puruRaH pra)
+;(= (- ?a:id ?s2:id) 1)(neq ?w:vacanam ?s1:vacanam)
+;(neq ?w:vacanam ?s2:vacanam)
+;commented by Madhavachar.T.V
+; Following conditions added by Madhvachar
+; AMBA: the function should be generalised to take into account xvivacanam as well as bahuvacanam
+;(neq ?w:vacanam ?s2:vacanam)
+;(neq ?w:vacanam ?s1:vacanam)
+;(eq ?w:prayogaH karwari)
+)
+   (if (= ?s1:viBakwiH 1)
+       then
+       (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+       (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+       (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+       (printout bar "#rlca " ?k ?l crlf )
+
+       (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam1"))
+       (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlca " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlca " ?k ?l crlf )
+   )
+))
+;===================================================================================
+;Added by Amba
+;rAmaH vanam gqham ca gacCawi.
+;rlca
+(defrule assign_samucciwam_karma_karwari
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+;(test (eq (slot-val-match wif prayogaH karwari) TRUE))
+(not (and (test (= (count-facts sup) 0))(test (= (count-facts kqw) 0))(test (= (count-facts waxXiwa) 0))))
+=>
+(do-for-all-facts
+((?s1 sup kqw waxXiwa)(?s2 sup kqw waxXiwa)(?a avy)(?w wif avykqw kqw))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(< ?s1:id ?s2:id)
+(= (- ?a:id ?s2:id) 1)
+(< ?a:id ?w:id)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+)
+   (if (= ?s1:viBakwiH 2)
+       then
+       (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))
+       (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+       (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+       (printout bar "#rlcak " ?k ?l crlf )
+
+       (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam2"))
+       (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlcak " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlcak " ?k ?l crlf )
+   )
+))
+;===================================================================================
+;added by Madhavachar.T.V
+;added by Madhavachar.T.V
+;avy_kqw;rAmaH kqRNaH ca vanam gawvA KAxawi.
+;Similar rule is to be written for other kqws also: rAmaH kqRNaH ca vanam gacCawaH Palam KaxaWaH.
+;rlca8
+;(defrule assign_samucciwam_single_ca_avykqw
+;(and (test (eq (slot-val-match avy word ca) TRUE))
+;(test (> (count-list avykqw avy_kqw_list.gdbm kqw_prawyayaH) 0))
+;)
+;; AMBA: Any avykqw should suffice. Why is it necessary to list each of these 3 kqw prawyayas?
+;;(or (test (eq (slot-val-match avykqw kqw_prawyayaH kwvA) TRUE))(test (eq (slot-val-match avykqw kqw_prawyayaH lyap) TRUE))(test (eq (slot-val-match avykqw kqw_prawyayaH wumun) TRUE))))
+;=>
+;(do-for-all-facts
+;((?s1 sup)(?s2 sup)(?a1 avy)(?a2 avykqw))
+;(and
+;(eq ?a1:word ca)
+;(< ?s1:id ?s2:id)
+;(= (- ?a1:id ?s2:id) 1)
+;;(= (- ?a2:id ?a1:id) 1)
+;(< ?a1:id ?a2:id)
+;(= ?s1:viBakwiH ?s2:viBakwiH)
+;(eq ?s1:vacanam ?s2:vacanam)
+;;(eq ?a2:kqw_prawyayaH wumun) ;Madhvachar
+;; AMBA why only wumun? 
+;;(eq ?w:vacanam ?s2:vacanam)
+;)
+;(if (= ?s1:viBakwiH 1)
+;then
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+;(printout bar "(" ?a1:id " " ?a1:mid " " ?k " " ?a2:id " " ?a2:mid " ) " )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlca8 " ?k ?l crlf )
+;)
+;(if (= ?s1:viBakwiH 2)
+;then
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))
+;(printout bar "(" ?a1:id " " ?a1:mid " " ?k " " ?a2:id " " ?a2:mid " ) " )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlca8 " ?k ?l crlf )
+;)
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam"))
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a1:id " " ?a1:mid " ) " )
+;(printout bar "#rlca8 " ?k ?l crlf )
+;
+;(printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a1:id " " ?a1:mid " )" )
+;(printout bar "#rlca8 " ?k ?l crlf )
+;)
+;)
+;===================================================================================
+;modified by madhavachar(eq ?w:vacanam ?s2:vacanam)
+;rAmaH kqRNaH ca vanam gacCawi.
+;rlca1
+;(defrule assign_samucciwam_single_ca_karwari
+;(and (test (eq (slot-val-match avy word ca) TRUE))
+;(test (eq (slot-val-match wif prayogaH karwari) TRUE)))
+;=>
+;(do-for-all-facts
+;((?s1 sup)(?s2 sup)(?a avy)(?w wif))
+;(and
+;(eq ?a:word ca)
+;;(= (-?s1:id ?s2:id) 1) ; AMBA: changed from < ?s1:id ?s2:id
+;(< ?s1:id ?s2:id) ; AMBA: No it is not necessary that s1 and s2 be consecutive.
+;; We may have synxaraH rAmaH sunxarI ramA ca vanam gacCawi.
+;(= (- ?a:id ?s2:id) 1)
+;(< ?a:id ?w:id)
+;(= ?s1:viBakwiH ?s2:viBakwiH)
+;;(eq ?s1:vacanam ?s2:vacanam)
+;; Amba: Is it not necessary that both should be in the same vacana.
+;; for example one may have rame rAmaH ca vanam gacCawi.
+;(eq ?w:prayogaH karwari)
+;(eq ?w:vacanam ?s2:vacanam)
+;)
+;(if (= ?s1:viBakwiH 1)
+;then
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+;(printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlca1 " ?k ?l crlf )
+;)
+;(if (= ?s1:viBakwiH 2)
+;then
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))
+;(printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlca1 " ?k ?l crlf )
+;)
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam"))
+;(printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlca1 " ?k ?l crlf )
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam"))
+;(printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " )" )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlca1 " ?k ?l crlf )
+;
+;)
+;)
+
+;===================================================================================
+;added by madhavachar.T.V
+;rAmaH ramA vA vanam gacCawi.
+;rlvA1
+(defrule assign_anyawaraH_vA
+(and (test (eq (slot-val-match avy word vA) TRUE))
+(test (eq (slot-val-match wif prayogaH karwari) TRUE)))
+(test (> (count-facts sup) 1))
+=>
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?a avy)(?w wif))
+(and
+(eq ?a:word vA)
+(< ?s1:id ?s2:id)
+(= (- ?a:id ?s2:id) 1)
+(< ?a:id ?w:id)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(eq ?s1:vacanam ?s2:vacanam)
+(eq ?w:prayogaH karwari)
+(eq ?w:vacanam ?s1:vacanam)
+)
+(if (= ?s1:viBakwiH 1)
+then
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+(printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlvA1" ?k ?l crlf )
+)
+(if (= ?s1:viBakwiH 2)
+then
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))
+(printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlvA1" ?k ?l crlf )
+)
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anyawaraH"))
+(printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlvA1" ?k ?l crlf )
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anyawaraH"))
+(printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlvA1" ?k ?l crlf )
+)
+)
+
+;===================================================================================
+;added by Madhavachar.T.V
+;rAmaH gacCawi vA KAxawi. 
+;rlvA2
+(defrule assign_anyawaraH_for_wif_2
+(test (eq (slot-val-match avy word vA) TRUE))
+(test (> (count-facts wif) 1))
+=>
+(do-for-all-facts
+((?a avy)(?w1 wif)(?w2 wif))
+(and
+
+(eq ?a:word vA)
+(> ?a:id ?w1:id)
+(< ?a:id ?w2:id)
+(eq ?w1:puruRaH ?w2:puruRaH)
+(eq ?w1:vacanam ?w2:vacanam)
+(eq ?w1:lakAraH ?w2:lakAraH) ; Added by Amba
+)
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anyawaraH"))
+    (printout bar "(" ?w1:id " " ?w1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k)) 
+    (printout bar "#rlcw1 " ?k ?l crlf )
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "anyawaraH"))
+    (printout bar "(" ?w2:id " " ?w2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rlcw1 " ?k ?l crlf )
+))
+;===================================================================================
+;Added by Madhavachar.T.V 
+;rAmeNa sIwayA vA vanam gamyawe.
+;rlvA6
+(defrule assign_anyawaraH_karmaNi
+(test (eq (slot-val-match avy word vA) TRUE))
+(test (eq (slot-val-match wif prayogaH karmaNi) TRUE))
+(test (> (count-facts sup) 1))
+=>
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?a avy)(?w wif avykqw kqw))
+(and
+(eq ?a:word vA)
+(< ?s1:id ?s2:id)
+(= (- ?a:id ?s2:id) 1)
+(< ?a:id ?w:id)
+(= ?s1:viBakwiH ?s1:viBakwiH)
+;(eq ?s1:vacanam ?s2:vacanam)
+(eq ?w:prayogaH karmaNi)
+)
+   (if (= ?s1:viBakwiH 3)
+       then
+       (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+       (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+       (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+       (printout bar "#rlvA6 " ?k ?l crlf )
+; Amba: karaNa is also possible; see next function for karaNAxi
+   )
+   (if (= ?s1:viBakwiH 1)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlvA6 " ?k ?l crlf )
+   )
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "anyawaraH"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlvA6 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlvA6 " ?k ?l crlf )
+))
+
+;===================================================================================
+;added by Madhavachar.T.V
+;rAmaH paxByAm yAnena vA gacCawi.
+;rlvA5 
+(defrule assign_anyawaraH_for_karaNAxi
+(test (eq (slot-val-match avy word vA) TRUE))
+(test (> (count-facts sup) 1))
+=>        
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?a avy)(?w wif avykqw kqw)) 
+(and(eq ?a:word vA)(= (- ?s2:id ?s1:id) 1)(= (- ?a:id ?s2:id) 1)(< ?a:id ?w:id)(= ?s1:viBakwiH ?s2:viBakwiH)
+;(eq ?s1:vacanam ?s2:vacanam)
+)  
+(if (= ?s1:viBakwiH 3)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karaNam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlvA5" ?k ?l crlf )  
+   )
+(if (= ?s1:viBakwiH 4)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "sampraxAnam"))
+   (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlvA5 " ?k ?l crlf )
+   )
+(if (= ?s1:viBakwiH 5)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "apAxAnam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlvA5 " ?k ?l crlf )
+   )
+(if (= ?s1:viBakwiH 6)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "RaRTI_sambanXaH"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlvA5 " ?k ?l crlf )
+ )
+(if (= ?s1:viBakwiH 7)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "aXikaraNam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlvA5 " ?k ?l crlf )
+   )
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "anyawaraH"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlvA5 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlvA5 " ?k ?l crlf )
+))
+
+;===================================================================================
+;Added by sheetal
+;puwraH puwrI ca janma-grahaNam akarow eva na.
+;rAmeNa sIwayA ca vanam gamyawe.
+;rlc1
+(defrule assign_samucciwam_karmaNi
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(test (eq (slot-val-match wif prayogaH karmaNi) TRUE))
+(test (> (count-facts sup) 1))
+=>
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?a avy)(?w wif))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(< ?s1:id ?s2:id)
+(= (- ?a:id ?s2:id) 1)
+(< ?a:id ?w:id)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(eq ?s1:vacanam ?s2:vacanam)
+(eq ?w:prayogaH karmaNi)
+)
+   (if (= ?s1:viBakwiH 3)
+       then
+       (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+       (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+       (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+       (printout bar "#rlc1 " ?k ?l crlf )
+   )
+   (if (= ?s1:viBakwiH 1)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc1 " ?k ?l crlf ) 
+   )
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam2"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc1 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc1 " ?k ?l crlf )
+))
+;===================================================================================
+;Added by sheetal
+;niwyaH nirAkAra ca AwmA kaWaM na xqRyawe
+;rlc1a
+(defrule assign_samucciwam_viSeRaNam
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(test (> (count-facts sup) 1))
+=>
+(do-for-all-facts
+((?s1 sup kqw waxXiwa)(?s2 sup kqw waxXiwa)(?a avy)(?s3 sup kqw waxXiwa))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(< ?s1:id ?s2:id)
+(= (- ?a:id ?s2:id) 1)
+(= (- ?s3:id ?a:id) 1)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(eq ?s1:vacanam ?s2:vacanam)
+(eq ?s1:lifgam ?s2:lifgam)
+(= ?s2:viBakwiH ?s3:viBakwiH)
+(eq ?s2:vacanam ?s3:vacanam)
+(eq ?s2:lifgam ?s3:lifgam)
+(neq ?s1:word ?s3:word)
+(neq ?s2:word ?s3:word)
+)
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "viSeRaNam"))
+    (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?s3:id " " ?s3:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rlc1a " ?k ?l crlf )
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwamviSeRaNam"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc1a " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc1a " ?k ?l crlf )
+))
+;===================================================================================
+;Added by Amba
+;samavewAH mAmakAH pANdavAH ca
+;rlc1b
+(defrule assign_samucciwam_viSeRya
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(test (> (count-facts sup) 1))
+=>
+(do-for-all-facts
+((?s1 sup kqw waxXiwa)(?s2 sup kqw waxXiwa)(?s3 sup kqw waxXiwa)(?a avy))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(< ?s1:id ?s2:id)
+(= (- ?a:id ?s3:id) 1)
+(= (- ?s3:id ?s2:id) 1)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(eq ?s1:vacanam ?s2:vacanam)
+(eq ?s1:lifgam ?s2:lifgam)
+(= ?s2:viBakwiH ?s3:viBakwiH)
+(eq ?s2:vacanam ?s3:vacanam)
+(eq ?s2:lifgam ?s3:lifgam)
+)
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "viSeRaNam"))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rlc1b " ?k ?l crlf )
+))
+;===================================================================================
+;Added by Amba
+;
+;rlc2a
+(defrule assign_samucciwam_for_prayojanam
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(not (and (test (= (count-facts sup) 0))(test (= (count-facts kqw) 0))))
+=>
+(do-for-all-facts
+((?s1 sup kqw)(?s2 sup kqw)(?a avy)(?w wif avykqw kqw))
+(and (or (eq ?a:word ca)
+         (eq ?a:word cEva)
+     )
+     ;(= (- ?s2:id ?s1:id) 1)
+     ;(= (- ?a:id ?s2:id) 1)
+      (< ?a:id ?w:id)
+      (= ?s1:viBakwiH ?s2:viBakwiH)
+      (eq ?s1:vacanam ?s2:vacanam))
+(if (= ?s1:viBakwiH 4)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "prayojanam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc2a " ?k ?l crlf ) 
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwamprayojanam"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2a " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2a " ?k ?l crlf )
+   )
+))
+;===================================================================================
+;Added by sheetal
+;
+;rlc2
+(defrule assign_samucciwam_for_karaNAxi
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(not (and (test (= (count-facts sup) 0))(test (= (count-facts kqw) 0))))
+=>
+(do-for-all-facts
+((?s1 sup kqw)(?s2 sup kqw)(?a avy)(?w wif avykqw kqw))
+(and (or (eq ?a:word ca)(eq ?a:word cEva)) (= (- ?s2:id ?s1:id) 1)(= (- ?a:id ?s2:id) 1)(< ?a:id ?w:id)(= ?s1:viBakwiH ?s2:viBakwiH)(eq ?s1:vacanam ?s2:vacanam))
+(if (and (= ?s1:viBakwiH 3)
+         (eq (gdbm_lookup "karaNa_XAwu_list.gdbm" ?w:rt) "1");XAwuH sakaraNakaH syAw.
+         (neq (gdbm_lookup "kriyAviSeRaNa.gdbm" ?s1:word) "1"))
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karaNam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc2" ?k ?l crlf ) 
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam3"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+   )
+(if (and (= ?s1:viBakwiH 4)
+         (eq (gdbm_lookup "sampraxAna_XAwu_list.gdbm" ?w:rt) "1");XAwuH sasampraxAnako Bavew..
+    )
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "sampraxAnam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc2 " ?k ?l crlf ) 
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam4"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+   )
+
+(if (and (= ?s1:viBakwiH 5)
+         (eq (gdbm_lookup "apAxAna_XAwu_list.gdbm" ?w:rt) "1");XAwuH sApAxAnakaH syAw.
+    )
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "apAxAnam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc2 " ?k ?l crlf ) 
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam5"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+   )
+
+(if (= ?s1:viBakwiH 7)
+          then
+           (bind ?k (gdbm_lookup "kAraka_num.gdbm" "aXikaraNam"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc2 " ?k ?l crlf ) 
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam7"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlc2 " ?k ?l crlf )
+   )
+))
+;===================================================================================
+;Added by sheetal
+;mod:by M.T.V"(" ?s1:id " " ?s1:mid " " ?k " " ?w:id " " ?w:mid " ) " ) 
+;rAmaH ca vanam gacCawi.
+;rlc
+;(defrule assign_samucciwam_for_single_ca
+;(test (eq (slot-val-match avy word ca) TRUE))
+;=>
+;(do-for-all-facts
+;((?s1 sup)(?a avy)(?w wif))
+;(and
+;(eq ?a:word ca)
+;(= (- ?a:id ?s1:id) 1)
+;(< ?a:id ?w:id)
+;(= ?s1:viBakwiH 1))
+
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+;(printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlc " ?k ?l crlf )
+;
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "sambanXaH"))
+;    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+;    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;    (printout bar "#rlc " ?k ?l crlf )
+;
+;))
+;===================================================================================
+;Added by sheetal
+;Added by sheetal, modified by Madhavachar.T.V(> ?a1:id ?a2:id)
+;rAmaH ca sIwA ca vanam gacCawi.
+;rlc3
+;(defrule assign_samucciwam_for_multi_ca
+;(test (eq (slot-val-match avy word ca) TRUE))
+;=>
+;(do-for-all-facts
+;((?s1 sup)(?s2 sup)(?a1 avy)(?a2 avy)(?w wif))
+;(and
+;(eq ?a1:word ca)
+;(eq ?a2:word ca)
+;(= (- ?a1:id ?s1:id) 1)
+;(= (- ?a2:id ?s2:id) 1)
+;;(< ?a1:id ?w:id)
+;(< ?a2:id ?w:id)
+;;(<> ?a2:id ?a1:id)
+;(= ?s1:viBakwiH ?s1:viBakwiH)
+;(eq ?s1:vacanam ?s2:vacanam)
+;(= ?s1:viBakwiH 1))
+;
+;(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+;(printout bar "(" ?a1:id " " ?a1:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+;(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;(printout bar "#rlc3 " ?k ?l crlf )
+;
+;    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam"))
+;    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;
+;    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a1:id " " ?a1:mid " ) " )
+;    (printout bar "#rlc3 " ?k ?l crlf )
+;
+;    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a1:id " " ?a1:mid " ) " )
+;    (printout bar "#rlc3 " ?k ?l crlf )
+;
+;))
+;===================================================================================
+;Added by sheetal
+;modified by Madhavachar.T.V (it was taking rAmaH(rA XAwuH, uwwama puruRaH)  is also samucciwa kriyApaxa)
+;rAmaH paTawi KAxawi ca.
+;rlcw
+(defrule assign_samucciwam_for_wif_1
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(test (> (count-facts wif) 1))
+=>
+(do-for-all-facts
+((?a avy)(?w1 wif)(?w2 wif))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(or (= (- ?a:id ?w2:id) 1) (= (- ?w2:id ?a:id) 1))
+(< ?w1:id ?w2:id)
+(eq ?w1:puruRaH ?w2:puruRaH)
+)
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwamkriyA"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+
+    (printout bar "(" ?w1:id " " ?w1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlcw " ?k ?l crlf )
+
+    (printout bar "(" ?w2:id " " ?w2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (printout bar "#rlcw " ?k ?l crlf )
+))
+;===================================================================================
+;;Added by sheetal
+;;modified by Madhavachar.T.V(eq ?w1:puruRaH ?w2:puruRaH)(eq ?w1:vacanam ?w2:vacanam)
+;;rAmaH pATam paTawi Palam ca KAxawi.
+;;rlcw1
+;(defrule assign_samucciwam_for_wif_2
+;(test (eq (slot-val-match avy word ca) TRUE))
+;(test (> (count-facts wif) 1))
+;=>
+;(do-for-all-facts
+;((?a avy)(?w1 wif)(?w2 wif))
+;(and
+;(eq ?a:word ca)
+;(> ?a:id ?w1:id)
+;(< ?a:id ?w2:id)
+;(eq ?w1:puruRaH ?w2:puruRaH)
+;(eq ?w1:vacanam ?w2:vacanam)
+;)
+;    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam"))
+;    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+;
+;    (printout bar "(" ?w1:id " " ?w1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+;    (printout bar "#rlcw1 " ?k ?l crlf )
+;
+;    (printout bar "(" ?w2:id " " ?w2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+;    (printout bar "#rlcw1 " ?k ?l crlf )
+;))
+;===========================================================================
+;added by Madhavachar.T.V
+;rAmaH vA sIwA vA vanam gacCawi.
+rlvA3
+(defrule assign_samucciwam_for_multi_vA
+(test (eq (slot-val-match avy word vA) TRUE))
+(test (> (count-facts sup) 1))
+=>
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?a1 avy)(?a2 avy)(?w wif))
+(and
+(eq ?a1:word vA)
+(eq ?a2:word vA)
+(= (- ?a1:id ?s1:id) 1)
+(= (- ?a2:id ?s2:id) 1)
+(< ?a2:id ?w:id)
+(> ?a1:id ?a2:id)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(eq ?s1:vacanam ?s2:vacanam)
+)
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "karwA"))
+(printout bar "(" ?a1:id " " ?a1:mid " " ?k " " ?w:id " " ?w:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rlvA3 " ?k ?l crlf )
+
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "anyawaraH"))
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a1:id " " ?a1:mid " ) " )
+    (printout bar "#rlvA3 " ?k ?l crlf )
+
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a1:id " " ?a1:mid " ) " )
+    (printout bar "#rlvA3 " ?k ?l crlf )
+))
+
+;======================================================================
+;added by MADHAVACHAR.T.V.
+;rAmasya gqhaM aswi sIwAyAH ca.
+;rlc8
+(defrule assign_samucciwam_for_RaRTI_sambanXaH
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(test (eq (slot-val-match wif prayogaH karwari) TRUE))
+(test (> (count-facts sup) 2))
+=>
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?s3 sup)(?a avy)(?w wif))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(< ?w:id ?a:id)
+(< ?s1:id ?s2:id)
+(= ?s1:viBakwiH 6)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(= ?s3:viBakwiH 1)
+(eq ?s1:vacanam ?s2:vacanam)
+;(eq ?s1:vacanam ?w:vacanam)
+(= (- ?a:id ?s2:id) 1)
+;(= (- ?s3:id ?w:id) 1)
+(eq ?s3:vacanam ?w:vacanam)
+)
+(if (= ?s3:viBakwiH 1)
+then
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "RaRTI_sambanXaH"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?s3:id " " ?s3:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc8 " ?k ?l crlf )
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam6"))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rlc8 " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam6"))
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rlc8 " ?k ?l crlf )
+
+) 
+ ))
+;=============================================================
+;added by MADHAVACHAR.T.V.
+;cEwreNa rAmasya gqhaM gamyawe sIwAyAH ca.
+;rlc9
+(defrule assign_samucciwam_for_RaRTI_sambanXaH_karmaNi
+(test (or (eq (slot-val-match avy word ca) TRUE) (eq (slot-val-match avy word cEva) TRUE)))
+(test (eq (slot-val-match wif prayogaH karmaNi) TRUE))
+(test (> (count-facts sup) 2))
+=>
+(do-for-all-facts
+((?s1 sup)(?s2 sup)(?s3 sup)(?a avy)(?w wif))
+(and
+(or (eq ?a:word ca)
+    (eq ?a:word cEva)
+)
+(< ?w:id ?a:id)
+(< ?s1:id ?s2:id)
+(= ?s1:viBakwiH 6)
+(= ?s1:viBakwiH ?s2:viBakwiH)
+(= ?s3:viBakwiH 1)
+(eq ?s1:vacanam ?s2:vacanam)
+;(eq ?s1:vacanam ?w:vacanam)
+(= (- ?a:id ?s2:id) 1)
+;(= (- ?s3:id ?w:id) 1)
+(eq ?s3:vacanam ?w:vacanam)
+)
+(if (= ?s3:viBakwiH 1)
+then
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "RaRTI_sambanXaH"))
+           (printout bar "(" ?a:id " " ?a:mid " " ?k " " ?s3:id " " ?s3:mid " ) " )
+           (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+           (printout bar "#rlc9 " ?k ?l crlf )
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam6"))
+    (printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rlc9 " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "samucciwam6"))
+    (printout bar "(" ?s2:id " " ?s2:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rlc9 " ?k ?l crlf )
+
+) 
+ ))
+;===========================================================================

@@ -1,0 +1,13 @@
+1. Copy appropriate spec*.txt from scl/SPEC directory to scl/spec.txt.
+2. Make necessary changes in spec.txt
+3. Run the following commands
+   ./configure
+   make
+   make install
+
+Enjoy Sanskrit Computational Tools.
+
+Please report the errors / send feedback to ambapradeep@gmail.com
+
+-- Amba Kulkarni
+23 Jan 2013

@@ -1,0 +1,107 @@
+;==========================================================================
+;Added by sheetal
+;xaSaraWaH prakqwInAM hiwEH yukwam/yokwuM rAmam EcCaw.
+;rl
+(defrule assign_sahArWa_for_yukwam_iwyAxi
+(not (and (test (= (count-viBakwi sup 2) 0)) (test (= (count-viBakwi kqw 2) 0))))
+(or (test (eq (slot-val-match avykqw kqw_prawyayaH wumun) TRUE))(test (eq (slot-val-match kqw kqw_prawyayaH kwa) TRUE)))
+=>
+(do-for-all-facts
+((?s1 sup kqw) (?w kqw avykqw ));sarveByaH subanweByaH "?s1" iwi nAma xIyawe kqxanweByaSca "?s1" evaM "?w" iwi. 
+(and (= ?s1:viBakwiH 3);sarveRu subAxiRu waxeva "?s1" yaw wqwIyA-viBakwO varwawe. 
+     (= (- ?w:id ?s1:id) 1)
+     (or (eq ?w:word yokwuM)(and(eq ?w:rt yukwa)(eq ?w:kqw_prawyayaH kwa)))
+)
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "sambanXaH"))
+(printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?w:id " " ?w:mid " ) ");"?s1" paxaM "?w" paxasya karwwA saMBavawi.
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rl57a " ?k ?l crlf )
+))
+;===========================================================================
+;Added by sheetal modified by Pavan
+;Pavan says: s1 and s2 need not have the same vibhkati. 
+; Canxra iva muKam paSya. Here Canxra and muKam do not have the same viBakwi
+;paramAwmA iva pUrNaH Baviwum icCawi. ???
+;rl63
+(defrule assign_upamAnam_iva
+(test (eq (slot-val-match avy word iva) TRUE))
+=>
+(do-for-all-facts
+((?a avy) (?s1 sup kqw) (?s2 sup kqw));sarveByosvyayeByaH "?a" iwi nAma xIyawe supkqwwaxXiwAnweByaH "?s" iwi. 
+(and
+(= (- ?a:id ?s1:id) 1);"?s" paxaM "?a" paxAx ekena pUrvaM syAw.
+(<> ?a:id ?s1:id)
+(eq ?a:word iva)
+(<> ?s1:id ?s2:id)
+;(= ?s1:viBakwiH ?s2:viBakwiH)
+)
+(bind ?k (gdbm_lookup "kAraka_num.gdbm" "prawiyogI"))
+(printout bar "(" ?s1:id " " ?s1:mid " " ?k " " ?a:id " " ?a:mid " ) " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rl63b " ?k ?l crlf )
+
+(bind ?k (gdbm_lookup "avy_relation_list.gdbm" ?a:rt))
+(printout bar "(" ?a:id " " ?a:mid " "  ?k " "  ?s2:id " " ?s2:mid ") " )
+(bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+(printout bar "#rl63b " ?k ?l crlf )
+))
+;===============================================================================
+
+;Added by sheetal 
+;modified by Pavan; changed the name of the sambanXa to anuyogI.
+;SrUyawAm iwi Amanwrya rAmaH avocaw.
+;This change is not good.
+;Earlier solution was better.
+; Counter example:
+;praBAwe aham rAjasaBAm gawvA kA vArwA iwi paSyAmi.
+; Here iwi is marked as an anuyogi, so praBAwe is marked as a karma, This is wrong.
+;iwi itself denotes a vaakya karma.
+;rl63
+; In view of the change in the previous rule, from this rule sambanXa is removed by Amba; 29 feb 2012
+(defrule assign_rel_for_iwi
+(not (and (test (= (count-facts wif) 0)) (test (= (count-facts avykqw) 0))))
+(test (eq (slot-val-match avy word iwi) TRUE))
+=>
+(do-for-all-facts
+((?a avy) (?w wif avykqw))
+(and
+;(= (- ?w:id ?a:id) 1)
+(< ?a:id ?w:id) 
+(eq ?a:word iwi)
+(eq (gdbm_lookup "vAkyakarma_XAwu_list.gdbm" (fact-slot-value ?w rt)) "1") 
+)
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))        
+    (printout bar "(" ?a:id " " ?a:mid " "  ?k " "  ?w:id " " ?w:mid ") " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rl63A " ?k ?l crlf )
+))
+;===============================================================================
+
+;Added by sheetal 
+;modified by Pavan; changed the name of the sambanXa to anuyogI.
+;SrUyawAm iwi Amanwrya rAmaH avocaw.
+;This change is not good.
+;Earlier solution was better.
+; Counter example:
+;praBAwe aham rAjasaBAm gawvA kA vArwA iwi paSyAmi.
+; Here iwi is marked as an anuyogi, so praBAwe is marked as a karma, This is wrong.
+;iwi itself denotes a vaakya karma.
+;rl63
+; In view of the change in the previous rule, from this rule sambanXa is removed by Amba; 29 feb 2012
+(defrule assign_rel_for_iwi_kqw
+(test (> (count-facts kqw) 0))
+(test (eq (slot-val-match avy word iwi) TRUE))
+=>
+(do-for-all-facts
+((?a avy) (?w kqw))
+(and
+;(= (- ?w:id ?a:id) 1)
+(< ?a:id ?w:id) 
+(eq ?a:word iwi)
+(eq (gdbm_lookup "sakarmaka_XAwu_list.gdbm" (fact-slot-value ?w kqw_vb_rt)) "1") 
+)
+    (bind ?k (gdbm_lookup "kAraka_num.gdbm" "karma"))        
+    (printout bar "(" ?a:id " " ?a:mid " "  ?k " "  ?w:id " " ?w:mid ") " )
+    (bind ?l (gdbm_lookup "kAraka_name_dev.gdbm" ?k))
+    (printout bar "#rl63A " ?k ?l crlf )
+))
