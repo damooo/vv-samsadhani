@@ -1,4 +1,4 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/perl -I /usr/lib/perl/5.18.2/
 
 #  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
 #
@@ -19,15 +19,15 @@
 
 package main;
 use CGI qw/:standard/;
-use lib "SCLINSTALLDIR";
+use lib "/home/samskritam/scl";
 use SCLResultParser;
 
-my $myPATH = "SCLINSTALLDIR/skt_gen/noun";
-    if (! (-e "TFPATH")){
-        mkdir "TFPATH" or die "Error creating directory TFPATH";
+my $myPATH = "/home/samskritam/scl/build/skt_gen/noun";
+    if (! (-e "/tmp/SKT_TEMP")){
+        mkdir "/tmp/SKT_TEMP" or die "Error creating directory /tmp/SKT_TEMP";
     }
 
-    open(TMP1,">>TFPATH/noun.log") || die "Can't open TFPATH/noun.log for writing";
+    open(TMP1,">>/tmp/SKT_TEMP/noun.log") || die "Can't open /tmp/SKT_TEMP/noun.log for writing";
       if (param) {
         $encoding=param("encoding");
         $rt=param("rt");
@@ -43,7 +43,7 @@ my $myPATH = "SCLINSTALLDIR/skt_gen/noun";
         if ($json_out && ($json_out ne 'false')) {
             my $alltables = html_tables($ans); 
             my $vibhaktis = $alltables->[0]->{"data"};
-            print to_json($vibhaktis);
+            print "<pre>" . to_json($vibhaktis) . "</pre>";
             foreach my $r (@$vibhaktis) {
                 print TMP1 join("\t", @$r) . "\n";
             }

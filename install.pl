@@ -16,6 +16,8 @@ if ($#ARGV >= 0) {
             || die "Error installing prerequisite packages.\n";
         docmd("sudo a2enmod cgi && sudo service apache2 restart")
             || die "Error installing Apache2 CGI support.\n";
+        docmd("sudo cpan HTML::TableExtract")
+            || die "Error installing Perl HTML::TableExtract module.\n";
         exit(0);
     }
 }

@@ -1,4 +1,4 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/perl -I /usr/lib/perl/5.18.2/
 
 #  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
 #
@@ -22,10 +22,15 @@ use warnings;
 use CGI qw( :standard );
 use Date::Format;
 
-my $tmppath = "TFPATH";
-my $sclpath = "SCLINSTALLDIR";
-my $mode = "MODE";
+#my $tmppath = "TFPATH";
+#my $sclpath = "SCLINSTALLDIR";
+#my $mode = "MODE";
 use lib "SCLINSTALLDIR";
+
+my $tmppath = "/tmp/SKT_TEMP";
+my $sclpath = "/home/samskritam/scl/build";
+my $mode = "LOCAL";
+use lib "/home/samskritam/scl";
 use SCLResultParser;
 
 if (! (-e "$tmppath")){
@@ -55,13 +60,17 @@ if (param()){
 #binmode STDOUT, ":encode(utf8)";
 
 $ans = `$sclpath/SHMT/prog/morph/callmorph.pl $word1 $encoding $mode`;
+#$ans = `SCLINSTALLDIR/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE`;
 
 print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."encoding:$encoding\t"."morfword:$word1\n"."output::wordutf:$wordutf\t"."tempnew_data:$ans\n############################\n\n";
 
 chomp($ans);
 
+#print $ans . "\n";
 my $result = parse_morph_output($word1, $encoding, $ans);
 my $result_json = to_json($result);
+#print (utf8::is_utf8($result_json) ? "UTF8" : "OCTETS") . "\n";
+
 print $result_json ."\n";
 
 close(TMP1);

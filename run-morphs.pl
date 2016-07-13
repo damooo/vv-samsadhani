@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-my $url = "http://localhost/cgi-bin/scl/morph/morph_json1.cgi";
+my $url = "http://localhost/cgi-bin/scl/morph/morph_json.cgi";
 my $parms = "?encoding=Itrans&morfword=";
 
 
