@@ -31,9 +31,10 @@ use CGI qw/:standard/;
 
  $rt = $ARGV[0];
  $lifga = $ARGV[1];
- $encoding = $ARGV[2];
- $level = $ARGV[3];
- $mode = $ARGV[4];
+ $rtencoding = $ARGV[2];
+ $genencoding = $ARGV[3];
+ $level = $ARGV[4];
+ $mode = $ARGV[5];
 
 if($mode eq "MODE") { #Better name Non-Daemon
  $generator = "LTPROCBINDIR/lt-proc -ct $myPATH/morph_bin/skt_gen.bin";
@@ -42,8 +43,8 @@ if($mode eq "MODE") { #Better name Non-Daemon
 }
 
 
- $rt_wx=&convert($encoding,$rt);
- $lifga_wx=&convert("Unicode",$lifga);
+ $rt_wx=&convert($rtencoding,$rt);
+ $lifga_wx=&convert($genencoding,$lifga);
  chomp($rt_wx);
  chomp($lifga_wx);
  $lcat = &get_cat($rt_wx);

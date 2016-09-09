@@ -30,25 +30,32 @@ my $myPATH = "SCLINSTALLDIR/skt_gen/noun";
     open(TMP1,">>TFPATH/noun.log") || die "Can't open TFPATH/noun.log for writing";
       if (param) {
         $encoding=param("encoding");
+        $genencoding=param("genencoding");
+        $genencoding = $encoding unless $genencoding;
         $rt=param("rt");
         $gen=param("gen");
         $level=param("level");
         $json_out=param("json_out");
 
-        my $cgi = new CGI;
-        print $cgi->header (-charset => 'UTF-8');
+        print TMP1 "running:","calling gen_noun.pl from noun generator\n";
+        print TMP1
+        $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."rt:$rt\t"."gen:$gen\t"."encoding:$encoding\t"."genencoding=$genencoding\n##########################\n\n";
 
-        $ans = `$myPATH/gen_noun.pl $rt $gen $encoding $level LOCAL`;
+        my $cgi = new CGI;
+
+        $ans = `$myPATH/gen_noun.pl $rt $gen $encoding $genencoding $level LOCAL`;
 
         if ($json_out && ($json_out ne 'false')) {
+            print $cgi->header (-charset => 'UTF-8', -type => 'application/json');
             my $alltables = html_tables($ans); 
-            my $vibhaktis = $alltables->[0]->{"data"};
+            my $vibhaktis = table_filter($alltables->[0]->{"data"}, 1, 1);
             print to_json($vibhaktis);
             foreach my $r (@$vibhaktis) {
                 print TMP1 join("\t", @$r) . "\n";
             }
         }
         else {
+        print $cgi->header (-charset => 'UTF-8');
 
         print "<head>\n";
         print "<script type=\"text/javascript\">\n";
@@ -58,9 +65,6 @@ my $myPATH = "SCLINSTALLDIR/skt_gen/noun";
         print "</head>\n";
 
         print "<body onload=\"register_keys()\"> <script src=\"/scl/SHMT/wz_tooltip.js\" type=\"text/javascript\"></script>\n";
-
-        print TMP1 "running:","calling gen_noun.pl from noun generator";
-        print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."rt:$rt\t"."gen:$gen\t"."encoding:$encoding\n##########################\n\n";
         print $ans;
         }
       }
