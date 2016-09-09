@@ -72,7 +72,13 @@ if($("#rt").val()==""){
                else{
 			
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/skt_gen/noun/noun_gen.cgi",{"rt":$("#rt").val(),"gen":$("#gen-opt").val(),"encoding":$("#encoding").val(),"level":$("#level").val()},function(data){
+               		$.post("CGIURL/skt_gen/noun/noun_gen.cgi",
+				{"rt":$("#rt").val(),
+				 "gen":$("#gen-opt").val(),
+				 "encoding":$("#encoding").val(),
+				 "genencoding":$("#genencoding").val(),
+				 "level":$("#level").val()
+			        },function(data){
                		
                			$("#output").html(data);
                		});
