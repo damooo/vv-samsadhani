@@ -42,10 +42,11 @@ my $myPATH = "SCLINSTALLDIR/skt_gen/noun";
         $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."rt:$rt\t"."gen:$gen\t"."encoding:$encoding\t"."genencoding=$genencoding\n##########################\n\n";
 
         my $cgi = new CGI;
+        my $out_format = ($json_out && ($json_out ne 'false')) ? "json" : "html";
 
-        $ans = `$myPATH/gen_noun.pl $rt $gen $encoding $genencoding $level LOCAL`;
+        $ans = `$myPATH/gen_noun.pl $rt $gen $encoding $genencoding $level LOCAL $out_format`;
 
-        if ($json_out && ($json_out ne 'false')) {
+        if ($out_format eq 'json') {
             print $cgi->header (-charset => 'UTF-8', -type => 'application/json');
             my $alltables = html_tables($ans); 
             my $vibhaktis = table_filter($alltables->[0]->{"data"}, 1, 1);

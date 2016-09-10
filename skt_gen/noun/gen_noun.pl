@@ -35,6 +35,7 @@ use CGI qw/:standard/;
  $genencoding = $ARGV[3];
  $level = $ARGV[4];
  $mode = $ARGV[5];
+ $format = $ARGV[6];
 
 if($mode eq "MODE") { #Better name Non-Daemon
  $generator = "LTPROCBINDIR/lt-proc -ct $myPATH/morph_bin/skt_gen.bin";
@@ -60,7 +61,9 @@ if($mode eq "MODE") { #Better name Non-Daemon
  } #vib
  chomp($LTPROC_IN); # To chomp the last \n, else it produces an extra blank line in the o/p of lt-proc
 
- $str = "echo '".$LTPROC_IN."' | $generator | grep . | pr --columns=3 --across --omit-header | $myPATH/converters/ri_skt | $myPATH/converters/iscii2utf8.py 1 | $myPATH/skt_gen/noun/noun_format_html.pl $rt_wx $lifga_wx";
+ $formatter = "$myPATH/skt_gen/noun/noun_format_html.pl";
+
+ $str = "echo '".$LTPROC_IN."' | $generator | grep . | pr --columns=3 --across --omit-header | $myPATH/converters/ri_skt | $myPATH/converters/iscii2utf8.py 1 | $formatter $rt_wx $lifga_wx $format";
  system($str);
 
 sub get_cat{
