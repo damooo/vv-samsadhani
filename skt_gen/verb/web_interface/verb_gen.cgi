@@ -43,6 +43,7 @@ print "<head>\n";
       my $result = `SCLINSTALLDIR/skt_gen/verb/gen_verb.pl $encoding $prayoga $word MODE`;
       print $result;
       print TMP1 "running:","calling gen_verb.pl from noun generator";
-      print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."word:$word\t"."prayoga:$prayoga\n#######################\n\n";
+      print TMP1
+      $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."word:$word\t"."encoding:$encoding\t"."prayoga:$prayoga\n#######################\n\n";
       }
       close(TMP1);
