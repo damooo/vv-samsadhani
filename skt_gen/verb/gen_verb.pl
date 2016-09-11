@@ -59,17 +59,18 @@ $ltproc_cmd = "$generator | grep . | pr --columns=3 --across --omit-header --wid
 #Since we are using only first 3 fields, $mean is removed.
     ($rt,$XAwu,$gaNa,$mng) = split(/_/,$rt_XAwu_gaNa_mng);
     $rtutf8 = `echo $rt | sed 's/[1-5]//' | $myPATH/converters/wx2utf8.sh`;
+    chop($rtutf8);
 
-          for($l=0;$l<10;$l++){
-            $lakAra = $lakAra[$l];
-             for($per=0;$per<3;$per++){
-             $person = $person[$per];
-               for($num=1;$num<4;$num++){
-                    my $str = "$rt<prayogaH:$prayogaH><lakAraH:$lakAra><puruRaH:$person><vacanam:$num><paxI:parasmEpaxI><XAwuH:$XAwu><gaNaH:$gaNa><level:1>";
-                   $LTPROC_IN .=  $str."\n";
-                } # number
-            } #person
-         } #lakAra
+    for($l=0;$l<10;$l++){
+        $lakAra = $lakAra[$l];
+            for($per=0;$per<3;$per++){
+            $person = $person[$per];
+            for($num=1;$num<4;$num++){
+                my $str = "$rt<prayogaH:$prayogaH><lakAraH:$lakAra><puruRaH:$person><vacanam:$num><paxI:parasmEpaxI><XAwuH:$XAwu><gaNaH:$gaNa><level:1>";
+                $LTPROC_IN .=  $str."\n";
+            } # number
+        } #person
+    } #lakAra
 
     open($fh, "echo '".$LTPROC_IN."' | $ltproc_cmd | ") || 
         die "Cannot open $ltproc_cmd\n";
@@ -92,13 +93,21 @@ $str = "echo '".$LTPROC_IN."' | $ltproc_cmd | $myPATH/skt_gen/verb/verb_format_h
     my $aatmane_vforms = gen_verb_forms($fh);
 
 if ($format eq 'json') {
+    $dhatuutf8 = `echo $XAwu | $myPATH/converters/wx2utf8.sh`;
+    chop($dhatuutf8);
+    $prayogaHutf8 = `echo $prayogaH | $myPATH/converters/wx2utf8.sh`;
+    chop($prayogaHutf8);
+    $ganautf8 = `echo $gaNa | $myPATH/converters/wx2utf8.sh`;
+    chop($ganautf8);
+    $mngutf8 = `echo $mng | $myPATH/converters/wx2utf8.sh`;
+    chop($mngutf8);
     my %dict = (
         'root' => $rtutf8,
-        'dhaatu' => $XAwu,
+        'dhaatu' => $dhatuutf8,
         'encoding' => 'Unicode',
-        'prayoga' => $prayogaH,
-        'gana' => $gaNa,
-        'meaning' => $mng,
+        'prayoga' => $prayogaHutf8,
+        'gana' => $ganautf8,
+        'meaning' => $mngutf8,
         'lakaara' => \@lakAra_utf8,
         'purusha' => \@person_utf8,
         'parasmai' => $parasmai_vforms,
@@ -137,13 +146,11 @@ sub gen_verb_forms
     my $fh = shift;
 
     my @verb_forms = ();
-    my @lakaara_forms = ();
 
     my $line_no = 0;
     while($in = <$fh>){
         chomp($in);
         next unless $in;
-        push @verb_forms, \@lakaara_forms unless @verb_forms;
 
         if($in=~/\?/){
             $in =~ s/\?+/-/g;
@@ -154,16 +161,15 @@ sub gen_verb_forms
         if($in[0] eq "") { $in[0] = "-";}
         if($in[1] eq "") { $in[1] = "-";}
         if($in[2] eq "") { $in[2] = "-";}
-        push @lakaara_forms, \@in;
+        if ($line_no == 0) {
+            my @lakaara_forms = (); 
+            push @verb_forms, \@lakaara_forms;
+        }
+        push @{$verb_forms[-1]}, \@in;
 
         $line_no++;
         if($line_no == 3) {
             $line_no = 0; 
-            #foreach my $r (@lakaara_forms) {
-            #    print join(', ', @$r) . "\n";
-            #}
-            my @lakaara_forms = (); 
-            push @verb_forms, \@lakaara_forms;
         }
     }
 
