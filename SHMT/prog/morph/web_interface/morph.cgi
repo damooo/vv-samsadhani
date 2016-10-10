@@ -24,14 +24,18 @@ use CGI qw( :standard );
 #use LWP::Simple qw/!head/;
 #$VERSION = "2.0";
 use Date::Format;
+
+my $tmppath = "TFPATH";
+my $sclpath = "SCLINSTALLDIR";
+my $mode = "MODE";
+use lib "SCLINSTALLDIR";
+use SCLResultParser;
 #use Log::Log4perl qw(:easy);
     if (! (-e "TFPATH")){
         mkdir "TFPATH" or die "Error creating directory TFPATH";
     }
 
 open(TMP1,">>TFPATH/morph.log") || die "Can't open TFPATH/morph.log for writing";
-
-print header(-type=>"text/html" , -charset=>"utf-8");
 
 #Declaration of all the variables
 my $word1;
@@ -44,11 +48,33 @@ my $XAwu;
 my $gaNa;
 my $lifga;
 my $ref;
+my $json_out;
+my $out_format = "html";
 
 if (param()){ 
     $word1 = param('morfword');
     $encoding=param("encoding");
+    my $json_out=param("json_out");
+    $out_format = "json" if $json_out && ($json_out ne 'false');
 }
+
+$ans = `$sclpath/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE`;
+
+print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."encoding:$encoding\t"."morfword:$word1\n"."tempnew_data:$ans\n############################\n\n";
+chomp($ans);
+
+if ($out_format eq 'json') {
+    print header(-charset => 'UTF-8', -type => 'application/json');
+
+    my $result = parse_morph_output($word1, $encoding, $ans);
+    my $result_json = to_json($result);
+    print $result_json ."\n";
+    exit(0);
+}
+
+close(TMP1);
+
+print header(-type=>"text/html" , -charset=>"utf-8");
 print "<script>\n";
 print "function analyse_noun_forms(encod,word){
   window.open('CGIURL/morph/morph.cgi?encoding='+encod+'&morfword='+word+'','popUpWindow','height=200,width=600,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();}\n";
@@ -66,14 +92,8 @@ print "function generate_waxXiwa_forms(encod,rt,gen){
 }\n";
 
 print "</script>\n";
-
-$ans = `SCLINSTALLDIR/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE`;
-
-print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."encoding:$encoding\t"."morfword:$word1\n"."output::wordutf:$wordutf\t"."tempnew_data:$ans\n############################\n\n";
-
 print "<table style=\"border-collapse: collapse;\" bordercolor='brown' valign='middle' bgcolor='#297e96' border='1' cellpadding='2' cellspacing='2' >
 <tr>";
-chomp($ans);
 $ans =~ s/</{/g;
 $ans =~ s/>/}/g;
 $ans =~ s/{वर्गः:ना}//g;
@@ -146,5 +166,3 @@ if($ans ne "") {
 } # endof foreach
 } else { print "No answer found\n";}
 print "</table>\n";
-
-close(TMP1);

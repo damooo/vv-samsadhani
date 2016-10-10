@@ -35,6 +35,7 @@ my $myPATH = "SCLINSTALLDIR/skt_gen/noun";
         $rt=param("rt");
         $gen=param("gen");
         $level=param("level");
+        $level = 1 unless $level;
         $json_out=param("json_out");
 
         print TMP1 "running:","calling gen_noun.pl from noun generator\n";
@@ -48,12 +49,13 @@ my $myPATH = "SCLINSTALLDIR/skt_gen/noun";
 
         if ($out_format eq 'json') {
             print $cgi->header (-charset => 'UTF-8', -type => 'application/json');
-            my $alltables = html_tables($ans); 
-            my $vibhaktis = table_filter($alltables->[0]->{"data"}, 1, 1);
-            print to_json($vibhaktis);
-            foreach my $r (@$vibhaktis) {
-                print TMP1 join("\t", @$r) . "\n";
-            }
+            print $ans;
+#            my $alltables = html_tables($ans); 
+#            my $vibhaktis = table_filter($alltables->[0]->{"data"}, 1, 1);
+#            print to_json($vibhaktis);
+#            foreach my $r (@$vibhaktis) {
+#                print TMP1 join("\t", @$r) . "\n";
+#            }
         }
         else {
         print $cgi->header (-charset => 'UTF-8');
