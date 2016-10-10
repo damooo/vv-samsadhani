@@ -34,7 +34,7 @@ my @person_utf8 = ("प्रथमपुरुषः","मध्यमपुर
  $prygH = $ARGV[1];
  $rt = $ARGV[2];
  $mode = $ARGV[3];
-$format = ($#ARGV >= 4) ? $ARGV[4] : "html";
+ $format = ($#ARGV >= 4) ? $ARGV[4] : "html";
 
 if($mode eq "LOCAL") { #Better name Non-Daemon
  $generator = "LTPROCBINDIR/lt-proc -ct $myPATH/morph_bin/skt_gen.bin";

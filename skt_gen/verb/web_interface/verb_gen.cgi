@@ -19,6 +19,8 @@
 
 package main;
 use CGI qw/:standard/;
+use lib "SCLINSTALLDIR";
+use SCLResultParser;
 
     if (! (-e "TFPATH")){
         mkdir "TFPATH" or die "Error creating directory TFPATH";
@@ -29,10 +31,21 @@ use CGI qw/:standard/;
       $word=param("vb");
       $prayoga=param("prayoga");
       $encoding=param("encoding");
+      $json_out=param("json_out");
+      $out_format = "html";
+      $out_format = "json" if $json_out && ($json_out ne 'false');
 
+      my $result = `SCLINSTALLDIR/skt_gen/verb/gen_verb.pl $encoding $prayoga $word MODE $out_format`;
       my $cgi = new CGI;
+      if ($json_out && ($json_out ne 'false')) {
+          print $cgi->header (-charset => 'UTF-8', -type => 'application/json');
+          print $result;
+          #$res = parse_verb_gen($word, $prayoga, $encoding, $result);
+          #print to_json($res);
+          exit(0);
+      }
       print $cgi->header (-charset => 'UTF-8');
-print "<head>\n";
+      print "<head>\n";
       print "<script type=\"text/javascript\">\n";
       print "function show(word){\n";
       print "window.open('CGIURL/SHMT/options1.cgi?word='+word+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes');\n }\n </script>";
@@ -40,7 +53,6 @@ print "<head>\n";
  print "</head>\n";
       print "<body onload=\"register_keys()\"> <script src=\"/html/scl/SHMT/wz_tooltip.js\" type=\"text/javascript\"></script>\n";
 
-      my $result = `SCLINSTALLDIR/skt_gen/verb/gen_verb.pl $encoding $prayoga $word MODE`;
       print $result;
       print TMP1 "running:","calling gen_verb.pl from noun generator";
       print TMP1
