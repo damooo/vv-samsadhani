@@ -16,7 +16,8 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
+use lib "SCLINSTALLDIR";
+use SCLResultParser;
 
 my $myPATH="SCLINSTALLDIR";
 require "$myPATH/converters/convert.pl";
@@ -24,6 +25,7 @@ require "$myPATH/converters/convert.pl";
 $word = $ARGV[0];
 $encoding = $ARGV[1];
 $mode = $ARGV[2];
+$format = ($#ARGV >= 3) ? $ARGV[3] : "html";
 
 $word_wx=&convert($encoding,$word);
 chomp($word_wx);
@@ -31,4 +33,9 @@ chomp($word_wx);
 #The input text is converted from wx to utf8 and stored in wordutf$$
 #The output of the morph is stored in wordout$$
 
-system("$myPATH/SHMT/prog/morph/webrun_morph.sh $word_wx $mode");
+$ans = `$myPATH/SHMT/prog/morph/webrun_morph.sh $word_wx $mode`;
+if ($format eq 'json') {
+    my $result = parse_morph_output($word, $encoding, $ans);
+    $ans = to_json($result);
+}
+print $ans;

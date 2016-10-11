@@ -58,7 +58,7 @@ if (param()){
     $out_format = "json" if $json_out && ($json_out ne 'false');
 }
 
-$ans = `$sclpath/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE`;
+$ans = `$sclpath/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE $out_format`;
 
 print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."encoding:$encoding\t"."morfword:$word1\n"."tempnew_data:$ans\n############################\n\n";
 chomp($ans);
@@ -66,9 +66,7 @@ chomp($ans);
 if ($out_format eq 'json') {
     print header(-charset => 'UTF-8', -type => 'application/json');
 
-    my $result = parse_morph_output($word1, $encoding, $ans);
-    my $result_json = to_json($result);
-    print $result_json ."\n";
+    print $ans ."\n";
     exit(0);
 }
 
