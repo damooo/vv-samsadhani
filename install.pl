@@ -10,9 +10,9 @@ if ($#ARGV >= 0) {
     }
     elsif ($ARGV[0] eq "-deps") {
         #docmd("sudo apt-get update");
-        docmd("sudo apt-get install make g++ apache2 graphviz flex bison")
+        docmd("sudo apt-get install -y make g++ apache2 graphviz openjdk-7-jdk flex bison")
             || die "Error installing prerequisite packages.\n";
-        docmd("sudo apt-get install ocaml camlp4-extra lttoolbox")
+        docmd("sudo apt-get install -y ocaml camlp4-extra lttoolbox")
             || die "Error installing prerequisite packages.\n";
         docmd("sudo a2enmod cgi && sudo service apache2 restart")
             || die "Error installing Apache2 CGI support.\n";
