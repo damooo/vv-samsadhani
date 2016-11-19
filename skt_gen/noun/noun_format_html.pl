@@ -39,10 +39,10 @@ chop($rt);
 
 my @noun_forms = ();
 my %dict = (
-    'input' => $rt,
+    'root' => $rt,
     'linga' => $linga,
     'encoding' => 'Unicode',
-    'vibhaktis' => \@noun_forms,
+    'result' => \@noun_forms,
 );
 while($in = <STDIN>){
     chomp($in);

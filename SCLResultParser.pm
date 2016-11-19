@@ -106,6 +106,17 @@ sub to_json
     }
 }
 
+my %prop_vals = (
+    'vachana' => ['एक', 'द्वि', 'बहु'],
+    'vibhakti' => ['1', '2', '3', '4', '5', '6', '7', '8'],
+    'lakara' => ['लट्', 'लिट्', 'लुट्', 'लृट्', 'लोट्', 'लङ्', 'विधिलिङ्', 'आशीर्लिङ्', 'लुङ्', 'लृङ'],
+    'prayoga' => ['कर्तरि', 'कर्मणि'],
+    'linga' => ['पुं', 'नपुं', 'स्त्री'],
+    'avyaya' => ['1'],
+    'purusha' => ['प्रथम', 'मध्यम', 'उत्तम'],
+    'padi' => ['आत्मने', 'परस्मै', 'उभय'],
+);
+
 sub parse_verb_gen 
 {
     my ($word, $prayoga, $encoding, $res) = @_;
@@ -117,28 +128,35 @@ sub parse_verb_gen
         my $t = $tables->[$i]->{'data'};
         my $lakaara = @{$t}[0]->[0];
         shift @$t;
-        push @out, { 'lakAra' => $lakaara, 'padI' => 'परस्मैपदी', 'data' => $t };
+        push @out, { 'lakAra' => $lakaara, 'padI' => $prop_vals{'padI'}->[1], 'data' => $t };
     }
     for (my $i = 10; $i < 20; ++ $i) {
         my $t = $tables->[$i]->{'data'};
         my $lakaara = @{$t}[0]->[0];
         shift @$t;
-        push @out, { 'lakAra' => $lakaara, 'padI' => 'आत्मनेपदी', 'data' => $t };
+        push @out, { 'lakAra' => $lakaara, 'padI' => $prop_vals{'padI'}->[0], 'data' => $t };
     }
 
-    return { 'padam' => $word, 'prayoga' => $prayoga, 'encoding' => $encoding,
+    return { 'input' => $word, 'prayoga' => $prayoga, 'encoding' => $encoding,
              'data' => \@out };
 }
 
+sub propval_pattern
+{
+    my $prop = shift;
+    my $vals = $prop_vals{$prop};
+    return '^(' . join('|', @$vals) . ')$';
+}
+
 my @word_properties = (
-    ['^(एक|द्वि|बहु)$', 'vachanam'],
-    ['^([1-8])$', 'vibhakti'],
-    ['^(लट्|लिट्|लुट्|लोट्|लृट्|लङ्|लृङ|लुङ्|लिङ्)$', 'lakAra'],
-    ['^(कर्तरि|कर्मणि)$',  'prayoga'],
-    ['^(पुं|नपुं|स्त्री)$', 'liNGga'],
+    [propval_pattern('vachana'), 'vachana'],
+    [propval_pattern('vibhakti'), 'vibhakti'],
+    [propval_pattern('lakara'), 'lakara'],
+    [propval_pattern('prayoga'),  'prayoga'],
+    [propval_pattern('linga'), 'linga'],
     ['^(अव्य)$', 'avyaya', 1],
-    ['^(प्र|उ|म)$', 'puruSha'],
-    ['^(आत्मनेपती|परस्मैपदी|उभयपदी)$', 'padI'],
+    ['^(प्र|म|उ)$', 'purusha'],
+    ['^(आत्मने|परस्मै|उभय)पदी$', 'padi'],
     ['^(.*)$', 'pratyaya'],
 );
 
@@ -153,12 +171,14 @@ sub parse_morph_result
 
     my %word = ();
 
+    $word{'type'} = 'सुबन्त';
     $ans =~ s/:/ /g;
     if($ans =~ s/{धातुः ([^}]+)}//) { 
-        $word{'dhAtu'} = $1;
+        $word{'dhatu'} = $1;
+        $word{'type'} = 'तिङन्त';
     }
     if($ans =~ s/{गणः ([^}]+)}//) { 
-        $word{'gaNa'} = $1;
+        $word{'gana'} = $1;
     }
 
     my $level = "";
@@ -170,16 +190,16 @@ sub parse_morph_result
             $ans =~ s/^[^\{]+\{लेवेल् 4\}//;
         }
         elsif ($level == 2) {
-            $word{'type'} = 'krdanta';
+            $word{'subtype'} = 'कृदन्त';
         }
         elsif ($level == 3) {
-            $word{'type'} = 'taddhita';
+            $word{'subtype'} = 'तद्धित';
         }
         $ans =~ s/\{लेवेल् \d\}//;
     }
     $word{'level'} = $level;
     $ans =~ s/^([^ ]+) //;
-    $word{'prAtipadikam'} = $1;
+    $word{'root'} = $1;
 
     my @attrs = split(/\s+/, $ans);
     foreach my $a (@attrs) {
@@ -188,6 +208,16 @@ sub parse_morph_result
             my ($pat, $propname, $val) = @$p;
             if ($a =~ /$pat/) {
                 my $match = $1;
+                my $vals = $prop_vals{$propname};
+                if (defined $vals) {
+                	for (my $i = 0; $i < @$vals; ++ $i) {
+                		my $v = $$vals[$i];
+                		if ($v =~ /^$match/) {
+                			$val = $$vals[$i];
+                			last;
+                		}
+                	}
+                }
                 $word{$propname} = defined($val) ? $val : $match;
                 last;
             }
@@ -202,7 +232,7 @@ sub parse_morph_output
 
     chomp($ans);
 
-    my $result = { "padam" => "$word", "encoding" => "$encoding", 
+    my $result = { "input" => "$word", "encoding" => "$encoding", 
                         "_output" => "$ans" };
     my @analysis = ();
 
@@ -212,7 +242,7 @@ sub parse_morph_output
             push @analysis, parse_morph_result($ans);
         } # endof foreach
     }
-    $result->{'analysis'} = \@analysis;
+    $result->{'result'} = \@analysis;
 
     return $result;
 }

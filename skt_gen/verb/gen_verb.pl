@@ -103,15 +103,18 @@ if ($format eq 'json') {
     chop($mngutf8);
     my %dict = (
         'root' => $rtutf8,
-        'dhaatu' => $dhatuutf8,
+        'dhatu' => $dhatuutf8,
         'encoding' => 'Unicode',
         'prayoga' => $prayogaHutf8,
         'gana' => $ganautf8,
         'meaning' => $mngutf8,
-        'lakaara' => \@lakAra_utf8,
+        'lakara' => \@lakAra_utf8,
         'purusha' => \@person_utf8,
-        'parasmai' => $parasmai_vforms,
-        'aatmane' => $aatmane_vforms,
+        'result' => [
+            $aatmane_vforms,
+            $parasmai_vforms,
+            [],
+        ]
     );
     print to_json(\%dict) . "\n";
     exit(0);
