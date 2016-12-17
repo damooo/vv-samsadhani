@@ -59,7 +59,9 @@ $ltproc_cmd = "$generator | grep . | pr --columns=3 --across --omit-header --wid
 #Since we are using only first 3 fields, $mean is removed.
     ($rt,$XAwu,$gaNa,$mng) = split(/_/,$rt_XAwu_gaNa_mng);
     $rtutf8 = `echo $rt | sed 's/[1-5]//' | $myPATH/converters/wx2utf8.sh`;
+    $rtutf8_orig = `echo $rt | $myPATH/converters/wx2utf8.sh`;
     chop($rtutf8);
+    chop($rtutf8_orig);
 
     for($l=0;$l<10;$l++){
         $lakAra = $lakAra[$l];
@@ -102,9 +104,10 @@ if ($format eq 'json') {
     $mngutf8 = `echo $mng | $myPATH/converters/wx2utf8.sh`;
     chop($mngutf8);
     my %dict = (
-        'root' => $rtutf8,
+        'root' => $rtutf8_orig,
         'dhatu' => $dhatuutf8,
-        'encoding' => 'Unicode',
+        'in_encoding' => 'Unicode',
+        'out_encoding' => 'Unicode',
         'prayoga' => $prayogaHutf8,
         'gana' => $ganautf8,
         'meaning' => $mngutf8,

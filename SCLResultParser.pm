@@ -137,7 +137,9 @@ sub parse_verb_gen
         push @out, { 'lakAra' => $lakaara, 'padI' => $prop_vals{'padI'}->[0], 'data' => $t };
     }
 
-    return { 'input' => $word, 'prayoga' => $prayoga, 'encoding' => $encoding,
+    return { 'input' => $word, 'prayoga' => $prayoga, 
+              'in_encoding' => $encoding,
+              'out_encoding' => 'Unicode',
              'data' => \@out };
 }
 
@@ -232,7 +234,8 @@ sub parse_morph_output
 
     chomp($ans);
 
-    my $result = { "input" => "$word", "encoding" => "$encoding", 
+    my $result = { "input" => "$word", "in_encoding" => "$encoding", 
+                        "out_encoding" => 'Unicode',
                         "_output" => "$ans" };
     my @analysis = ();
 

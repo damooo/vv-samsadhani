@@ -41,7 +41,8 @@ my @noun_forms = ();
 my %dict = (
     'root' => $rt,
     'linga' => $linga,
-    'encoding' => 'Unicode',
+    'in_encoding' => 'Unicode',
+    'out_encoding' => 'Unicode',
     'result' => \@noun_forms,
 );
 while($in = <STDIN>){
