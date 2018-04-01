@@ -24,17 +24,21 @@ sub apavAdaniyamAH{
  my($an)=@_;
 $an =~ /^([^\+]+)\+(.*)/;
 $first = $1; $second = $2;
-if (`echo "$2" | LTPROCBINDIR/lt-proc -c SCLINSTALLDIR/morph_bin/skt_morf.bin | grep '\/Af'`) { 
-   if($an=~/^(.*)[aA]\+(.*)/) {$ans = "$1$2";$ans1="pararUpa";$ans2="omAfoSca(6.1.95)";}
+if ($second =~ /^A/) {
+    if (`echo "$second" | /usr/bin/lt-proc -c /home/samskritam/scl/build/morph_bin/skt_morf.bin | grep '\/Af'`) { 
+    if($an=~/^(.*)[aA]\+(.*)/) {$ans = "$1$2";$ans1="pararUpa";$ans2="omAfoSca(6.1.95)";}
+    }
 }
 elsif ($first =~ /[IUe]$/) {
-   @ans = split(/\//,`echo "harI" | LTPROCBINDIR/lt-proc -c SCLINSTALLDIR/morph_bin/skt_morf.bin`);
-   $found = 0;
-   for ($i=1; $i<=$#ans && !$found;$i++){
-     if($ans[$i] =~ /<vacanam:2>/) { $found = 1;}
-   }
-   if($found) {$ans = $first." ".$second;$ans1="pragqhya";$ans2="IxUxexxvivacanam pragqhyam (1.1.11)-> pluwapragqhyA aci niwyam (6.1.125)";}
-} else {
+#   @ans = split(/\//,`echo "harI" | /usr/bin/lt-proc -c /home/samskritam/scl/build/morph_bin/skt_morf.bin`);
+#   $found = 0;
+#   for ($i=1; $i<=$#ans && !$found;$i++){
+#     if($ans[$i] =~ /<vacanam:2>/) { $found = 1;}
+#   }
+#   if($found) 
+   {$ans = $first." ".$second;$ans1="pragqhya";$ans2="IxUxexxvivacanam pragqhyam (1.1.11)-> pluwapragqhyA aci niwyam (6.1.125)";}
+} else 
+{
 #if($an=~/akRa\+UhinI/){$ans = "akROhiNI";$ans1="vqxXi";$ans2="akRAxUhinyAmupasaMKyAnam (vA 3604)";}
 if($an=~/akRa\+Uhin(.*)/){$ans = "akROhiN$1";$ans1="vqxXi";$ans2="akRAxUhinyAmupasaMKyAnam (vA 3604)";}
 #if$an eq "akRa+UhinI"){"$ans = akROhiNI;}
