@@ -139,7 +139,7 @@ HTDOCS_SRC = htdocs/index.html htdocs/description.html htdocs/modelling-astadhya
 CONV_SRC = converters/ir.lex converters/iscii2utf8.py converters/itrans-iscii.sh converters/itrans_ra.lex converters/kyoto_ra.lex converters/logical_itrans.lex converters/Makefile converters/ri.lex converters/ri_skt.lex converters/rm__between_vowels.lex converters/slp2wx.lex converters/utf82iscii.pl converters/utf82wx.sh converters/velthuis-wx.lex converters/wx2utf8.sh converters/configure converters/convert.pl converters/ir_skt.lex converters/wx-velthuis.lex converters/wx2utf8roman.lex converters/utf8roman2wx.lex converters/utfd2r.sh converters/wxHindi-utf8.sh converters/wx2utf8roman.lex converters/kyoto_ra.lex converters/ra_kyoto.lex converters/wx2slp.lex converters/add_vowel_sep.lex converters/ra_itrans.lex
 
 
-SANDHI_SRC = sandhi/apavAxa_any.pl sandhi/callsandhi.pl sandhi/README sandhi/web_interface/sandhi.cgi sandhi/web_interface/sandhi.html sandhi/any_sandhi.pl sandhi/test_sandhi.pl sandhi/Makefile sandhi/configure sandhi/Makefile.stage2 sandhi/sandhi.pl sandhi/web_interface/info.html 
+SANDHI_SRC = sandhi/apavAxa_any.pl sandhi/callsandhi.pl sandhi/mysandhi.pl sandhi/README sandhi/web_interface/sandhi.cgi sandhi/web_interface/sandhi.html sandhi/any_sandhi.pl sandhi/test_sandhi.pl sandhi/Makefile sandhi/configure sandhi/Makefile.stage2 sandhi/sandhi.pl sandhi/web_interface/info.html 
 
 DICT_SRC = dictionaries/MW-Eng-Skt/index.html dictionaries/MW-Eng-Skt/xmlfiles dictionaries/MW-Eng-Skt/dic.css dictionaries/MW-Eng-Skt/xml_read.cgi dictionaries/MW-Eng-Skt/configure dictionaries/MW-Eng-Skt/Makefile dictionaries/Apte-Skt-Hnd
 

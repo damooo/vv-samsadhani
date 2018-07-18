@@ -1,5 +1,6 @@
-my $myPATH="SCLINSTALLDIR";
-require "$myPATH/sandhi/sandhi.pl";
+use FindBin;
+use lib "$FindBin::Bin";
+require "sandhi.pl";
 
 #  Copyright (C) 2002-2006 Sushama Vempati
 #  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
@@ -24,8 +25,8 @@ $sandhi_type = $ARGV[1];
 $word1_wx = $ARGV[2];
 $word2_wx = $ARGV[3];
 
-require "$myPATH/sandhi/apavAxa_${sandhi_type}.pl";
-require "$myPATH/sandhi/${sandhi_type}_sandhi.pl";
+require "apavAxa_${sandhi_type}.pl";
+require "${sandhi_type}_sandhi.pl";
 
 $ans = &sandhi($word1_wx,$word2_wx);
 @ans=split(/,/,$ans);

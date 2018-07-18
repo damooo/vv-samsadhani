@@ -116,7 +116,6 @@ if ($format eq 'json') {
         'result' => [
             $aatmane_vforms,
             $parasmai_vforms,
-            [],
         ]
     );
     print to_json(\%dict) . "\n";
