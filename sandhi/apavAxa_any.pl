@@ -20,17 +20,22 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
+use File::Basename;
+my $bindir = dirname(__FILE__);
+
+morfbin_path = "$bindir/../morph_bin/skt_morf.bin";
+
 sub apavAdaniyamAH{
  my($an)=@_;
 $an =~ /^([^\+]+)\+(.*)/;
 $first = $1; $second = $2;
 if ($second =~ /^A/) {
-    if (`echo "$second" | /usr/bin/lt-proc -c /home/samskritam/scl/build/morph_bin/skt_morf.bin | grep '\/Af'`) { 
+    if (`echo "$second" | /usr/bin/lt-proc -c $morfbin_path | grep '\/Af'`) { 
     if($an=~/^(.*)[aA]\+(.*)/) {$ans = "$1$2";$ans1="pararUpa";$ans2="omAfoSca(6.1.95)";}
     }
 }
 elsif ($first =~ /[IUe]$/) {
-#   @ans = split(/\//,`echo "harI" | /usr/bin/lt-proc -c /home/samskritam/scl/build/morph_bin/skt_morf.bin`);
+#   @ans = split(/\//,`echo "harI" | /usr/bin/lt-proc -c $morfbin_path`);
 #   $found = 0;
 #   for ($i=1; $i<=$#ans && !$found;$i++){
 #     if($ans[$i] =~ /<vacanam:2>/) { $found = 1;}
