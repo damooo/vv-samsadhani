@@ -10,7 +10,7 @@ if ($#ARGV >= 0) {
     }
     elsif ($ARGV[0] eq "-deps") {
         #docmd("sudo apt-get update");
-        docmd("sudo apt-get install -y make g++ openjdk-7-jdk apache2 graphviz flex bison")
+        docmd("sudo apt-get install -y make g++ openjdk-8-jdk apache2 graphviz flex bison")
             || die "Error installing prerequisite packages.\n";
         docmd("sudo apt-get install -y flex ocaml camlp4-extra lttoolbox")
             || die "Error installing prerequisite packages.\n";
