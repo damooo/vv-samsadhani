@@ -21,13 +21,13 @@ else {
 }
 
 $mydir = $ENV{'PWD'};
-$installdir = "$mydir/scl";
+$installdir = "$mydir";
 $zendir = "$mydir/Zen";
 docmd("mkdir -p $installdir");
 
 unless (-f "spec.txt") {
     docmd("cp -a SPEC/spec_users.txt spec.txt");
-    docmd("perl -i -p -e \"s#SCLINSTALLDIR=.*#SCLINSTALLDIR=$installdir#; s#CGIURL=.*#CGIURL=/usr/lib/cgi-bin/scl#; s#ZENDIR=.*#ZENDIR=$zendir/ML#\" spec.txt")
+    docmd("perl -i -p -e \"s#SCLINSTALLDIR=.*#SCLINSTALLDIR=$installdir#; s#ZENDIR=.*#ZENDIR=$zendir/ML#\" spec.txt")
 }
 
 docmd("(./configure && make && sudo make install)");

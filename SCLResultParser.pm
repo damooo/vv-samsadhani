@@ -16,7 +16,7 @@ BEGIN {
 
     # Functions and variables which are exported by default
     our @EXPORT      = qw(html_tables to_json 
-        table_filter parse_morph_output parse_verb_gen);
+        parse_morph_output parse_verb_gen);
 
     # Functions and variables which can be optionally exported
     #our @EXPORT_OK   = qw($Var1 %Hashit func3);
@@ -58,17 +58,6 @@ sub html_tables
     }
 
     return \@tables;
-}
-
-sub table_filter
-{
-    my ($tbl, $skiprows, $skipcols) = @_;
-    my @newtbl = ();
-    for (my $i = $skiprows; $i <= $#$tbl; ++ $i) {
-        my @newr = splice @$tbl[$i], $skipcols;
-        push @newtbl, \@newr; 
-    }
-    return \@newtbl;
 }
 
 sub to_json
