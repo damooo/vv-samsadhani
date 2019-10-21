@@ -43,6 +43,7 @@ SHMT/prog/kAraka/Prepare_Graph/ZEN/test
 SHMT/prog/kAraka/Prepare_Graph/ZEN/timeshare
 SHMT/prog/kAraka/Prepare_Graph/ZEN/unshare
 SHMT/prog/kAraka/Prepare_Graph/build_graph
+SHMT/prog/kAraka/Prepare_Graph/paths.ml
 SHMT/prog/reader_generator/Canto-I/
 e-readers/shishu_bak/
 paths.pl
