@@ -1,8 +1,9 @@
 SHELL = /bin/bash
 
+include ../paths.sh
+
 install:
-	source ../spec.txt
-	mkdir -p HTDOCSDIR/sandhi;mkdir -p CGIDIR/sandhi;cp web_interface/*.html HTDOCSDIR/sandhi; cp web_interface/*.cgi CGIDIR/sandhi; cp web_interface/*.js HTDOCSDIR/sandhi; cp web_interface/info.html HTDOCSDIR/sandhi
+	mkdir -p $(HTDOCSDIR)/scl/sandhi;mkdir -p $(CGIDIR)/scl/sandhi;cp web_interface/*.html $(HTDOCSDIR)/scl/sandhi; cp web_interface/*.cgi $(CGIDIR)/scl/sandhi; cp web_interface/*.js $(HTDOCSDIR)/scl/sandhi; cp web_interface/info.html $(HTDOCSDIR)/scl/sandhi
+
 debian_install:
-	source ../spec_debian.txt
-	mkdir -p /tmp/sclHTDOCSDIR/sandhi;mkdir -p /tmp/sclCGIDIR/sandhi;cp web_interface/*.html /tmp/sclHTDOCSDIR/sandhi; cp web_interface/*.cgi /tmp/sclCGIDIR/sandhi; cp -p web_interface/*.js /tmp/sclCGIDIR/sandhi
+	mkdir -p /tmp/scl$(HTDOCSDIR)/scl/sandhi;mkdir -p /tmp/scl$(CGIDIR)/scl/sandhi;cp web_interface/*.html /tmp/scl$(HTDOCSDIR)/scl/sandhi; cp web_interface/*.cgi /tmp/scl$(CGIDIR)/scl/sandhi; cp -p web_interface/*.js /tmp/scl$(CGIDIR)/scl/sandhi

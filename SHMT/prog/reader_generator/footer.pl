@@ -1,4 +1,4 @@
-#!PERLPATH -w
+#!/usr/bin/env perl
 
 sub footer {
 

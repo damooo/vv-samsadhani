@@ -2,7 +2,7 @@ SHELL = /bin/sh
 
 TARGETS = add_snt_mrkr.out gen_table.out
 
-LIBPATH = LPATH
+LIBPATH = /usr/lib
 
 all: $(TARGETS)
 FLEX = lex

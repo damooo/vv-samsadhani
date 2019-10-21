@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2014 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,22 +17,25 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-my $myPATH="SCLINSTALLDIR";
+$SCLINSTALLDIR = $ARGV[0];
 
-require "$myPATH/converters/convert.pl";
+require "$SCLINSTALLDIR/paths.pl";
+require "$SCLINSTALLDIR/converters/convert.pl";
 
-$encoding = $ARGV[0];
-$word = $ARGV[1];
-$sandhi_type = $ARGV[2];
-$pid = $ARGV[3];
+$encoding = $ARGV[1];
+$word = $ARGV[2];
+$sandhi_type = $ARGV[3];
+$pid = $ARGV[4];
 
-      $word_wx=&convert($encoding,$word);
+      $word_wx=&convert($encoding,$word,$SCLINSTALLDIR);
       chomp($word_wx);
 
-system("mkdir TFPATH/seg_$pid");
 
- open(TMP,">TFPATH/seg_$pid/wordwx");
+ $dirpath = "$GlblVar::TFPATH/seg_$pid";
+ system("mkdir $dirpath");
+
+ open(TMP,">$dirpath/wordwx");
    print TMP $word_wx;
  close(TMP);
 
-system("cd TFPATH/seg_$pid/; $myPATH/SHMT/prog/sandhi_splitter/web_interface/run.sh $sandhi_type TFPATH/seg_$pid/wordwx");
+system("cd $GlblVar::TFPATH/seg_$pid/; $SCLINSTALLDIR/SHMT/prog/sandhi_splitter/web_interface/run.sh $sandhi_type $GlblVar::TFPATH/seg_$pid/ wordwx $SCLINSTALLDIR $GlblVar::LTPROCBIN");

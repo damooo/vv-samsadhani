@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -99,25 +99,32 @@ extern int yydebug;
   enum yytokentype
   {
     niRTa = 258,
-    nirUpiwa = 259,
-    concept = 260
+    vqwwi = 259,
+    nirUpiwa = 260,
+    nirUpaka = 261,
+    avacCinna = 262,
+    avacCexaka = 263,
+    aBAva = 264,
+    concept = 265
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 1 "typeidentifier.y" /* yacc.c:355  */
 
 struct node{
-char word[1000];
+char word[2000];
 char head[100];
 } padainfo;
 
-#line 120 "typeidentifier.tab.c" /* yacc.c:355  */
+#line 125 "typeidentifier.tab.c" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -137,7 +144,10 @@ int yyparse (void);
 #include <string.h>
 char type[10];
 
-#line 141 "typeidentifier.tab.c" /* yacc.c:358  */
+int yylex();
+int yyerror();
+
+#line 151 "typeidentifier.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -377,23 +387,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  8
+#define YYFINAL  9
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   16
+#define YYLAST   14
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  10
+#define YYNTOKENS  15
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  6
+#define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  9
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  18
+#define YYNSTATES  16
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   260
+#define YYMAXUTOK   265
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -403,12 +413,12 @@ union yyalloc
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       6,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+      11,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     7,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,    12,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       8,     2,     9,     2,     2,     2,     2,     2,     2,     2,
+      13,     2,    14,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -428,14 +438,14 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5
+       5,     6,     7,     8,     9,    10
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    26,    26,    29,    42,    44,    45,    46,    48,    49
+       0,    33,    33,    34,    37,    40,   164,   166,   168,   169
 };
 #endif
 
@@ -444,8 +454,9 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "niRTa", "nirUpiwa", "concept", "'\\n'",
-  "'-'", "'<'", "'>'", "$accept", "example", "compound", "Ppada", "Upada",
+  "$end", "error", "$undefined", "niRTa", "vqwwi", "nirUpiwa", "nirUpaka",
+  "avacCinna", "avacCexaka", "aBAva", "concept", "'\\n'", "'-'", "'<'",
+  "'>'", "$accept", "examples", "example", "compound", "Ppada", "Upada",
   "pada", YY_NULLPTR
 };
 #endif
@@ -455,14 +466,15 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,    10,    45,    60,    62
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+     265,    10,    45,    60,    62
 };
 # endif
 
-#define YYPACT_NINF -5
+#define YYPACT_NINF -12
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-5)))
+  (!!((Yystate) == (-12)))
 
 #define YYTABLE_NINF -1
 
@@ -473,8 +485,8 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,    -2,     7,     2,     3,    -5,    -5,    -5,    -5,    -5,
-      -3,     0,     4,    -5,     5,    -5,    -5,    -5
+     -11,    -9,     0,   -12,    -6,    -5,   -12,   -12,   -12,   -12,
+     -12,   -12,    -9,   -12,    -8,   -12
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -482,20 +494,20 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     9,     8,     4,     1,     2,
-       0,     0,     0,     3,     0,     5,     6,     7
+       0,     0,     0,     2,     0,     0,     9,     8,     6,     1,
+       3,     4,     0,     5,     0,     7
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -5,    -5,    11,    -5,    -5,     6
+     -12,   -12,     6,     2,   -12,   -12,    -3
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     6,     4,    13,     7
+      -1,     2,     3,     4,     5,    13,     8
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -503,34 +515,34 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      11,    12,     5,     5,     1,     1,     1,     8,     9,    15,
-      10,     3,     0,    16,    17,     0,    14
+       9,     6,     1,     7,     1,    11,    15,    12,    10,    14,
+       0,     0,     0,     1,     7
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     5,     5,     8,     8,     8,     0,     6,     9,
-       7,     0,    -1,     9,     9,    -1,    10
+       0,    10,    13,     1,    13,    11,    14,    12,     2,    12,
+      -1,    -1,    -1,    13,    12
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     8,    11,    12,    13,     5,    12,    15,     0,     6,
-       7,     3,     4,    14,    15,     9,     9,     9
+       0,    13,    16,    17,    18,    19,    10,    18,    21,     0,
+      17,    11,    12,    20,    21,    14
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    10,    11,    12,    13,    14,    14,    14,    15,    15
+       0,    15,    16,    16,    17,    18,    19,    20,    21,    21
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     3,     2,     2,     2,     2,     1,     1
+       0,     2,     1,     2,     2,     3,     2,     2,     1,     1
 };
 
 
@@ -1206,66 +1218,165 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
-#line 26 "typeidentifier.y" /* yacc.c:1646  */
-    { printf("%s",(yyvsp[-1].padainfo).word); }
-#line 1213 "typeidentifier.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 3:
-#line 29 "typeidentifier.y" /* yacc.c:1646  */
-    {
-                                         strcpy(type,"R");
-					 if(!strcmp((yyvsp[-2].padainfo).head,"a")) strcpy(type,"Tn");
-					 if(!strcmp((yyvsp[-2].padainfo).head,"an")) strcpy(type,"Tn");
-					 if(!strcmp((yyvsp[-2].padainfo).head,"niRTa")) strcpy(type,"K1");
-					 if(!strcmp((yyvsp[0].padainfo).head,"niRTa")) strcpy(type,"T3");
-					 if(!strcmp((yyvsp[-2].padainfo).head,"nirUpiwa")) strcpy(type,"K1");
-					 if(!strcmp((yyvsp[0].padainfo).head,"nirUpiwa")) strcpy(type,"T7");
-					 sprintf((yyval.padainfo).word,"%s-%s%s",(yyvsp[-2].padainfo).word,(yyvsp[0].padainfo).word,type);
-                                         strcpy((yyval.padainfo).head,(yyvsp[0].padainfo).head);
-                                        }
-#line 1229 "typeidentifier.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 4:
-#line 42 "typeidentifier.y" /* yacc.c:1646  */
-    {sprintf((yyval.padainfo).word,"<%s",(yyvsp[0].padainfo).word);strcpy((yyval.padainfo).head,(yyvsp[0].padainfo).head);}
-#line 1235 "typeidentifier.tab.c" /* yacc.c:1646  */
+        case 4:
+#line 37 "typeidentifier.y" /* yacc.c:1646  */
+    { printf("%s \n",(yyvsp[-1].padainfo).word); }
+#line 1225 "typeidentifier.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 44 "typeidentifier.y" /* yacc.c:1646  */
-    {sprintf((yyval.padainfo).word,"%s>",(yyvsp[-1].padainfo).word); strcpy((yyval.padainfo).head,(yyvsp[-1].padainfo).word);}
-#line 1241 "typeidentifier.tab.c" /* yacc.c:1646  */
+#line 40 "typeidentifier.y" /* yacc.c:1646  */
+    {
+                                         strcpy(type,"@R");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"niRTa")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"vqwwi")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"nirUpiwa")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"nirUpaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"avacCinna")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"avacCexaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"rahiwa")) strcpy(type,"@T6");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"eka")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"xvi")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"wri")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"cawur")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"paFca")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"Rat")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"sapwa")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"aRta")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"nava")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"xaSa")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"Sawa")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"sahasra")) strcpy(type,"@Tds");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viXa")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"Awmaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"ukwa")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"janya")) strcpy(type,"@T5");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"anukUla")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"AXAraka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"aXikaraNaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"kAryaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"kAraNaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viSeRyaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viSeRaNaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"prakAraka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"saMsargaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"saMsargika")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viRayaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viRayika")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"lakRyaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"lakRaNaka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"vqwwika")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"sAmAnyIya")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"aBAvIya")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"aXikaraNIya")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"prawiyogiwAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"anuyogiwAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"AXeyawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"AXArawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"aXikaraNawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"kAryawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"kAraNawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viSeRyawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viSeRaNawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"prakArawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"saMsargawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"saMsargiwAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viRayawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"viRayiwAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"lakRyawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"lakRaNawAka")) strcpy(type,"@K1");
+					 if(!strcmp((yyvsp[-2].padainfo).head,"vqwwiwAka")) strcpy(type,"@K1");
+					 					 
+					 
+					 
+					 
+					 if(!strcmp((yyvsp[0].padainfo).head,"niRTa")) strcpy(type,"@T7");
+					 if(!strcmp((yyvsp[0].padainfo).head,"vqwwi")) strcpy(type,"@T7");
+					 if(!strcmp((yyvsp[0].padainfo).head,"nirUpiwa")) strcpy(type,"@T3");
+					 if(!strcmp((yyvsp[0].padainfo).head,"nirUpaka")) strcpy(type,"@T6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"avacCinna")) strcpy(type,"@T3");
+					 if(!strcmp((yyvsp[0].padainfo).head,"avacCexaka")) strcpy(type,"@T6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"aBAva")) strcpy(type,"@T6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"Bexa")) strcpy(type,"@T6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"Binna")) strcpy(type,"@T5");
+					 if(!strcmp((yyvsp[0].padainfo).head,"rahiwa")) strcpy(type,"@T3");
+					 if(!strcmp((yyvsp[0].padainfo).head,"sAmAnAXikaraNyam")) strcpy(type,"@T6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"Awmaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"janya")) strcpy(type,"@T5");
+					 if(!strcmp((yyvsp[0].padainfo).head,"ukwa")) strcpy(type,"@T7");
+					 if(!strcmp((yyvsp[0].padainfo).head,"Axi")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"sambanXa")) strcpy(type,"@K4");
+					 if(!strcmp((yyvsp[0].padainfo).head,"svarUpa")) strcpy(type,"@T6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"pakRaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"sAXyaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"hewuka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"prawiyogika")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"anuyogika")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"AXeyaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"AXAraka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"aXikaraNaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"kAryaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"kAraNaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viSeRyaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viSeRaNaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"prakAraka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"saMsargaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"saMsargika")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viRayaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viRayika")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"lakRyaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"lakRaNaka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"vqwwika")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"prawiyogiwAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"anuyogiwAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"AXeyawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"AXArawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"aXikaraNawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"kAryawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"kAraNawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viSeRyawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viSeRaNawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"prakArawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"saMsargawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"saMsargiwAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viRayawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"viRayiwAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"lakRyawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"lakRaNawAka")) strcpy(type,"@Bs6");
+					 if(!strcmp((yyvsp[0].padainfo).head,"vqwwiwAka")) strcpy(type,"@Bs6");
+					 					 
+					 sprintf((yyval.padainfo).word,"%s-%s%s",(yyvsp[-2].padainfo).word,(yyvsp[0].padainfo).word,type);
+                                         strcpy((yyval.padainfo).head,(yyvsp[0].padainfo).head);
+                                        }
+#line 1352 "typeidentifier.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 45 "typeidentifier.y" /* yacc.c:1646  */
-    {sprintf((yyval.padainfo).word,"%s>",(yyvsp[-1].padainfo).word); strcpy((yyval.padainfo).head,(yyvsp[-1].padainfo).word);}
-#line 1247 "typeidentifier.tab.c" /* yacc.c:1646  */
+#line 164 "typeidentifier.y" /* yacc.c:1646  */
+    {sprintf((yyval.padainfo).word,"<%s",(yyvsp[0].padainfo).word);strcpy((yyval.padainfo).head,(yyvsp[0].padainfo).head);}
+#line 1358 "typeidentifier.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 46 "typeidentifier.y" /* yacc.c:1646  */
+#line 166 "typeidentifier.y" /* yacc.c:1646  */
     {sprintf((yyval.padainfo).word,"%s>",(yyvsp[-1].padainfo).word); strcpy((yyval.padainfo).head,(yyvsp[-1].padainfo).head);}
-#line 1253 "typeidentifier.tab.c" /* yacc.c:1646  */
+#line 1364 "typeidentifier.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 48 "typeidentifier.y" /* yacc.c:1646  */
+#line 168 "typeidentifier.y" /* yacc.c:1646  */
     { strcpy((yyval.padainfo).word,(yyvsp[0].padainfo).word);strcpy((yyval.padainfo).head,(yyvsp[0].padainfo).head);}
-#line 1259 "typeidentifier.tab.c" /* yacc.c:1646  */
+#line 1370 "typeidentifier.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 49 "typeidentifier.y" /* yacc.c:1646  */
+#line 169 "typeidentifier.y" /* yacc.c:1646  */
     { strcpy((yyval.padainfo).word,(yyvsp[0].padainfo).word);strcpy((yyval.padainfo).head,(yyvsp[0].padainfo).word);}
-#line 1265 "typeidentifier.tab.c" /* yacc.c:1646  */
+#line 1376 "typeidentifier.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1269 "typeidentifier.tab.c" /* yacc.c:1646  */
+#line 1380 "typeidentifier.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1493,7 +1604,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 52 "typeidentifier.y" /* yacc.c:1906  */
+#line 172 "typeidentifier.y" /* yacc.c:1906  */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -1503,6 +1614,7 @@ int yyerror(char *s) {
         return (0);
 }
 
-main(int argc, char *argv[]){
-yyparse();
+int main(int argc, char *argv[]){
+    yyparse();
+    return 1;
 }

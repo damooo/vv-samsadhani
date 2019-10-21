@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,6 +17,8 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-MY_PATH=$SHMT_PATH/prog/format
+SCLINSTALLDIR=$1
+
+MY_PATH=$SCLINSTALLDIR/SHMT/prog/format
 
 $MY_PATH/add_snt_mrkr.out  | $MY_PATH/gen_table.out 

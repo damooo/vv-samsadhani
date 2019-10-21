@@ -1,3 +1,6 @@
+  /* To tell compiler that we are not using unput and input features, and hence not to generate any warning */
+%option nounput 
+%option noinput
 %%
 ^[0-9]+\.[2-9]	{}
 ^[0-9]+\.1[0-9]	{}

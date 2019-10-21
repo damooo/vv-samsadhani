@@ -1,6 +1,6 @@
 %union {
 struct node{
-char word[1000];
+char word[2000];
 char head[100];
 } padainfo;
 }
@@ -10,6 +10,9 @@ char head[100];
 #include <stdio.h>
 #include <string.h>
 char type[10];
+
+int yylex();
+int yyerror();
 %}
 
 %token <padainfo> niRTa

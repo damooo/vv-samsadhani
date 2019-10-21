@@ -36,6 +36,6 @@ F	{printf("Y");}
 f	{printf("N");}
 L	{printf("x");}
 lYh	{printf("|");}
-Az	{printf("~A");}
-
+z	{printf("~");}
+Z	{printf("'");}
 %%

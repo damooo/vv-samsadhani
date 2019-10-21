@@ -23,7 +23,9 @@ int no_of_char;
 {
   int i,j;
 
-  for(i=0;word[i]!='\0';i++); i--;
+  for(i=0;word[i]!='\0';i++)
+  ; 
+  i--;
   j= i - no_of_char;
   word[j+1]='\0';
 }

@@ -1,4 +1,4 @@
-#!PERLPATH
+#!/usr/bin/env perl
 use strict;
 # Convert UTF-8 Devanagari text to ISCII Devanagari text
 

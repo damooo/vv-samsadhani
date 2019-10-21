@@ -1,47 +1,36 @@
-#!/usr/bin/perl -w
+#!/usr/bin/env perl
 
 my $cmdname = $0;
 $cmdname =~ s/^.*\///;
-my $builddir = "build";
-my $installdir = $builddir;
-if ($#ARGV >= 0) {
-    if ($ARGV[0] eq "-f") {
-        docmd("rm -rf $builddir");
-    }
-    elsif ($ARGV[0] eq "-deps") {
+$installdir = "scl";
         #docmd("sudo apt-get update");
-        docmd("sudo apt-get install -y make g++ openjdk-8-jdk apache2 graphviz flex bison")
-            || die "Error installing prerequisite packages.\n";
-        docmd("sudo apt-get install -y flex ocaml camlp4-extra lttoolbox")
-            || die "Error installing prerequisite packages.\n";
-        docmd("sudo a2enmod cgi && sudo service apache2 restart")
-            || die "Error installing Apache2 CGI support.\n";
-        docmd("sudo cpan HTML::TableExtract")
-            || die "Error installing Perl HTML::TableExtract module.\n";
-        exit(0);
-    }
+docmd("sudo apt-get install -y make g++ openjdk-8-jdk apache2 graphviz flex bison git")
+    || die "Error installing prerequisite packages.\n";
+docmd("sudo apt-get install -y flex ocaml camlp4-extra lttoolbox")
+    || die "Error installing prerequisite packages.\n";
+docmd("sudo a2enmod cgi && sudo service apache2 restart")
+    || die "Error installing Apache2 CGI support.\n";
+#docmd("sudo cpan HTML::TableExtract")
+    #|| die "Error installing Perl HTML::TableExtract module.\n";
+if (-d "Zen") {
+    docmd("(cd Zen && git pull && cd ML && make)");
+}
+else {
+    docmd("git clone https://gitlab.inria.fr/huet/Zen.git");
+    docmd("(cd Zen/ML && make)");
 }
 
-# Copy all directory contents other than "omits" into builddir
-my @omits = ($builddir, $installdir, "SPEC", $cmdname);
-foreach $f (@omits) {
-    $omits{$f} = 1;
-}
-my @contents = map { $omits{$_} ? () : ($_) } glob "*";
+$mydir = $ENV{'PWD'};
+$installdir = "$mydir/scl";
+$zendir = "$mydir/Zen";
+docmd("mkdir -p $installdir");
 
-# Convert builddir and installdir into absolute paths
-$builddir = $ENV{'PWD'} . "/$builddir" unless $builddir =~ /^\//;
-$installdir = $ENV{'PWD'} . "/$installdir" unless $installdir =~ /^\//;
-
-docmd("mkdir -p $builddir $installdir");
-
-docmd("rsync -a " . join(' ', @contents) . " $builddir/");
-unless (-f "$builddir/spec.txt") {
-    docmd("cp -a SPEC/spec_users.txt $builddir/spec.txt");
-    docmd("perl -i -p -e \"s#SCLINSTALLDIR=.*#SCLINSTALLDIR=$installdir#; s#SCLURL=.*#SCLURL=/scl#; s#CGIURL=.*#CGIURL=/cgi-bin/scl#;\" $builddir/spec.txt")
+unless (-f "spec.txt") {
+    docmd("cp -a SPEC/spec_users.txt spec.txt");
+    docmd("perl -i -p -e \"s#SCLINSTALLDIR=.*#SCLINSTALLDIR=$installdir#; s#CGIURL=.*#CGIURL=/usr/lib/cgi-bin/scl#; s#ZENDIR=.*#ZENDIR=$zendir/ML#\" spec.txt")
 }
 
-docmd("(cd $builddir && ./configure && make && sudo make install)");
+docmd("(./configure && make && sudo make install)");
 exit 0;
 
 sub docmd

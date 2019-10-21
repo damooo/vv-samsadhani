@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,10 +17,32 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-use GDBM_File;
-tie(%APTE,GDBM_File,$ARGV[0],GDBM_READER,0444) || die "Can't open $ARGV[0] for reading";
-tie(%APTENOGEN,GDBM_File,$ARGV[1],GDBM_READER,0444) || die "Can't open $ARGV[1] for reading";
-tie(%rUDa,GDBM_File,$ARGV[2],GDBM_READER,0444) || die "Can't open $ARGV[2] for reading";
+#BEGIN{require "$ARGV[0]/paths.pl";}
+
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+#tie(%APTE,GDBM_File,$ARGV[1],GDBM_READER,0444) || die "Can't open $ARGV[1] for reading";
+#tie(%APTENOGEN,GDBM_File,$ARGV[2],GDBM_READER,0444) || die "Can't open $ARGV[2] for reading";
+#tie(%rUDa,GDBM_File,$ARGV[3],GDBM_READER,0444) || die "Can't open $ARGV[3] for reading";
+
+open(TMP,$ARGV[1]) || die "Can't open $ARGV[1] for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^(.*)$/;
+$key = $1;
+$APTE{$key}=1;
+$key =~ s/_.*//;
+$APTENOGEN{$key} = 1;
+}
+close(TMP);
+
+open(TMP,$ARGV[2]) || die "Can't open $ARGV[2] for reading";
+while(<TMP>) {
+chomp;
+$rUDa{$_}=1;
+}
+close(TMP);
 
 while($in = <STDIN>){
     chomp($in);
@@ -35,7 +57,7 @@ while($in = <STDIN>){
     $ans = "";
     foreach ($i=0; $i<=$#analysis;$i++){
 
-#       if($analysis[$i] =~ /^.*\-([a-zA-Z]+)<[^\-]+/){
+#       if($analysis[$i] =~ /^.*\-([a-zA-Z]+)<[^\-]+/)
        if($analysis[$i] =~ /^\-?([a-zA-Z]+)<[^\-]+/){
           $head_wrd = $1;
 #       } elsif($analysis[$i] =~ /^([a-zA-Z]+)</){
@@ -44,6 +66,7 @@ while($in = <STDIN>){
        $analysis[$i] =~ /<lifgam:([^>]+)>/;
        $lifga = $1;
 
+       #print "ana = $analysis[$i]\n";
        #if($analysis[$i] =~ /<level:[1234]>/)
        if($analysis[$i] =~ /<level:1>/) {
 #At present we remove only those analysis at level 1, for which there is no entry in the Apte's dictionary.

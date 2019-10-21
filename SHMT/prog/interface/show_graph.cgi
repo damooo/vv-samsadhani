@@ -1,6 +1,6 @@
-#!GraphvizDot/perl -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ package main;
 use CGI qw/:standard/;
 #use CGI::Carp qw(fatalsToBrowser);
 
+require "../../../paths.pl";
       if (param) {
           $filename=param("filename");
           $sentnum=param("sentnum");
@@ -31,10 +32,9 @@ use CGI qw/:standard/;
 	  print "<div id=\"imgitems\" class=\"parsetrees\">\n<center>\n<ul id=\"trees\">\n"; 
           $filename =~ s/^..//;
           $filename =~ s/\/$//;
-          if(-e "HTDOCSDIR/SHMT/DEMO/$filename/$sentnum.dot") {
-               system("GraphvizDot/dot -Tjpg -oHTDOCSDIR/SHMT/DEMO/$filename/$sentnum.jpg HTDOCSDIR/SHMT/DEMO/$filename/$sentnum.dot");
-               #print "<img src=\"CGIURL/SHMT/software/webdot.pl/SCLURL/SHMT/DEMO/$filename/$sentnum.dot.dot.jpg\" width=\"\" height=\"\" kddalt=\"graph from public webdot server\"></li>\n";
-               print "<img src=\"SCLURL/SHMT/DEMO/$filename/$sentnum.jpg\" width=\"\" height=\"\" kddalt=\"graph showing all relations\"></li>\n";
-              }
-           print "</ul> </center> </div> </body> </html>\n";
+          if(-e "$GlblVar::HTDOCSDIR/scl/SHMT/DEMO/$filename/$sentnum.dot") {
+               system("$GlblVar::GraphvizDot -Tsvg -o$GlblVar::HTDOCSDIR/scl/SHMT/DEMO/$filename/$sentnum.svg $GlblVar::HTDOCSDIR/scl/SHMT/DEMO/$filename/$sentnum.dot");
+               print "<img src=\"/scl/SHMT/DEMO/$filename/$sentnum.svg\" width=\"\" height=\"\" kddalt=\"graph showing all relations\"></li>\n";
+          }
+          print "</ul> </center> </div> </body> </html>\n";
       }

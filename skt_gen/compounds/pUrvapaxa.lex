@@ -1,5 +1,6 @@
 %{
 #include "struct.h"
+#include "paths.h"
 
 extern char ques[LARGE];
 extern char paxa[LARGE];
@@ -27,7 +28,7 @@ saMKyAbahuvrIhyaSIwi	(ekam|xve|wrINi|wri|cawvAri|paFca|RaRTa|sapwa|aRTa|nava|xaS
 
 %%
 ^{prA}[vy][vrl]	{strncpy(paxa,yytext,yyleng-1); strcpy(sUwrastr,"लोपो व्योर्वलि 6.1.66"); BEGIN TMP;}
-<TMP>{prA}[ ]{prA}[ ]{samasaprakara}	{strcat(paxa,yytext); pUrvapaxa_cgi_interface("NULL",paxa,sUwrastr);}
+<TMP>{prA}[ ]{prA}[ ]{samasaprakara}	{strcat(paxa,yytext); pUrvapaxa_cgi_interface("NULL",paxa,p1,sUwrastr);}
 ^(mahawI|mahaw)[ ]{prA}[ ]{samasaprakara}	{pUrvapaxa_cgi_interface("NULL","mahA","","आन्महतः समानाधिकरणजातीययोः 6.3.46"); }
  /* Though the sUwra has the word mahaw, it is to be interpretated as mahaw/mahawI, and w -> A, followed by a sandhi rule a+A -> A. All these steps are compressed into one. */
 ^uRas[ ]{prA}[ ]xvanxva      { 
@@ -82,7 +83,8 @@ saMKyAbahuvrIhyaSIwi	(ekam|xve|wrINi|wri|cawvAri|paFca|RaRTa|sapwa|aRTa|nava|xaS
 
 ^saha[ ]{prA}[ ]avyayIBAvaH   {
 			         sprintf(ques,"अनेन समासेन सञ्ज्ञा गम्यते(Y/N)?");
-			         pUrvapaxa_cgi_interface(ques,"sa",p1,"सहस्य सः सञ्ज्ञायाम् 6.3.78",paxa,sUwrastr,20);
+			         pUrvapaxa_cgi_interface(ques,"sa",p1,"सहस्य सः सञ्ज्ञायाम् 6.3.78");
+/* There is something wrong in the following code. How can the control reach overe here?  */
                                  sprintf(ques,"%s इति पदं कालभिन्नवाचकम्(Y/N)?",p2_utf);
                                  pUrvapaxa_cgi_interface("NULL","sa",p1,"अव्ययीभावे च अकाले 6.3.81");
                                  pUrvapaxa_cgi_interface("NULL","saha",p1,"अव्ययीभावे च अकाले 6.3.81"); /* else */
@@ -173,7 +175,7 @@ saMKyAbahuvrIhyaSIwi	(ekam|xve|wrINi|wri|cawvAri|paFca|RaRTa|sapwa|aRTa|nava|xaS
 			     strcpy(sUwrastr,"देवता द्वन्द्वे च 6.3.26"); 
 			     pUrvapaxa_cgi_interface("NULL",paxa,p1,sUwrastr);
 			  } else
-			     pUrvapaxa_cgi_interface("NULL","","","");
+			     pUrvapaxa_cgi_interface("NULL",p1,p1,"");
 		}
 
 %%
@@ -192,8 +194,6 @@ char paxa[LARGE];
 char sUwrastr[LARGE];
 char ques[LARGE];
 
-#define myPATH "/home/pavan/scl/"
-
 void call_pUrvapaxalex(){
   char in[MEDIUM];
   strcpy(in,p1);
@@ -211,13 +211,20 @@ int pUrvapaxawrap()
 return 1;
 }
 
+/* If the condition is true, then p1 changes to pstrmod
+If the condition is false, the it is punstrmod.
+
+If the condition is NULL, then p1 changes to pstrmod, in this case punstrmod iss irrelevant, it may be set to p1unstrmod.
+*/
 void pUrvapaxa_cgi_interface(char *condition, char *pstrmod, char *pstrunmod, char *sstr){
      
     char conditionr[LARGE];
+
        if(strcmp(condition,"NULL"))
           printf("</tr><form name=\"f5\" method=\"post\" />");
-       else
-          printf("<td colspan=\"3\"><form name=\"f5\" method=\"post\" />");
+       else 
+       printf("<td colspan=\"3\"><form name=\"f5\" method=\"post\" />");
+
        printf("<input type=\"hidden\" name=\"encodingpUrva\" id=\"encodingpUrva\" value=\"%s\" />",encoding);
        printf("<input type=\"hidden\" name=\"p1pUrva\" id=\"p1pUrva\" value=\"%s\" />",p1);
        printf("<input type=\"hidden\" name=\"p2pUrva\" id=\"p2pUrva\" value=\"%s\" />",p2);
@@ -241,7 +248,7 @@ void pUrvapaxa_cgi_interface(char *condition, char *pstrmod, char *pstrunmod, ch
          printf("<input type=\"submit\" name=\"anspUrva\" value=\"Continue\" id=\"anspUrva\" onclick=\"return pUrvapaxaNullcgi()\"/>");
      if(strcmp(condition,"NULL"))
        printf("</form>");
-     else
+     else 
        printf("</form></td></tr></table>");
  }
 
@@ -251,21 +258,32 @@ char ans[VERYSMALL];
 char cmd[MEDIUM];
 char fin[MEDIUM];
 char fout[MEDIUM];
+char tmp[MEDIUM];
 int pid;
 
 pid = getpid();
 
-sprintf(fin,"TFPATH/tmp%d",pid);
-sprintf(fout,"TFPATH/result%d",pid);
+sprintf(fin,TFPATH);
+sprintf(tmp,"/tmp%d",pid);
+strcat(fin,tmp);
+sprintf(fin,TFPATH);
+sprintf(tmp,"/result%d",pid);
+strcat(fout,tmp);
 
-fp = fopen(fin,"w");
+if((fp = fopen(fin,"w"))==NULL){
+  printf("Error in opening %s for writing\n",fin);
+  exit(0);
+}
 fprintf(fp,"%s\n",str);
 fclose(fp);
 
-sprintf(cmd,"LTPROCBINDIR/lt-proc -c %s/morph_bin/skt_morf.bin < %s | grep -c 'kqw_prawyayaH:%s' > %s",myPATH,fin,kqw_str,fout);
+sprintf(cmd,"%s -c %s/morph_bin/all_morf.bin < %s | grep -c 'kqw_prawyayaH:%s' > %s",LTPROCBIN,SCLINSTALLDIR,fin,kqw_str,fout);
 system(cmd);
 
-fp = fopen(fout,"r");
+if((fp = fopen(fout,"r"))==NULL){
+  printf("Error in opening %s for reading\n",fout);
+  exit(0);
+}
 fscanf(fp,"%c",ans);
 fclose(fp);
 

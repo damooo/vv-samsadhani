@@ -1,6 +1,7 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
 
+require "../../../paths.pl";
 use CGI qw/:standard/;
 
 if(param) {
@@ -8,7 +9,7 @@ if(param) {
  
  my $cgi = new CGI;
 
-$filepath = "TFPATH/tmp_in$pid/in${pid}_table.csv";
+$filepath = "$TFPATH/tmp_in$pid/in${pid}_table.csv";
 print ("Content-Type:application/x-download\n");
 print "Content-Disposition: attachment; filename=$file\n\n";
 

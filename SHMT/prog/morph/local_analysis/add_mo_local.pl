@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,8 +18,22 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-use GDBM_File;
-tie(%MO,GDBM_File,$ARGV[0],GDBM_READER,0644) || die "Can't open mo_ana.dbm for reading";
+#BEGIN {require "$ARGV[0]/paths.pl";}
+
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+#tie(%MO,GDBM_File,$ARGV[1],GDBM_READER,0644) || die "Can't open mo_ana.dbm for reading";
+
+open(TMP,$ARGV[1]) || die "Can't open mo_ana.txt for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^([^\t]+)\t(.+)$/;
+$key = $1;
+$val = $2;
+$MO{$key}=$val;
+}
+close(TMP);
 
 while($in = <STDIN>){
  chomp($in);

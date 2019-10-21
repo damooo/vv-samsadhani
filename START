@@ -1,13 +1,21 @@
-1. Copy appropriate spec*.txt from scl/SPEC directory to scl/spec.txt.
-2. Make necessary changes in spec.txt
-3. Run the following commands
-   ./configure
-   make
-   make install
+To install Sanskrit Computational Linguistics tools
 
-Enjoy Sanskrit Computational Tools.
+a) tar -xvzf scl.tgz 
 
-Please report the errors / send feedback to ambapradeep@gmail.com
+b) cp appropriate SPEC/spec*.txt file to scl directory. Name it as spec.txt
+   Check that the paths are correct, else make necessary changes.
+
+c) ./configure
+
+d) make
+
+e) sudo make install
+
+
+All the packages are licensed under GPL. You would have received a copy of GPL license with this package.
+
+In case of any queries, please contact ambapradeep@gmail.com.
 
 -- Amba Kulkarni
-23 Jan 2013
+24th June 2019
+-------------------------------------------------------------------------------

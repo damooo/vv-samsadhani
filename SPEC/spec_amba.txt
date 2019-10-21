@@ -1,58 +1,30 @@
-VERSION=DEVELOP
-MODE=LOCAL
+#Path for ZEN Library
+ZENDIR=/home/ambaji/SKT/Heritage_Platform/Zen/ML
 
 #Path for installation of all packages.
 SCLINSTALLDIR=/home/ambaji/scl
 
 #Paths for enabling web services
-HTDOCSDIR=/var/www/html/scl
-SCLURL=http://localhost/scl
+HTDOCSDIR=/var/www/html
 
-CGIDIR=/usr/lib/cgi-bin/scl
-CGIURL=http://localhost/cgi-bin/scl
+CGIDIR=/usr/lib/cgi-bin
 
 APACHE_USER_GROUP=www-data:www-data
-
-#Department server web page
-DEPTURL=http://sanskrit.uohyd.ac.in
-
-#Path of PERL
-PERLPATH=/usr/bin/perl
 
 #Path for JAVA
 JAVAPATH=/usr/bin/javac
 
 #Path of lt-proc
-LTPROCBINDIR=/usr/bin
+LTPROCBIN=/usr/bin/lt-proc
 
 #Paths for webdot.pl
-GraphvizDot=/usr/bin
-EPSIfilter=/usr/bin/ps2epsi
-GSPATH=/usr/bin/gs
-CHKSUM=/usr/bin/cksum
+GraphvizDot=/usr/bin/dot
 
-#PATHS for gdbm library and include files
-#for libgdbm.so
-LPATH=/usr/lib
-
-#for gdbm.h
-IPATH=/usr/include
-
-#Perl Library path
-#Path of GDBM_File.pm
-LIB_PERL_PATH=/usr/lib/perl/5.18.2
-
-#Specify the minion version
-#MINION_PATH=/home/ambaji/scl/SHMT/software/minion-0.14
-
-#Heritage installation path (for offline_reader)
-HERITAGE_PATH=/home/ambaji/Heritage/SktPlatform.2.93/
-HERITAGE_CGIURL=http://localhost/cgi-bin/SKT/sktgraph
-#HERITAGE_CGIURL=http://localhost/~ambaji/Heritage/sktgraph.cgi
+#Heritage installation path (for interface)
+HERITAGE_CGIURL=/cgi-bin/SKT/sktgraph
 
 #Path for temporary files
 TFPATH=/tmp/SKT_TEMP
-TMPPATH=/tmp/
 
-#Counter
-COUNTER=statcounter.js
+#Version SERVER/STANDALONE
+VERSION=SERVER

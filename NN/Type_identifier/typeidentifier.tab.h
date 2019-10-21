@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,25 +46,32 @@ extern int yydebug;
   enum yytokentype
   {
     niRTa = 258,
-    nirUpiwa = 259,
-    concept = 260
+    vqwwi = 259,
+    nirUpiwa = 260,
+    nirUpaka = 261,
+    avacCinna = 262,
+    avacCexaka = 263,
+    aBAva = 264,
+    concept = 265
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 1 "typeidentifier.y" /* yacc.c:1909  */
 
 struct node{
-char word[1000];
+char word[2000];
 char head[100];
 } padainfo;
 
-#line 67 "typeidentifier.tab.h" /* yacc.c:1909  */
+#line 72 "typeidentifier.tab.h" /* yacc.c:1909  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

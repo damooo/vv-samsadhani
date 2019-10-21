@@ -1,4 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
+
+require "../../paths.pl";
 
 use CGI qw(:standard);
 use Date::Format;
@@ -9,10 +11,10 @@ if(param){
 	$feedback = param('feedback');
 	$module = param('module');
 }
-        if (-e "TFPATH"){
-	        die "can't open file for writting $!" unless open(TMP,">>TFPATH/feedback.txt");
-	} else { mkdir "TFPATH" or die "Error creating directory TFPATH";
-	         die "can't open file for writting $!" unless open(TMP,">>TFPATH/feedback.txt");
+        if (-e "$TFPATH"){
+	        die "can't open file for writting $!" unless open(TMP,">>$TFPATH/feedback.txt");
+	} else { mkdir "$TFPATH" or die "Error creating directory $TFPATH";
+	         die "can't open file for writting $!" unless open(TMP,">>$TFPATH/feedback.txt");
         }
 
 

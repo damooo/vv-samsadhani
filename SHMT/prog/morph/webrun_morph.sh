@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,21 +18,12 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-myPATH=SCLINSTALLDIR
-#export BIN_PATH=/home/amba/my_packages/LT_TOOLS/SKT_DATA/JULY2008/DIX/dix_and_bin
-#rm TMPPATHn TMPPATHstd TMPPATHu TMPPATHw TMPPATHukm TMPPATHl TMPPATHnon-samAsa-pada-wrds TMPPATHsamAsa-pada-wrds
+#echo `pwd = $pwd`
+source ../paths.sh
 
 word=$1
-mode=$2
 
-if [ $mode = "MODE" ]; then
-echo $word | $myPATH/SHMT/prog/morph/bin/get_std_spelling.out |\
-LTPROCBINDIR/lt-proc -c $myPATH/morph_bin/skt_morf.bin | grep . | perl -p -e 's/\//=/' | perl -p -e 's/^.*=\*.*//' | perl -p -e 's/.*=//' | perl -p -e 's/^^//' |\
-$myPATH/SHMT/prog/interface/modify_mo_for_mo_display.pl |\
-perl -p -e 's/\/\/\+/\//g' | perl -p -e 's/\/$//' | perl -p -e  's/^\///' | $myPATH/converters/ri_skt | $myPATH/converters/iscii2utf8.py 1 
-else
-echo $word | $myPATH/SHMT/prog/morph/bin/get_std_spelling.out |\
-$myPATH/SHMT/prog/morph/client_mo.sh | grep . | perl -p -e 's/\//=/' | perl -p -e 's/^.*=\*.*//' | perl -p -e 's/.*=//' | perl -p -e 's/^^//' |\
-$myPATH/SHMT/prog/interface/modify_mo_for_mo_display.pl  |\
-perl -p -e 's/\/\/\+/\//g' | perl -p -e 's/\/$//' | perl -p -e  's/^\///' | $myPATH/converters/ri_skt | $myPATH/converters/iscii2utf8.py 1
-fi
+echo $word | $SCLINSTALLDIR/SHMT/prog/Normalisation/get_std_spelling.out |\
+$LTPROCBIN -c $SCLINSTALLDIR/morph_bin/all_morf.bin | grep . | perl -p -e 's/\//=/' | perl -p -e 's/^.*=\*.*//' | perl -p -e 's/.*=//' | perl -p -e 's/^^//' > /tmp/111
+$SCLINSTALLDIR/SHMT/prog/interface/modify_mo_for_mo_display.pl $SCLINSTALLDIR < /tmp/111 |\
+perl -p -e 's/\/\/\+/\//g' | perl -p -e 's/\/$//' | perl -p -e  's/^\///' | perl -pe 's/\$//' | perl -pe 's/</{/g' | perl -pe 's/>/}/g' | perl -pe 's/:/ /g' | $SCLINSTALLDIR/converters/ri_skt | $SCLINSTALLDIR/converters/iscii2utf8.py 1 

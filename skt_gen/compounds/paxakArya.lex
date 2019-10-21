@@ -23,7 +23,7 @@ extern char samAsAnwa[MEDIUM];
 		                ruwva-> uwva-> guNa";$ans2="roZsupi (8.2.69)(prApwe) -> rUparAwri raWanwareRuruwvam vAcyam (vA 4847)-> haSi ca (6.1.114)-> Ax guNaH (6.1.87)
 		             */
 		            strcpy(sUwrastr,"न लोपः प्रातिपदिकान्तस्य 8.2.7"); }
-                         else { strcpy(paxa,yytext); strcpy(sUwrastr,""); }
+                         else { strcpy(sUwrastr,""); }
                          BEGIN 0;
 		        }
 <ppaxa>.*	{
@@ -114,7 +114,7 @@ char sUwrastr2utfr[LARGE];
   strcat(in,p2);
   call_paxalex(in);
   if(strcmp(p2,paxa)){
-     cnvrtwx2utf(p2_utf, putf);
+     cnvrtwx2utf(p2, putf);
      cnvrtwx2utf(paxa, paxautf);
      if (!strcmp(encoding,"RMN")) {
         cnvrtutfd2r(putf,putfr);

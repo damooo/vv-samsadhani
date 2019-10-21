@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2014-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2014-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -20,51 +20,52 @@
 package main;
 use CGI qw/:standard/;
 
-$myPATH="SCLINSTALLDIR";
-require "$myPATH/converters/convert.pl";
-require "$myPATH/NN/parser/style.pl";
-require "$myPATH/NN/parser/functions.pl";
+require "../../paths.pl";
+require "$GlblVar::SCLINSTALLDIR/converters/convert.pl";
+require "$GlblVar::SCLINSTALLDIR/NN/common/style.pl";
+require "$GlblVar::SCLINSTALLDIR/NN/parser/functions.pl";
 
      my $cgi = new CGI;
      print $cgi->header (-charset => 'UTF-8');
 
-     print $style_header;
-     print $title;
+     print $NN::style_header;
+     print $NN::title;
 
      if (param) {
         $text=param("text");
         $encoding=param("encoding");
         $pid = $$;
 
-        system("mkdir -p TFPATH/NN/parser");
-        $text=&convert($encoding,$text);
+        system("mkdir -p $GlblVar::TFPATH/NN/parser");
+        $text=&convert($encoding,$text,$GlblVar::SCLINSTALLDIR);
         chomp($text);
         $text = &get_canonical_form($text);
 
-        $filepath="TFPATH/NN/parser/tmp_in$pid";
+        $filepath="$GlblVar::TFPATH/NN/parser/tmp_in$pid";
         system("mkdir -p $filepath");
      
-        #system("echo $text | $myPATH/NN/parser/nneparse.out | $myPATH/converters/wx2utf8.sh > $filepath/out.txt");
-        system("echo $text | $myPATH/NN/parser/prepare_parse_table.pl | $myPATH/converters/wx2utf8.sh > $filepath/out.txt");
+        #system("echo $text | $GlblVar::SCLINSTALLDIR/NN/parser/nneparse.out | $GlblVar::SCLINSTALLDIR/converters/wx2utf8.sh > $filepath/out.txt");
+        system("echo $text | $GlblVar::SCLINSTALLDIR/NN/parser/prepare_parse_table.pl | $GlblVar::SCLINSTALLDIR/converters/ri_skt | $GlblVar::SCLINSTALLDIR/converters/iscii2utf8.py 1 > $filepath/out.txt");
 
    	print "<center>";
-	print $instructions;
+	print $NN::instructions;
 	print "</center>";
 
         print "<center><div id=\"tables\"><table><tr><td>\n";
         $rel = "";
         $filename = $filepath."/out.txt";
         ($more_choices,$rel) = split(/#/,&print_table($rel,$pid,$filename));
-        print "</td></tr></table></center>\n";
+        print "</td></tr></table></div></center>\n";
 
         if(!$more_choices){
            $ans = &get_parsed_string($rel,$filename);
-           system("cd $filepath; $myPATH/NN/parser/mk_tree.out < in > in.tex; xelatex in.tex > /dev/null;");
-           &tail($ans,"tmp_in$pid/in.pdf");
+           #system("cd $filepath; $GlblVar::SCLINSTALLDIR/NN/parser/mk_tree.out < in > in.tex; xelatex in.tex > /dev/null;");
+           #&tail($ans,"tmp_in$pid/in.pdf");
+           &NN::tail($ans);
           } else { print "<div id=\"navigation\"></div>";}
         }
       print "<br />";
-      print $contribution;
+      print $NN::style_tail;
 
 sub get_canonical_form{
 my ($text) = @_;
@@ -106,10 +107,10 @@ my ($text) = @_;
    $text =~ s/\-sambanXa\-/sambanXa-/g;
    $text =~ s/\-a\-/-a/g;
    $text =~ s/\-an\-/-an/g;
-   $text =~ s/wvam$/-^wvam/g;
-   $text =~ s/wva\-/-^wva-/g;
-   $text =~ s/wA\-/-^wA-/g;
-   $text =~ s/wA$/-^wA/g;
+   #$text =~ s/wvam$/-^wvam/g;
+   #$text =~ s/wva\-/-^wva-/g;
+   #$text =~ s/wA\-/-^wA-/g;
+   #$text =~ s/wA$/-^wA/g;
    $text =~ s/I-BUwa\-/IBUwa-/g;
    $text =~ s/I-kqwa\-/Ikqwa-/g;
    $text =~ s/(i|I)\-Axi/yAxi/g;

@@ -9,6 +9,7 @@ ewax,swrI,yaha
 ixam,napuM,yaha
 kiFciw,puM,koI^#kuCa
 kiFciw,napuM,kuCa
+kiFciw,swrI,koI
 kiFcana,puM,koI
 kiFcana,napuM,koI
 ixam,puM,yaha

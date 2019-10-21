@@ -1,4 +1,6 @@
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#!/bin/bash
+
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -16,8 +18,9 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
+source ../paths.sh
 
-conv_path=SCLINSTALLDIR/converters
+conv_path=$SCLINSTALLDIR/converters
 $conv_path/itrans_ra.out |\
 $conv_path/rm__between_vowels.out |\
 $conv_path/ri

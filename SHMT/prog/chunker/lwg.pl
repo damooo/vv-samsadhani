@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ We do the grouping in the following two cases:
 
 a)verb with lat lakaara followed by 'sma'.
 
-b) verb in Sawq foillowed by any form of 'as'.
+b) verb in Sawq followed by any form of 'as'.
 
 =head1 EXAMPLES
 
@@ -55,21 +55,24 @@ while($in = <STDIN>){
     @in = split(/\n/,$in);
   
     $i = 0;
-    while($i <= $#in) {
+    while($i < $#in) {
        @f = split(/\t/,$in[$i]);
        $last[$i] = $f[11];
        @s = split(/\t/,$in[$i+1]);
        $last[$i+1] = $s[11];
+#Join two words where first word has lat lakaara, and the second word is `sma'
+#or the first word is a kqw with the next word as any form oof `as'.
        if(($f[11] =~ /<lakAraH:lat>/) &&
-          ($s[11] =~ /^sma<word:sma><vargaH:avy><level:1>/)) {
+          ($s[11] =~ /<word:sma><rt:sma><vargaH:avy><level:1>/)) {
            if ($s[11] =~ /<rel_nm:([^>]+)><relata_pos:([^>]+)>/){
                $rel_nm = $1;
                $relata_pos = $2;
                $last[$i] =~ s/<lakAraH:lat>/<lakAraH:lat_sma>/;
+               $last[$i+1] = "-";
            }
        }
        elsif(($f[11] =~ /<kqw_prawyayaH:Sawq_lat>/) &&
-          ($s[11] =~ /^as[123].*<lakAraH:(l[auiq][tf]|ASIrlif)>/)) {
+          ($s[11] =~ /<rt:as[123]>.*<lakAraH:(l[auiq][tf]|ASIrlif)>/)) {
           $f[11] =~ s/<kqw_prawyayaH:Sawq_lat>/<kqw_prawyayaH:Sawq_lat_$1>/;
            if($s[11] =~ /<rel_nm:([^>]+)><relata_pos:([^>]+)>/){
               $rel_nm = $1;
@@ -77,6 +80,7 @@ while($in = <STDIN>){
               $last[$i+1] = "-";
            }
        }
+# All the relatas that were pointing towards `sma', now poit them towards the previous verbal form.
        if($last[$i+1] eq "-") {
          $j=0;
          $pos1 = $i+1; #Pos is counted from 1
@@ -89,6 +93,8 @@ while($in = <STDIN>){
        }
        $i++;
     }
+
+# Print the output.
     $i = 0;
     while($i <= $#in) {
        if($in[$i] !~ /^$/) {
@@ -96,5 +102,6 @@ while($in = <STDIN>){
          $i++;
        } else { print $in[$i],"\n";}
     }
+
     print "\n";
 }

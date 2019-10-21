@@ -1,21 +1,24 @@
-type sup = ( int * int * string * string * string * string * int  * string * int )
+type sup = ( int * int * string * string * string * string *string * int  * string * int )
 (*{ id : int
   ; mid : int
   ; word : string
   ; rt : string
-  ; compound_hd : string
+  ; pUrvapaxa : string
+  ; uwwarapaxa : string
   ; lifgam : string
   ; viBakwiH : int 
   ; vacanam : string
   ; level : int
   } *)
-and wif = ( int * int * string * string * string * string * string * string * string * string * string * string * string * int )
+and wif = ( int * int * string * string * string * string * string *string * string * string * string * string * string * string * string * int )
 (*{ id : int  
   ; mid : int   
   ; word : string   
   ; rt : string   
-  ; compound_hd : string
-  ; sanAxiH : string
+  ; pUrvapaxa : string
+  ; uwwarapaxa : string
+  ; upasarga : string
+  ; sanAxi_prawyayaH : string
   ; prayogaH : string   
   ; lakAraH : string   
   ; puruRaH : string   
@@ -25,46 +28,53 @@ and wif = ( int * int * string * string * string * string * string * string * st
   ; gaNaH : string   
   ; level : int
   }*)
-and kqw = ( int * int * string * string * string * string * string * string * string * string * string * int * string * int )
+and kqw = ( int * int * string * string * string * string *string *string * string * string * string * string * string * string * int * string * int )
 (*{ id : int   
   ; mid : int   
   ; word : string   
   ; kqw_vb_rt : string   
-  ; sanAxiH : string   
-  ; kqw_prawyayaH : string   
+  ; upasarga : string
+  ; sanAxi_prawyayaH : string   
+  ; kqw_prawyayaH : string 
+  ; prayogaH : string 
   ; dhatu : string   
   ; gaNaH : string
   ; rt : string   
-  ; compound_hd : string
+  ; pUrvapaxa : string
+  ; uwwarapaxa : string
   ; lifgam : string   
   ; viBakwiH : int   
   ; vacanam : string   
   ; level : int
  }*)
-and avy = ( int * int * string * string * string * int )
+and avy = ( int * int * string * string * string *string * int )
 (*{ id : int   
   ; mid : int   
   ; word : string
   ; rt : string   
-  ; compound_hd : string
+  ; pUrvapaxa : string
+  ; uwwarapaxa : string
   ; level : int
   }*)
-and avywaxXiwa = ( int * int * string * string * string * string  * int )
+and avywaxXiwa = ( int * int * string * string * string *string * string  * int )
 (*{ id : int   
   ; mid : int   
   ; word : string   
   ; rt : string   
-  ; compound_hd : string
+  ; pUrvapaxa : string
+  ; uwwarapaxa : string
   ; waxXiwa_prawyayaH : string
   ; level : int
   }*)
-and avykqw = ( int * int * string * string * string * string * string * string * string * int )
+and avykqw = ( int * int * string * string * string *string * string * string * string * string * string * int )
 (*{ id : int   
   ; mid : int   
   ; word : string   
   ; rt : string   
-  ; compound_hd : string
-  ; sanAxiH : string
+  ; pUrvapaxa : string
+  ; uwwarapaxa : string
+  ; upasarga : string
+  ; sanAxi_prawyayaH : string
   ; kqw_prawyayaH : string   
   ; dhatu : string
   ; gaNaH : string   
@@ -75,8 +85,8 @@ and waxXiwa = ( int * int * string * string * string * string * string * string 
   ; mid : int   
   ; word : string   
   ; rt : string   
-  ; compound_hd : string
-  ; waxXiwa_rt : string   
+  ; pUrvapaxa : string
+  ; uwwarapaxa : string
   ; waxXiwa_prawyayaH : string   
   ; lifgam : string   
   ; viBakwiH : int   

@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -19,11 +19,11 @@
 
 
 
-while($in1 = <STDIN>){
+$in1 = <STDIN>;
  chomp($in1);
  ($ana1,$wt1) = split(/\t/,$in1);
 # print "in1 = $in1\n";
- if($in2 = <STDIN>){
+ while($in2 = <STDIN>){
     chomp($in2);
 # print "in2 = $in1\n";
     ($ana2,$wt2) = split(/\t/,$in2);
@@ -31,5 +31,6 @@ while($in1 = <STDIN>){
     elsif($wt1 == 0){ print $in2,"\n";}
     elsif($wt1 < $wt2) { print $in2,"\n";}
     elsif($wt2 < $wt1) { print $in1,"\n";}
- } else { print "Error in data \n";}
+    $in1 = $in2;
+    $wt1 = $wt2;
 }

@@ -9,7 +9,7 @@ function callmorphanalyser(){
                }
                else{
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/morph/morph.cgi",{"morfword":$("#morphword").val(),"encoding":$("#encoding").val()},function(data){
+               		$.post("/cgi-bin/scl/morph/morph.cgi",{"morfword":$("#morphword").val(),"encoding":$("#encoding").val()},function(data){
                		
                			$("#output").html(data);
                		});
@@ -31,7 +31,7 @@ if($("#text").val()==""){
                }
                else{
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/sandhi/sandhi.cgi",{"text":$("#text").val(),"text1":$("#text1").val(),"encoding":$("#encoding").val()},function(data){
+               		$.post("/cgi-bin/scl/sandhi/sandhi.cgi",{"text":$("#text").val(),"text1":$("#text1").val(),"encoding":$("#encoding").val()},function(data){
                		
                			$("#output").html(data);
                		});
@@ -51,7 +51,7 @@ if($("#word").val()==""){
                }
                else{
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/sandhi_splitter/sandhi_splitter.cgi",{"word":$("#word").val(),"sandhi_type":$("#sandhi_type").val(),"encoding":$("#encoding").val()},function(data){
+               		$.post("/cgi-bin/scl/sandhi_splitter/sandhi_splitter.cgi",{"word":$("#word").val(),"sandhi_type":$("#sandhi_type").val(),"encoding":$("#encoding").val()},function(data){
                		
                			$("#output").html(data);
                		});
@@ -72,13 +72,7 @@ if($("#rt").val()==""){
                else{
 			
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/skt_gen/noun/noun_gen.cgi",
-				{"rt":$("#rt").val(),
-				 "gen":$("#gen-opt").val(),
-				 "encoding":$("#encoding").val(),
-				 "genencoding":$("#genencoding").val(),
-				 "level":$("#level").val()
-			        },function(data){
+               		$.post("/cgi-bin/scl/skt_gen/noun/noun_gen.cgi",{"rt":$("#rt").val(),"jAwi":$("#jAwi-opt").val(),"gen":$("#gen-opt").val(),"encoding":$("#encoding").val(),"level":$("#level").val()},function(data){
                		
                			$("#output").html(data);
                		});
@@ -95,7 +89,7 @@ if($("#vb").val()==""){
                else{
               
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/skt_gen/verb/verb_gen.cgi",{"vb":$("#select").val(),"prayoga":$("#prayoga").val(),"encoding":$("#encoding").val()},function(data){
+               		$.post("/cgi-bin/scl/skt_gen/verb/verb_gen.cgi",{"vb":$("#select").val(),"prayoga-paxI":$("#prayoga-paxI").val(),"upasarga":$("#upasarga").val(),"encoding":$("#encoding").val()},function(data){
                		
                			$("#output").html(data);
                		});
@@ -112,7 +106,7 @@ if($("#vb").val()==""){
                else{
               
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/skt_gen/kqw/kqw_gen.cgi",{"vb":$("#select").val(),"encoding":$("#encoding").val()},function(data){
+               		$.post("/cgi-bin/scl/skt_gen/kqw/kqw_gen.cgi",{"vb":$("#select").val(),"upasarga":$("#upasarga").val(),"encoding":$("#encoding").val()},function(data){
                		
                			$("#output").html(data);
                		});
@@ -133,7 +127,7 @@ if($("#rt").val()==""){
                else{
 
                		$("#output").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/skt_gen/waxXiwa/waxXiwa_gen.cgi",{"rt":$("#rt").val(),"encoding":$("#encoding").val()},function(data){
+               		$.post("/cgi-bin/scl/skt_gen/waxXiwa/waxXiwa_gen.cgi",{"rt":$("#rt").val(),"encoding":$("#encoding").val()},function(data){
                		
                			$("#output").html(data);
                		});
@@ -153,7 +147,7 @@ function callashtadhyayisimulator(){
                }
                else{
                		$("#asht").html("कृपया प्रतीक्ष्यताम्....");
-               		$.post("CGIURL/ashtadhyayi_simulator/simulation.cgi",{"praatipadika":$("#rt").val(),"vibhakti":$("#case").val(),"linga":$("#gender").val(),"vacana":$("#number").val(),"encoding":$("#encoding").val()},function(data){
+               		$.post("/cgi-bin/scl/ashtadhyayi_simulator/simulation.cgi",{"praatipadika":$("#rt").val(),"vibhakti":$("#case").val(),"linga":$("#gender").val(),"vacana":$("#number").val(),"encoding":$("#encoding").val()},function(data){
                			$("#asht").html(data);
                		});
                	return false;
@@ -166,13 +160,13 @@ function callashtadhyayisimulator(){
         var inputlang = encoding;
         var data = word;
         var stat = 0;
-	var reguni=/[अआइईउऊऋॠऌएऐओऔअंअःकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह ्ािीुूृॄॢेैोौंः]/;
-	var reg=/[aAiIuUqQlLeEoOMHzkKgGfcCjJFtTdDNwWxXnpPbBmyrlvSRsh]/;
-	var regitrans=/[aiuURiLIeoMH.Nkgh~NcChj~nThDtdpbmyrlvwGYsSA^]/;
-	var regslp=/[aAiIuUfFlxeEoOMHkKgGNcCqQjJwWQRtTdDnpPbBmyrlvSzsh]/;
-	var regvel=/[aiurleomhkgncjtdpbyszv \~\"\?\-\_\.\,\!]/;
-	var regrom=/[aÃ„ÂiÃ„Â«uÃ…Â«Ã¡Â¹â€º?leoÃ¡Â¹Æ’Ã¡Â¸Â¥khgÃ¡Â¹â€¦cjÃƒÂ±Ã¡Â¹Â­Ã¡Â¸ÂÃ¡Â¹â€¡tdnpbmyrlvÃ…â€ºÃ¡Â¹Â£s]/;
-	var regkh=/[aAiIuUlReaoMHkghGcjJTDNtdnpbmyrlvzSs]/;
+	var reguni=/[अआइईउऊऋॠऌएऐओऔअंअःकखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसह ्ािीुूृॄॢेैोौंः\-]/;
+	var reg=/[aAiIuUqQlLeEoOMHzkKgGfcCjJFtTdDNwWxXnpPbBmyrlvSRsh\-]/;
+	var regitrans=/[aiuURiLIeoMH.Nkgh~NcChj~nThDtdpbmyrlvwGYsSA\^\-]/;
+	var regslp=/[aAiIuUfFlxeEoOMHkKgGNcCqQjJwWQRtTdDnpPbBmyrlvSzsh\-]/;
+	var regvel=/[aiurleomhkgncjtdpbyszv \~\"\?\-\_\.\,\!\-]/;
+	var regrom=/[aÃ„ÂiÃ„Â«uÃ…Â«Ã¡Â¹â€º?leoÃ¡Â¹Æ’Ã¡Â¸Â¥khgÃ¡Â¹â€¦cjÃƒÂ±Ã¡Â¹Â­Ã¡Â¸ÂÃ¡Â¹â€¡tdnpbmyrlvÃ…â€ºÃ¡Â¹Â£s\-]/;
+	var regkh=/[aAiIuUlReaoMHkghGcjJTDNtdnpbmyrlvzSs\-]/;
 	     	
 	
 		if(inputlang=="Unicode"){
@@ -276,17 +270,17 @@ function SandhiClear(){
 }
 
 //function generate_noun_forms(encod,prAwi,lifga){
-//  window.open('CGIURL/skt_gen/noun/noun_gen.cgi?encoding='+encod+'&rt='+prAwi+'&gen='+lifga+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
+//  window.open('http://localhost/cgi-bin/scl/skt_gen/noun/noun_gen.cgi?encoding='+encod+'&rt='+prAwi+'&gen='+lifga+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
 //}
 
 //function generate_kqw_forms(encod,vb){
-//  window.open('CGIURL/skt_gen/kqw/kqw_gen.cgi?encoding='+encod+'&vb='+vb+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
+//  window.open('http://localhost/cgi-bin/scl/skt_gen/kqw/kqw_gen.cgi?encoding='+encod+'&vb='+vb+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
 //}
 
 //function generate_waxXiwa_forms(encod,rt,gen){
-//  window.open('CGIURL/skt_gen/waxXiwa/waxXiwa_gen.cgi?encoding='+encod+'&rt='+rt+'&gen='+gen+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
+//  window.open('http://localhost/cgi-bin/scl/skt_gen/waxXiwa/waxXiwa_gen.cgi?encoding='+encod+'&rt='+rt+'&gen='+gen+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
 //}
 
 function show_prakriyA(encod,prAwi,viBakwi,lifga,vacana){
-window.open('CGIURL/ashtadhyayi_simulator/simulation.cgi?encoding='+encod+'&praatipadika='+prAwi+'&vibhakti='+viBakwi+'&linga='+lifga+'&vacana='+vacana+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes',"dhellw").focus();
+window.open('/cgi-bin/scl/ashtadhyayi_simulator/simulation.cgi?encoding='+encod+'&praatipadika='+prAwi+'&vibhakti='+viBakwi+'&linga='+lifga+'&vacana='+vacana+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes',"dhellw").focus();
 }

@@ -1,13 +1,56 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-my $myPATH="SCLINSTALLDIR";
-use GDBM_File;
-tie(%LEX1,GDBM_File,"$myPATH/NN/segmenter/S1.dbm",GDBM_READER,0644) || die "can't open S1.dbm ";
-tie(%LEX2,GDBM_File,"$myPATH/NN/segmenter/S2.dbm",GDBM_READER,0644) || die "can't open S2.dbm ";
-tie(%LEX3,GDBM_File,"$myPATH/NN/segmenter/S3.dbm",GDBM_READER,0644) || die "can't open S3.dbm ";
-tie(%LEX4,GDBM_File,"$myPATH/NN/segmenter/S4.dbm",GDBM_READER,0644) || die "can't open S4.dbm ";
+BEGIN {require "../../paths.pl";}
 
-require "$myPATH/NN/segmenter/nyAya_words.pl";
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+#tie(%LEX1,GDBM_File,"$GlblVar::SCLINSTALLDIR/NN/segmenter/S1.dbm",GDBM_READER,0644) || die "can't open S1.dbm ";
+#tie(%LEX2,GDBM_File,"$GlblVar::SCLINSTALLDIR/NN/segmenter/S2.dbm",GDBM_READER,0644) || die "can't open S2.dbm ";
+#tie(%LEX3,GDBM_File,"$GlblVar::SCLINSTALLDIR/NN/segmenter/S3.dbm",GDBM_READER,0644) || die "can't open S3.dbm ";
+#tie(%LEX4,GDBM_File,"$GlblVar::SCLINSTALLDIR/NN/segmenter/S4.dbm",GDBM_READER,0644) || die "can't open S4.dbm ";
+#
+
+open(TMP,"<$GlblVar::SCLINSTALLDIR/NN/segmenter/samAsa_rules_sorted.txt") || die "Can't open samAsa_rules_sorted.txt for reading";
+
+@_ = <TMP>;
+$samAsa_freq = 0;
+$sandhi_freq = 0;
+foreach $_ (@_) {
+   $_ =~ /^([^	]+)	([^+]+)\+([^	]+)	(.*)$/;
+   $freq = $4;
+   if($_ =~ /\-/) {
+      $samAsa_freq += $freq; 
+   } else {
+      $sandhi_freq += $freq; 
+   }
+}
+
+foreach $_ (@_) {
+   $_ =~ /^([^	]+)	([^+]+)\+([^	]+)	(.*)$/;
+   $out = $1;
+   $in1 = $2;
+   $in2 = $3;
+   $frq = $4;
+
+   $rule = $out."=".$in1."+".$in2;
+   #print $out, $in1, $in2, $frq,"\n";
+   $len = length($out);
+   $RULE  = "LEX".$len;
+
+   if($in1 =~ /\-/) { 
+      $freq = int($frq * 1000000/$samAsa_freq);
+   } else { 
+      $freq = int($frq * 1000000/$sandhi_freq);
+   }
+   if(${$RULE}{$out}) { 
+      ${$RULE}{$out} .= "#". $in1.",".$in2.",".$rule.",".$freq;
+   } else {
+      ${$RULE}{$out} = $in1.",".$in2.",".$rule.",".$freq;
+   }
+}
+
+require "$GlblVar::SCLINSTALLDIR/NN/segmenter/nyAya_words.pl";
 
 $Max_Word_Size=25;
 #$debug = 1;
@@ -26,9 +69,9 @@ foreach $a (@ans) {
  print $a,"\n";
  $ans_found++;
 }
-if(!$ans_found) { print "No answer found \n";}
-elsif($ans_found == 1) { print "One answer found \n";}
-else { print "$ans_found answers found\n";}
+if(!$ans_found) { print "\@No \@answer \@found \n";}
+#elsif($ans_found == 1) { print "One answer found \n";}
+#else { print "$ans_found answers found\n";}
 }
 
 sub split_recursive_sandhi{
@@ -151,9 +194,12 @@ $final_ans."#".$found;
 sub get_morph_ana{
  my($word1) = @_;
  my($ans);
- system("$myPATH/NN/segmenter/client_splitter.sh $word1 | grep . | grep -v '\*'> TFPATH/tt");
- if(-s "TFPATH/tt") { $ans = 1;} else { $ans = 0;}
- system("rm TFPATH/tt");
+# system("$myPATH/NN/segmenter/client_splitter.sh $word1 | grep . | grep -v '\*'> /tmp/SKT_TEMP/tt");
+# if(-s "/tmp/SKT_TEMP/tt") { $ans = 1;} else { $ans = 0;}
+# print "ans1 = $ans\n"; 
+# system("cat /tmp/SKT_TEMP/tt");
+ $ans = `$GlblVar::SCLINSTALLDIR/NN/segmenter/client_splitter.sh $word1 | grep . | grep -v '\*'| wc -l`;
+ if ($ans == 0) { $ans = $?;}
 return $ans;
 }
 1;

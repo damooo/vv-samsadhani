@@ -1,6 +1,7 @@
-#!PERLPATH -w
+#!/usr/bin/env perl
 
 use strict;
+use warnings;
 
 my $path = $ARGV[0];
 my $lastcount = $ARGV[1];

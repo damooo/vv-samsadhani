@@ -1,4 +1,4 @@
-#!GraphvizDot/perl -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
 #  Copyright (C) 2013-2016 Amba Kulkarni (ambapradeep@gmail.com)
 #
@@ -21,10 +21,11 @@ package main;
 use CGI qw/:standard/;
 #use CGI::Carp qw(fatalsToBrowser);
 
-my $tmp_path="TFPATH/NN/CG";
-my $converters_path="SCLINSTALLDIR/converters";
-my $NNCG_path="SCLINSTALLDIR/NN/CG";
-my $CG_htdocspath="SCLURL/NN/CG";
+require "../../paths.pl";
+my $tmp_path="$GlblVar::TFPATH/NN/CG";
+my $converters_path="$GlblVar::SCLINSTALLDIR/converters";
+my $NNCG_path="$GlblVar::SCLINSTALLDIR/NN/CG";
+my $CG_htdocspath="/scl/NN/CG";
 
       my $cgi = new CGI;
       print $cgi->header (-charset => 'UTF-8');
@@ -35,11 +36,11 @@ my $CG_htdocspath="SCLURL/NN/CG";
 #      print "</center><br>";
 
       if (param) {
-       $nne=param("nne");
-       $pid = $$;
+       my $nne=param("nne");
+       my $pid = $$;
        system("mkdir -p $tmp_path/tmp_in$pid");
 
-      system("echo $nne | $converters_path/utf82wx.sh | $NNCG_path/nne2diagram.out | $converters_path/wx2utf8.sh | GraphvizDot/dot -Tjpg > $tmp_path/tmp_in$pid/a.jpg");
+      system("echo $nne | $converters_path/utf82iscii.pl | $converters_path/ir_skt | $NNCG_path/nne2diagram.out | $converters_path/ri_skt | $converters_path/iscii2utf8.py 1 | $GlblVar::GraphvizDot -Tjpg > $tmp_path/tmp_in$pid/a.jpg");
       $nne =~ s/</\&lt;/g;
       $nne =~ s/>/\&gt;/g;
       print "<center><br>";

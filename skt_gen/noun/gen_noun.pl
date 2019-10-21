@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl 
 
-#  Copyright (C) 2010-2014 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,7 +17,13 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-my $myPATH = "SCLINSTALLDIR";
+
+BEGIN{require "../../paths.pl";}
+
+use lib $GlblVar::LIB_PERL_PATH;
+
+$myPATH=$GlblVar::SCLINSTALLDIR;
+
 require "$myPATH/converters/convert.pl";
 require "$myPATH/skt_gen/noun/sarvanAma.pl";
 require "$myPATH/skt_gen/noun/saMKyeya.pl";
@@ -25,54 +31,59 @@ require "$myPATH/skt_gen/noun/saMKyA.pl";
 require "$myPATH/skt_gen/noun/pUraNa.pl";
 
 
-package main;
-use CGI qw/:standard/;
+#package main;
+#use CGI qw/:standard/;
 #use CGI::Carp qw(fatalsToBrowser);
 
- $rt = $ARGV[0];
- $lifga = $ARGV[1];
- $rtencoding = $ARGV[2];
- $genencoding = $ARGV[3];
- $level = $ARGV[4];
- $mode = $ARGV[5];
- $format = $ARGV[6];
+@vacanam = ("eka","xvi","bahu");
 
-if($mode eq "MODE") { #Better name Non-Daemon
- $generator = "LTPROCBINDIR/lt-proc -ct $myPATH/morph_bin/skt_gen.bin";
-} elsif($mode eq "SERVER") { #Better name Daemon
- $generator = "$myPATH/skt_gen/client_gen.sh";
-}
+ my $rt = $ARGV[0];
+ my $lifga = $ARGV[1];
+ my $lcat = $ARGV[2];
+ my $encoding = $ARGV[3];
+ my $genencoding = $ARGV[4];
+ my $level = $ARGV[5];
+ my $format = $ARGV[6];
 
+ #$generator = "/usr/bin/lt-proc -ct $myPATH/morph_bin/all_gen.bin";
+ $generator = "$GlblVar::LTPROCBIN -ct $myPATH/morph_bin/sup_gen.bin";
 
- $rt_wx=&convert($rtencoding,$rt);
- $lifga_wx=&convert($genencoding,$lifga);
+ $rt_wx=&convert($encoding,$rt,$myPATH);
+ $lifga_wx=&convert($genencoding,$lifga,$myPATH);
  chomp($rt_wx);
  chomp($lifga_wx);
- $lcat = &get_cat($rt_wx);
+ if(!&check_cat($rt_wx,$lcat)) {
+      print "<center> <b>Please check your input. </b></center>";
+ } else {
 
- if(($rt_wx eq "asmax") || ($rt_wx eq "yuRmax")) { $lifga_wx = "a"; $lcat = "sarva";}
+ if(($rt_wx eq "asmax") || ($rt_wx eq "yuRmax")) { $lifga_wx = "a";}# $lcat = "sarva";}
+
+ if($rt_wx =~ /^(.*-)([^\-]+)/) { $pUrvapaxa = $1; $rt_wx = $2;}
+ else { $pUrvapaxa = "''";}
 
  $LTPROC_IN = "";
  for($vib=1;$vib<9;$vib++){
-    for($num=1;$num<4;$num++){
-        $str = "$rt_wx<vargaH:$lcat><lifgam:$lifga_wx><viBakwiH:$vib><vacanam:$num><level:$level>"; 
+    for($num=0;$num<3;$num++){
+        $vacanam = $vacanam[$num];
+        $str = "$rt_wx<vargaH:$lcat><lifgam:$lifga_wx><viBakwiH:$vib><vacanam:$vacanam><level:$level>"; 
         $LTPROC_IN .=  $str."\n";
     } # number
  } #vib
  chomp($LTPROC_IN); # To chomp the last \n, else it produces an extra blank line in the o/p of lt-proc
 
- $formatter = "$myPATH/skt_gen/noun/noun_format_html.pl";
-
- $str = "echo '".$LTPROC_IN."' | $generator | grep . | pr --columns=3 --across --omit-header | $myPATH/converters/ri_skt | $myPATH/converters/iscii2utf8.py 1 | $formatter $rt_wx $lifga_wx $format";
+ $str = "echo '".$LTPROC_IN."' | $generator | grep . | pr --columns=3 --across --omit-header --width=150 | $myPATH/converters/ri_skt | $myPATH/converters/iscii2utf8.py 1 | $myPATH/skt_gen/noun/noun_format_html.pl $pUrvapaxa $rt_wx $lifga_wx $format";
  system($str);
+}
 
-sub get_cat{
- my($rt) = @_;
- $lcat = "nA";
- if($sarvanAma{$rt}) { $lcat = "sarva";}
- elsif($saMKyeya{$rt}) { $lcat = "saMKyeyam";}
- elsif($saMKyA{$rt}) { $lcat = "saMKyA";}
- elsif($pUraNa{$rt}) { $lcat = "pUraNa";}
- $lcat;
+sub check_cat{
+ my($rt,$cat) = @_;
+ my($ans);
+ if(($cat eq "nA")) { $ans = 1;}
+ elsif(($cat eq "sarva") && $sarvanAma{$rt} ) { $ans = 1;}
+ elsif(($cat eq "saMKyeyam") && $saMKyeya{$rt} ) { $ans = 1;}
+ elsif(($cat eq "saMKyA") && $saMKyA{$rt} ) { $ans = 1;}
+ elsif(($cat eq "pUraNam") && $pUraNa{$rt} ) { $ans = 1;}
+ else {$ans = 0;}
+$ans;
 }
 1;

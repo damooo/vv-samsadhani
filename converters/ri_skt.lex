@@ -25,6 +25,7 @@
     AMBA: 15th July 2015 */
  char map[]="01234567890123456789012345678901234567890123456789012345678901234ÚË¹Àâ¼¶£Ü»´L¢ÁæÉQÖÕ¾ÞVÃÅYé      ¤Ê¸¿á·µØÛº³ÑÌÆåÈßÏ×½ÝÔÂÄÍ¡ ";
  char tmp;
+ char tmp1;
 NUKTA Z
 OPERATOR_V V
 OPERATOR_Y Y
@@ -40,49 +41,71 @@ ROM_WORD [A-Za-z0-9]+
 %x CONS 
 %%
 \\\|					{
-					printf("ðµ");
+					tmp='ð';
+					tmp1='µ';
+					printf("%c%c",tmp,tmp1);
 					}
 \\_					{
-					printf("ð¸");
+					tmp='ð';
+					tmp1='¸';
+					printf("%c%c",tmp,tmp1);
 					}
 @{ROM_WORD}				{printf("%s",yytext+1);}
 @\.					{printf("%s",yytext+1);}
 
 {CONSONANT}				{
-					printf("%c",map[(int)yytext[0] ]);BEGIN CONS;
+					printf("%c",map[(int)yytext[0] ]);
+                                        BEGIN CONS;
 					}
 
 z{NUKTA}				{
-					printf("¡é");
+                                        tmp='¡';
+                                        tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					}
 \.					{
-					printf("ê");
+					tmp ='ê';
+					printf("%c",tmp);
 					}
 \.{NUKTA}				{
-					printf("êé");
+					tmp ='ê';
+                                        tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					}
 {NUKTA}					{
-					printf("êé");
+					tmp ='ê';
+                                        tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					}
 <CONS>I{NUKTA}				{
-					printf("Üé");
+					tmp='Ü';
+					tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					BEGIN INITIAL;
 					}
 
 <CONS>{NUKTA}				{
-					printf("èêé");
+					tmp='è';
+					tmp1='ê';
+					printf("%c%c",tmp,tmp1);
+					tmp='é';
+					printf("%c",tmp);
 					BEGIN INITIAL;
 					}
 
 <CONS>{VOWEL_A}				{BEGIN INITIAL;}
 
 <CONS>{VOWEL_Q}				{
-					printf("ßé");
+					tmp='ß';
+					tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					BEGIN INITIAL;
 					}
 
 <CONS>{VOWEL_L}				{
-					printf("Ûé");
+					tmp='Û';
+					tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					BEGIN INITIAL;
 					}
 
@@ -110,23 +133,33 @@ Hence everywhere a 'tmp' variable is introduced, and then it is printed.
 					}
 
 <CONS>{CONSONANT}			{
-					printf("è%c",map[(int)yytext[0] ]);
+					tmp='è';
+					printf("%c%c",tmp,map[(int)yytext[0] ]);
 					}
 
 <CONS>{CONSONANT}{OPERATOR_V}+		{
 					tmp = map[(int)yytext[0] ]-yyleng+1;
 					/*printf("è%c",map[yytext[0] ]-yyleng+1);*/
-					printf("è%c",tmp);
+					tmp1='è';
+					printf("%c%c",tmp1,tmp);
 					}
 
 <CONS>{CONSONANT}{OPERATOR_Y}+		{
+					tmp1='è';
 					tmp = map[(int)yytext[0] ]+yyleng-1;
 					/*printf("è%c",map[yytext[0] ]+yyleng-1);*/
-					printf("è%c",tmp);
+					printf("%c%c",tmp1,tmp);
 					}
 
+<CONS>\.				{
+					tmp1='è';
+					tmp ='ê';
+					printf("%c%c",tmp1,tmp);
+					BEGIN INITIAL;
+					}
 <CONS>(.|\n)				{
-					printf("è%c",yytext[0]);
+					tmp1='è';
+					printf("%c%c",tmp1,yytext[0]);
 					BEGIN INITIAL;
 					}
 {VOWEL_REMAINING}			{
@@ -138,11 +171,15 @@ Hence everywhere a 'tmp' variable is introduced, and then it is printed.
 					}
 
 {VOWEL_Q}				{
-					printf("ªé");
+                                        tmp='ª';
+                                        tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					}
 
 {VOWEL_L}				{
-					printf("¦é");
+					tmp='¦';
+                                        tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					}
 {SPECIAL_CATEGORY}			{
 					printf("%c",map[(int)yytext[0] ]);
@@ -187,6 +224,8 @@ Hence everywhere a 'tmp' variable is introduced, and then it is printed.
 					printf("%c",tmp);
 					}
 \.Y					{
-					printf("êé");
+					tmp='ê';
+					tmp1='é';
+					printf("%c%c",tmp,tmp1);
 					}
 

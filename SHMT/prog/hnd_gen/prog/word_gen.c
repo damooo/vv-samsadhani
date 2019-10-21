@@ -29,10 +29,10 @@ int SHOW_FLAG;
 		noun_gen(result,root,gender,number,TAM);
 	break;
         case 'P' : case 'p': /* Case of Pronouns */
-		if(index(root,'`'))
-		  strcpy_till(root,jnk,root,'`');
-		  if(strcmp(gender,"NW") == 0)
-		      strcpy(gender,"m");
+		if(index(root,'`')) 
+                   { strcpy_till(root,jnk,root,'`');}
+		if(strcmp(gender,"NW") == 0)
+		   { strcpy(gender,"m");}
 	         pron_gen(result,root,gender,number,TAM);
 		 strcat(result,jnk);
 

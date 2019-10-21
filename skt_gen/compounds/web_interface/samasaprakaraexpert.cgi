@@ -1,7 +1,9 @@
-#!PERLPATH
+#!/usr/bin/perl
 
-my $myPATH = "SCLINSTALLDIR/skt_gen/compounds";
-require "SCLINSTALLDIR/converters/convert.pl";
+require "../../paths.pl";
+
+my $myPATH = "$GlblVar::SCLINSTALLDIR/skt_gen/compounds";
+require "$GlblVar::SCLINSTALLDIR/converters/convert.pl";
 
 use warnings;
 use CGI ':standard';
@@ -20,8 +22,8 @@ if (param) {
   my $s2 = param("pratyaya2");
   my $viXAyakasUwra = param("viXAyakasUwra");
 
-  $p1wx=&convert($input_encoding,$p1);
-  $p2wx=&convert($input_encoding,$p2);
+  $p1wx=&convert($input_encoding,$p1,$GlblVar::SCLINSTALLDIR);
+  $p2wx=&convert($input_encoding,$p2,$GlblVar::SCLINSTALLDIR);
   my $avigraha = $p1wx."+".$s1." ".$p2wx."+".$s2;
   #print "samAsaprakAra cgi avigraha = $avigraha\n";
 

@@ -1,5 +1,6 @@
 #define VERYSMALL 5
 #define SMALL 10
+#define SMALLUTF 30
 #define MEDIUM 100
 #define MEDIUMUTF 300
 #define LARGE 600

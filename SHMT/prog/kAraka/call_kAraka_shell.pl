@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,8 +18,9 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-$myPATH = "SCLINSTALLDIR";
-require "$myPATH/converters/convert.pl";
+$SCLINSTALLDIR = $ARGV[0];
+require "$SCLINSTALLDIR/paths.pl";
+require "$SCLINSTALLDIR/converters/convert.pl";
 
   $tmp_files_path = $ARGV[0];
   $sentences = $ARGV[1];
@@ -30,13 +31,12 @@ require "$myPATH/converters/convert.pl";
   $morph = $ARGV[6];
   $parse = $ARGV[7];
   $text_type = $ARGV[8];
-  $mode = $ARGV[9];
-  $echo = $ARGV[10];
-  $debug = $ARGV[11];
+  $echo = $ARGV[9];
+  $debug = $ARGV[10];
 
   system("mkdir -p $tmp_files_path");
   open(TMP1,">$tmp_files_path/in$pid");
-  $sentences=&convert($encoding,$sentences);
+  $sentences=&convert($encoding,$sentences,$SCLINSTALLDIR);
   chomp($sentences);
   $sentences =~ s/#$//;
   $sentences =~ s/#/\n/g;
@@ -51,8 +51,9 @@ require "$myPATH/converters/convert.pl";
   }
   close(TMP1);
 
-  if($morph eq "GH") {
-      system ("mkdir -p $tmp_files_path/tmp_in$pid; /home/ambaji/SktEngine.2.84/ML/offline_reader  < $tmp_files_path/in$pid > $tmp_files_path/tmp_in$pid/in$pid.gh");
-  }
-     $cmd = "cd $tmp_files_path; $myPATH/SHMT/prog/kAraka/parser.sh in$pid $tmp_files_path hi $script $sandhi $morph $parse $text_type $mode $echo $debug 2> $tmp_files_path/tmp_in$pid/err$pid;";
+# The interface for calling only parser for kaaraka vishleshana is now not being used. Hence this programme is defunct.
+#  if($morph eq "GH") {
+#      system ("mkdir -p $tmp_files_path/tmp_in$pid; $GlblVar::HERITAGE_PATH/ML/reader_plugin  < $tmp_files_path/in$pid > $tmp_files_path/tmp_in$pid/in$pid.gh");
+#  }
+     $cmd = "cd $tmp_files_path; $SCLINSTALLDIR/SHMT/prog/kAraka/parser.sh in$pid $tmp_files_path hi $script $sandhi $morph $parse $text_type $echo $debug 2> $tmp_files_path/tmp_in$pid/err$pid;";
      system($cmd);

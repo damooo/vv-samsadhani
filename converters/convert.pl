@@ -1,6 +1,6 @@
-#!PERLPATH 
+#!/usr/bin/env perl 
 
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,26 +18,28 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-$myPATH="SCLINSTALLDIR";
-
 sub convert{
-        my($encoding,$in_word) = @_;
+        my($encoding,$in_word,$path) = @_;
 
+           chomp($in_word);
            $conversion_program = "";
         if($encoding eq "VH") {
-           $conversion_program = "$myPATH/converters/velthuis-wx.out";
+           $conversion_program = "$path/converters/velthuis-wx.out";
          }
-         if($encoding eq "KH") {
-            $conversion_program = "$myPATH/converters/kyoto_ra.out";          
+        elsif($encoding eq "KH") {
+            $conversion_program = "$path/converters/kyoto_ra.out";          
          }
-         if($encoding eq "SLP") {
-            $conversion_program = "$myPATH/converters/slp2wx.out";
+        elsif($encoding eq "SLP") {
+            $conversion_program = "$path/converters/slp2wx.out";
          }
-         if($encoding eq "Itrans") {
-            $conversion_program = "$myPATH/converters/itrans_ra.out";
+        elsif($encoding eq "Itrans") {
+            $conversion_program = "$path/converters/itrans_ra.out";
          }
-         if($encoding eq "Unicode") {
-            $conversion_program = "$myPATH/converters/utf82iscii.pl | $myPATH/converters/ir_skt";
+        elsif($encoding eq "Unicode") {
+            $conversion_program = "$path/converters/utf82iscii.pl | $path/converters/ir_skt";
+         } 
+        elsif($encoding eq "IAST") {
+            $conversion_program = "$path/converters/ utf8roman2wx.out";
          } 
 
          if($conversion_program ne "") {

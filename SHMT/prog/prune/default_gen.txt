@@ -1010,6 +1010,7 @@ AkRapAxI_swrI
 akRa_puM
 AkRAraNa_napuM
 akRara_napuM
+akRara_puM
 AkRAraNA_swrI
 AkRAra_puM
 akRarA_swrI
@@ -1456,6 +1457,7 @@ AnanxiwA_swrI
 Ananxowsava_puM
 ananyagawika_puM
 ananyagawikawA_swrI
+ananya_puM
 ananyA_swrI
 anapakAra_puM
 anapasarA_swrI
@@ -2992,6 +2994,7 @@ aSakuna_puM
 Asakwa_napuM
 aSakwa_puM
 Asakwa_puM
+AsakwA_swrI
 asakwA_swrI
 asakWA_swrI
 aSakwA_swrI
@@ -3235,7 +3238,7 @@ Aspanxana_napuM
 asparSana_napuM
 aspaRtA_swrI
 AsparXA_swrI
-Aspaxam_napuM
+Aspaxa_napuM
 AsPotana_napuM
 AsPota_puM
 aspqSyA_swrI
@@ -4144,6 +4147,7 @@ aXipawnI_swrI
 AXipawya_napuM
 aXiprajA_swrI
 Axi_puM
+Axi_swrI
 AXi_puM
 aXipuruRa_puM
 aXipUruRa_puM
@@ -5111,7 +5115,7 @@ barata_puM
 Barata_puM
 BArava_napuM
 BAravi_puM
-BArawa_napuM
+BArawa_puM
 Barawa_puM
 BaraWa_puM
 BArawA_swrI
@@ -5722,6 +5726,9 @@ Biwwi_swrI
 Bixaka_napuM
 bixala_napuM
 BixA_swrI
+Bix_swrI
+Bix_puM
+Bix_napuM
 Bixi_puM
 Bixira_napuM
 Bixra_napuM
@@ -5749,6 +5756,7 @@ BojayiwrI_swrI
 Bojya_napuM
 Bojya_puM
 BojyA_swrI
+Bokwq_puM
 BokwrI_swrI
 BOmana_puM
 BOma_puM
@@ -6152,6 +6160,7 @@ BUyiRTa_puM
 BUyiRTA_swrI
 cAdAlikA_swrI
 caFcala_puM
+caFcala_napuM
 caFcalA_swrI
 caFcalawA_swrI
 cAFcalya_napuM
@@ -8584,6 +8593,7 @@ hiwakArin_puM
 hiwakqwa_puM
 hiwakqw_puM
 hiwa_napuM
+hiwa_puM
 hiwAnubanXin_napuM
 hiwAnubanXin_puM
 hiwAnveRin_napuM
@@ -8964,6 +8974,7 @@ iXma_napuM
 IxqkRI_swrI
 IxqkwA_swrI
 IxqSa_puM
+IxqSa_napuM
 IxqSI_swrI
 IxqS_napuM
 IxqS_puM
@@ -9524,6 +9535,7 @@ japaparAyaNa_puM
 japa_puM
 jApa_puM
 ja_puM
+ja_napuM
 Ja_puM
 japya_napuM
 japya_puM
@@ -11750,6 +11762,7 @@ karkiH_puM
 karki_puM
 karkotaka_puM
 karkota_puM
+karma_napuM
 karmabanXana_napuM
 karmabanXa_puM
 karmaBUH_swrI
@@ -13522,6 +13535,7 @@ kqwrimaXUpaka_puM
 kqwrimaXUpa_puM
 kqwsa_napuM
 kqwsa_puM
+kqwsna_puM
 kqwsna_napuM
 kqwsnA_swrI
 kqwvas_a
@@ -20761,6 +20775,7 @@ pavi_puM
 paviwA_swrI
 paviwraka_puM
 paviwra_puM
+paviwra_napuM
 paviwrA_swrI
 pAviwrya_napuM
 pawafga_puM
@@ -23830,7 +23845,6 @@ raMjaka_napuM
 raMjaka_puM
 raMjana_napuM
 raMjanI_swrI
-ramya_napuM
 ramyA_swrI
 raNaBUH_swrI
 raNaBUmiH_swrI
@@ -25065,6 +25079,7 @@ sahiRNu_puM
 sahiRNuwA_swrI
 sahiRNuwva_napuM
 sahiwa_puM
+sahiwa_napuM
 sahiwA_swrI
 sahiwq_napuM
 sahiwq_puM
@@ -26898,6 +26913,7 @@ saNasUwra_napuM
 SaNasUwra_napuM
 SANA_swrI
 sanAwana_puM
+sanAwana_napuM
 sanAWa_napuM
 sanAwanA_swrI
 sanAwanI_swrI
@@ -28588,6 +28604,7 @@ saxqSa_napuM
 saxqSa_puM
 saxqSawara_puM
 saxqSawA_swrI
+saxqSA_swrI
 saxqSI_swrI
 saxqS_napuM
 saxqS_puM
@@ -31271,6 +31288,7 @@ Suklala_puM
 SuklalA_swrI
 SuklAmla_napuM
 Sukla_napuM
+Sukla_puM
 SuklApAfga_puM
 SuklapakRa_puM
 SuklA_swrI
@@ -41512,6 +41530,7 @@ xAmanAFcala_napuM
 xAmanAFjana_napuM
 xamanaka_puM
 xamanaka_swrI
+xamayaw_puM
 xamana_napuM
 xamana_puM
 xamanA_swrI
@@ -41973,6 +41992,7 @@ xarSanIya_puM
 xarSanIyA_swrI
 xarSapa_puM
 xarSa_puM
+xarSa_napuM
 xarSara_napuM
 xarSara_puM
 xarSavipax_puM
@@ -44554,7 +44574,7 @@ yOnA_swrI
 yoniBraMSa_puM
 yonija_napuM
 yonija_puM
-yoni_puM
+yoni_swrI
 yonivihIna_napuM
 yonivihIna_puM
 yonixevawA_swrI

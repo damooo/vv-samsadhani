@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-#  Copyright (C) 2008-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2008-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,4 +18,5 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-SCLINSTALLDIR/SHMT/prog/shell/anu_skt_hnd.sh $1 hi DEV NO NOECHO D
+source ../../../paths.sh
+$SCLINSTALLDIR/SHMT/prog/shell/anu_skt_hnd.sh $1 hi DEV NO NOECHO D

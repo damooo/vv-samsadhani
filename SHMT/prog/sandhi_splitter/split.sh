@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-#  Copyright (C) 2006-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2006-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,25 +18,24 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-myPATH=SCLINSTALLDIR
+source ../paths.sh
 
-export BIN_PATH=$SHMT_PATH/prog/morph/dix_and_bin
+DEBUG="OFF"
 
-INFILE=$1
-mode=$2
+SCLINSTALLDIR=$1
+TFPATH=$2
+LTPROCBIN=$3
+INFILE=$4
 
 cut -f3 $INFILE | sort -u | grep -v '-' |\
-$BIN_PATH/../bin/get_std_spelling.out > $TMP_FILES_PATH/tmp_before_split
-
-if [ $mode = "MODE" ]; then
-LTPROCBINDIR/lt-proc -c $myPATH/morph_bin/skt_morf.bin < $TMP_FILES_PATH/tmp_before_split > $TMP_FILES_PATH/tmp_mo_before_split
-else
-$myPATH/SHMT/prog/morph/client_mo_file.sh $TMP_FILES_PATH/tmp_before_split > $TMP_FILES_PATH/tmp_mo_before_split
-fi
-grep '*' $TMP_FILES_PATH/tmp_mo_before_split | perl -pe 's/\/.*//' | perl -pe 's/^.//' > $TMP_FILES_PATH/tmp_unkn
-cd $TMP_FILES_PATH
-$SHMT_PATH/prog/sandhi_splitter/run.sh tmp_unkn > tmp_split
+$SCLINSTALLDIR/SHMT/prog/Normalisation/get_std_spelling.out |\
+$LTPROCBIN -c $SCLINSTALLDIR/morph_bin/all_but_samboXana_morf.bin |\
+grep '*' | perl -pe 's/\/.*//' | perl -pe 's/^.//' > $TFPATH/tmp_unkn
+cd $TFPATH
+$SCLINSTALLDIR/SHMT/prog/sandhi_splitter/run.sh $SCLINSTALLDIR $LTPROCBIN tmp_unkn > tmp_split
 cd ..
-$SHMT_PATH/prog/sandhi_splitter/replace_sandhi.pl $TMP_FILES_PATH/tmp_split < $INFILE.orig | perl -pe 's/\+/\n/g' > $INFILE
+$SCLINSTALLDIR/SHMT/prog/sandhi_splitter/replace_sandhi.pl $SCLINSTALLDIR $TFPATH/tmp_split < $INFILE.orig | perl -pe 's/\+/\n/g' > $INFILE
 
-rm $TMP_FILES_PATH/tmp_before_split $TMP_FILES_PATH/tmp_mo_before_split $TMP_FILES_PATH/tmp_unkn $TMP_FILES_PATH/tmp_split $INFILE.orig
+#if [ $DEBUG = "OFF" ]; then
+#  rm $TFPATH/tmp_unkn $TFPATH/tmp_split $INFILE.orig
+#fi

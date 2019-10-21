@@ -1,9 +1,28 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
 
-use GDBM_File;
-tie(%VERBLIST, GDBM_File, "$ARGV[0]/asm-yuRm.gdbm", GDBM_READER, 0644);
-tie(%SRULIST, GDBM_File, "$ARGV[0]/Sru-xqS.gdbm", GDBM_READER, 0644);
+#BEGIN{require "$ARGV[0]/paths.pl";}
+
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+#tie(%VERBLIST, GDBM_File, "$ARGV[1]/asm-yuRm.gdbm", GDBM_READER, 0644);
+#tie(%SRULIST, GDBM_File, "$ARGV[1]/Sru-xqS.gdbm", GDBM_READER, 0644);
+
+
+open(TMP,"$ARGV[1]/asm-yuRm.txt");
+while(<TMP>) {
+chomp;
+$VERBLIST{$_}=1;
+}
+close(TMP);
+
+open(TMP,"$ARGV[1]/Sru-xqS.txt");
+while(<TMP>) {
+chomp;
+$SRULIST{$_}=1;
+}
+close(TMP);
 
 @input = <STDIN>;
 $wax   = 0;
@@ -134,12 +153,17 @@ $yax   = 0;
     }
 }
 
-for($j=0;$j<=$#arr;$j++) {
+#for($j=0;$j<=$#arr;$j++) { 
+# With $#arr, when a shloka is given, $#arr was less than the no of words.
+#The sentence tried is: paNdiwAH Baviwum na icCAmaH vayam
+for($j=0;$j<=$#input;$j++) {
     $arr[$j]=~s/^\///;
      if($input[$j] ne "") {
       print "$input[$j]\t$arr[$j]\n";
      } else { print "\n";}
 }
+
+#print "FOUND\n";
 
 untie(%VERBLIST);
 untie(%SRULIST);

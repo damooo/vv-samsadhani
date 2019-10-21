@@ -2,7 +2,7 @@ SHELL = /bin/sh
 
 TARGETS = translate.out
 
-LIBPATH = LPATH
+LIBPATH = /usr/lib
 
 all: $(TARGETS)
 FLEX = lex

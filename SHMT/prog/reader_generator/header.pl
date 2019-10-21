@@ -1,5 +1,6 @@
-#!PERLPATH -w
+#!/usr/bin/env perl
 
+use warnings;
 # $NO_OF_ROWS -> defined in convert.pl
 sub header {
 my($NO_OF_ROWS) = @_;

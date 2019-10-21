@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -282,6 +282,7 @@ $pUraNa{"paFcaxaSI"} = 1;
 $pUraNa{"paxmawama"} = 1;
 $pUraNa{"paxmawamA"} = 1;
 $pUraNa{"praWama"} = 1;
+$pUraNa{"praWamA"} = 1;
 $pUraNa{"prayuwawama"} = 1;
 $pUraNa{"prayuwawamA"} = 1;
 $pUraNa{"RadaSIwa"} = 1;

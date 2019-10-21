@@ -22,6 +22,8 @@
 ##############################################################################
 */
  char map[]="01234567890123456789012345678901234567890123456789012345678901234⁄Àπ¿‚º∂£‹ª¥L¢¡Ê…Q÷’æﬁV√≈YÈ      § ∏ø·∑µÿ€∫≥—Ã∆Â»ﬂœ◊Ω›‘¬ƒÕ° ";
+ char tmp;
+ char tmp1;
 NUKTA Z
 OPERATOR_V V
 OPERATOR_Y Y
@@ -41,7 +43,8 @@ ROM_WORD [A-Za-z0-9]+
 					}
 
 <CONS>{NUKTA}				{
-					printf("È");
+					tmp='È';
+					printf("%c",tmp);
 					}
 
 <CONS>{VOWEL_A}				{BEGIN INITIAL;}
@@ -62,19 +65,23 @@ ROM_WORD [A-Za-z0-9]+
 					}
 
 <CONS>{CONSONANT}			{
-					printf("Ë%c",map[(int)yytext[0] ]);
+                                        tmp='Ë';
+					printf("%c%c",tmp,map[(int)yytext[0] ]);
 					}
 
 <CONS>{CONSONANT}{OPERATOR_V}+		{
-					printf("Ë%c",map[(int)yytext[0] ]-yyleng+1);
+                                        tmp='Ë';
+					printf("%c%c",tmp,map[(int)yytext[0] ]-yyleng+1);
 					}
 
 <CONS>{CONSONANT}{OPERATOR_Y}+		{
-					printf("Ë%c",map[(int)yytext[0] ]+yyleng-1);
+                                        tmp='Ë';
+					printf("%c%c",tmp,map[(int)yytext[0] ]+yyleng-1);
 					}
 
 <CONS>(.|\n)				{
-					printf("Ë%c",yytext[0]);
+                                        tmp='Ë';
+					printf("%c%c",tmp,yytext[0]);
 					BEGIN INITIAL;
 					}
 
@@ -117,7 +124,9 @@ ROM_WORD [A-Za-z0-9]+
 					printf("%c",map[(int)yytext[0] ]+yyleng-1);
 					}
 \.Y					{
-					printf("ÍÈ");
+					tmp='Í';
+					tmp1='È';
+					printf("%c%c",tmp,tmp1);
 					}
 \.					{
 					printf("%c",yytext[0]);

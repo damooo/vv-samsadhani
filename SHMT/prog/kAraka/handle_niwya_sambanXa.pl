@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,10 +17,27 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-use GDBM_File;
+#BEGIN{require "$ARGV[0]/paths.pl";}
 
-tie(%kAraka_name,GDBM_File,"$ARGV[0]",GDBM_READER,0644) || die "Can't open $ARGV[0] for reading";
-tie(%kAraka_num,GDBM_File,"$ARGV[1]",GDBM_READER,0644) || die "Can't open $ARGV[1] for reading";
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+
+#tie(%kAraka_name,GDBM_File,"$ARGV[1]",GDBM_READER,0644) || die "Can't open $ARGV[1] for reading";
+#tie(%kAraka_num,GDBM_File,"$ARGV[2]",GDBM_READER,0644) || die "Can't open $ARGV[2] for reading";
+
+open(TMP,"$ARGV[1]/kAraka_names.txt") || die "Can't open $ARGV[1]/kAraka_names.txt for reading";
+while(<TMP>) {
+chomp;
+if(/^([^ ]+) ([0-9]+)/){
+$num = $2;
+$name = $1;
+$kAraka_name{$num}=$name;
+$kAraka_num{$name}=$num;
+}
+}
+close(TMP);
+
 
 #In case of yaxA-waxA, the relation between yaxA and waxA is a 'niwya sambanXaH'.
 # But if the relation between yaxA-waxA is marked, then

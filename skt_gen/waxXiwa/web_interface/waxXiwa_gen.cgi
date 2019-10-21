@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,33 +17,40 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+require "../../paths.pl";
+
 package main;
 use CGI qw/:standard/;
-#use CGI::Carp qw(fatalsToBrowser);
-use Date::Format;
-    if (! (-e "TFPATH")){
-        mkdir "TFPATH" or die "Error creating directory TFPATH";
+
+  if($GlblVar::VERSION eq "SERVER"){
+    if (! (-e "$GlblVar::TFPATH")){
+        mkdir "$GlblVar::TFPATH" or die "Error creating directory $GlblVar::TFPATH";
     }
-    open(TMP1,">>TFPATH/waxXiwa.log") || die "Can't open TFPATH/waxXiwa.log for writing";
+    open(TMP1,">>$GlblVar::TFPATH/waxXiwa.log") || die "Can't open $GlblVar::TFPATH/waxXiwa.log for writing";
+  }
       if (param) {
-      $encoding=param("encoding");
-      $word=param("rt");
+      my $encoding=param("encoding");
+      my $word=param("rt");
 
       my $cgi = new CGI;
       print $cgi->header (-charset => 'UTF-8');
      
       print "<head>\n";
       print "<script type=\"text/javascript\">\n";
-      print "function show(word){\n";
-      print "window.open('CGIURL/SHMT/options1.cgi?word='+word+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes').focus();\n }\n </script>";
+      print "function show(word,encod){\n";
+      print "window.open('/cgi-bin/scl/SHMT/options1.cgi?word='+word+'&outencoding='+encod+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,directories=no, status=yes').focus();\n }\n </script>";
 
       print "</head>\n";
-      print "<body onload=\"register_keys()\"> <script src=\"SCLURL/SHMT/wz_tooltip.js\" type=\"text/javascript\"></script>\n";
+      print "<body onload=\"register_keys()\"> <script src=\"/scl/SHMT/wz_tooltip.js\" type=\"text/javascript\"></script>\n";
 
-      my $result = `SCLINSTALLDIR/skt_gen/waxXiwa/gen_waxXiwa.pl $word $encoding`;
+      my $result = `$GlblVar::SCLINSTALLDIR/skt_gen/waxXiwa/gen_waxXiwa.pl $word $encoding`;
       print $result;
-      print TMP1 "running:","calling gen_waxXiwa.pl from waxXiwa generator";
-      print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."word:$word\t"."encoding:$encoding\n#######################\n\n";
+      if($GlblVar::VERSION eq "SERVER"){
+        print TMP1 "running:","calling gen_waxXiwa.pl from waxXiwa generator";
+        print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."word:$word\t"."encoding:$encoding\n#######################\n\n";
       }
+     }
 
-close(TMP1);
+ if($GlblVar::VERSION eq "SERVER"){
+      close(TMP1);
+ }

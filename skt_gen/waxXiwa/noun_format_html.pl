@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,15 +17,15 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-print "<script type=\"text/javascript\" src=\"SCLURL/js_files/jquery.min.js\"></script>";
-print "<script type=\"text/javascript\" src=\"SCLURL/js_files/callcgiscripts.js\"></script>";
-print "<script type=\"text/javascript\" src=\"SCLURL/js_files/transliteration.js\"></script>";
+print "<script type=\"text/javascript\" src=\"/scl/js_files/jquery.min.js\"></script>";
+print "<script type=\"text/javascript\" src=\"/scl/js_files/callcgiscripts.js\"></script>";
+print "<script type=\"text/javascript\" src=\"/scl/js_files/transliteration.js\"></script>";
 
-print "<script src=\"SCLURL/js_files/jquery-ui.js\"></script>";
+print "<script src=\"/scl/js_files/jquery-ui.js\"></script>";
 
-print "<link rel=\"stylesheet\" href=\"SCLURL/css_files/samsaadhanii.css\"/>";
-print "<link rel=\"stylesheet\" href=\"SCLURL/css_files/menu.css\"/>";
-print "<link rel=\"stylesheet\" href=\"SCLURL/css_files/sktmt.css\"/>";
+print "<link rel=\"stylesheet\" href=\"/scl/css_files/samsaadhanii.css\"/>";
+print "<link rel=\"stylesheet\" href=\"/scl/css_files/menu.css\"/>";
+print "<link rel=\"stylesheet\" href=\"/scl/css_files/sktmt.css\"/>";
 
 $rt = $ARGV[0];
 $lifga = $ARGV[1];

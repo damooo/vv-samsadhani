@@ -88,8 +88,8 @@ Om:		OM, AUM (Om symbol)
 %option nounput
 %x ASCII
 %%
-OM {printf("бщ");}
-AUM {printf("бщ");}
+OM {printf("om");}
+AUM {printf("om");}
 a\.c	{printf("EY");}
 aa\.c	{printf("OY");}
 aa {printf("A");}

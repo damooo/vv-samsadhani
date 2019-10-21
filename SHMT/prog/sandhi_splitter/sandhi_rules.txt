@@ -174,10 +174,6 @@ Fb	F+b	1
 Fc	F+c	1
 Fc	F+w	1
 Fc	m+c	674
-FcA	a+A	12
-FcA	a+a	44
-FcE	a+e	17
-FcS	n+S	1
 Fd	F+d	1
 Fe	F+e	1
 Ff	C+f	1
@@ -189,9 +185,7 @@ Fg	F+g	1
 Fh	F+h	1
 Fi	F+i	1
 Fj	F+j	1
-Fj	F+x	1
 Fj	m+j	1
-Fj	n+j	12
 Fk	F+k	1
 Fl	F+l	1
 Fm	C+m	1
@@ -311,7 +305,6 @@ Mo	M+o	1
 Mq	M+q	1
 Mr	M+r	1
 Ms	M+s	1
-Msw	n+w	133
 Mu	M+u	1
 Mv	M+v	1
 My	M+y	1
@@ -505,11 +498,6 @@ SJ	s+J	1
 SS	s+S	1
 Sc	H+c	2214
 Sc	s+c	1
-ScA	a+A	105
-ScA	a+a	229
-ScE	a+e	90
-Sce	a+i	25
-Sco	a+u	17
 Sj	s+j	1
 U	U+U	1
 U	U+u	1
@@ -553,6 +541,83 @@ Uw	U+w	1
 Ux	U+x	1
 Uy	U+y	1
 Z	H+a	11
+a A	aH+A	1
+a i	aH+i	1
+a I	aH+I	1
+a u	aH+u	1
+a U	aH+U	1
+a q	aH+q	1
+a Q	aH+Q	1
+a L	aH+L	1
+a e	aH+e	1
+a E	aH+E	1
+a o	aH+o	1
+a O	aH+O	1
+A a	AH+a	1
+A A	AH+A	1
+A i	AH+i	1
+A I	AH+I	1
+A u	AH+u	1
+A U	AH+U	1
+A q	AH+q	1
+A Q	AH+Q	1
+A L	AH+L	1
+A e	AH+e	1
+A E	AH+E	1
+A o	AH+o	1
+A O	AH+O	1
+a r	aH+r	1
+a S	aH+S	1
+a R	aH+R	1
+a s	aH+s	1
+A r	AH+r	1
+A S	AH+S	1
+A R	AH+R	1
+A s	AH+s	1
+i r	iH+r	1
+i S	iH+S	1
+i R	iH+R	1
+i s	iH+s	1
+I r	IH+r	1
+I S	IH+S	1
+I R	IH+R	1
+I s	IH+s	1
+u r	uH+r	1
+u S	uH+S	1
+u R	uH+R	1
+u s	uH+s	1
+U r	UH+r	1
+U S	UH+S	1
+U R	UH+R	1
+U s	UH+s	1
+q r	qH+r	1
+q S	qH+S	1
+q R	qH+R	1
+q s	qH+s	1
+Q r	QH+r	1
+Q S	QH+S	1
+Q R	QH+R	1
+Q s	QH+s	1
+L r	LH+r	1
+L S	LH+S	1
+L R	LH+R	1
+L s	LH+s	1
+e r	eH+r	1
+e S	eH+S	1
+e R	eH+R	1
+e s	eH+s	1
+E r	EH+r	1
+E S	EH+S	1
+E R	EH+R	1
+E s	EH+s	1
+o r	oH+r	1
+o S	oH+S	1
+o R	oH+R	1
+o s	oH+s	1
+O r	OH+r	1
+O S	OH+S	1
+O R	OH+R	1
+O s	OH+s	1
 aB	a+B	1
 aD	a+D	1
 aF	a+F	1
@@ -1023,7 +1088,6 @@ dy	T+y	1
 dy	d+y	1
 dy	t+y	1
 e	A+I	13
-e	A+e	50
 e	A+i	515
 e	a+I	38
 e	a+e	40
@@ -1623,7 +1687,6 @@ lW	l+W	1
 lX	l+X	1
 la	L+a	1
 la	l+a	1
-lazl	n+l	1
 lb	l+b	1
 lc	l+c	1
 ld	l+d	1
@@ -1665,7 +1728,6 @@ mF	P+F	1
 mF	b+F	1
 mF	p+F	1
 mI	m+I	102
-mI	m+i	12
 mL	m+L	1
 mN	B+N	1
 mN	P+N	1
@@ -1717,7 +1779,6 @@ nR	n+R	1
 nT	n+T	1
 nU	n+U	1
 nW	m+W	1
-nW	n+W	1
 nX	m+X	1
 nX	n+X	1
 na	n+a	397
@@ -1745,14 +1806,6 @@ nn	m+n	94
 nn	n+n	100
 nn	w+n	434
 nn	x+n	1
-nnA	a+A	19
-nnA	a+a	19
-nnA	n+A	83
-nna	n+a	197
-nna	w+a	11
-nne	n+e	152
-nni	n+i	48
-nnu	n+u	19
 no	n+o	1
 np	n+p	21
 nq	n+q	1
@@ -1762,8 +1815,6 @@ nt	n+t	1
 nu	n+u	77
 nv	n+v	16
 nw	m+w	427
-nw	n+w	1
-nws	n+s	1
 nx	m+x	28
 nx	n+x	17
 ny	n+y	1
@@ -2117,7 +2168,6 @@ vX	v+X	1
 va	U+a	1
 va	u+a	406
 va	v+a	1
-vazv	m+v	1
 vb	v+b	1
 vc	v+c	1
 vd	v+d	1
@@ -2292,7 +2342,6 @@ xy	w+y	117
 xy	x+y	1
 yA	I+A	1
 yA	i+A	428
-yA	i+a	19
 yA	y+A	1
 yB	y+B	1
 yC	y+C	1
@@ -2326,7 +2375,6 @@ yX	y+X	1
 ya	I+a	48
 ya	i+a	1520
 ya	y+a	1
-yazy	m+y	1
 yb	y+b	1
 yc	y+c	1
 yd	y+d	1

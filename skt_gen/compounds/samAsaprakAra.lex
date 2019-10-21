@@ -1,5 +1,6 @@
 %{
 #include "struct.h"
+#include "paths.h"
 extern char sUwrastr[LARGE];
 extern char samAsaprakAra[MEDIUM];
 %}
@@ -130,8 +131,6 @@ void call_samAsaprakAralex();
 void cnvrtwx2utf();
 void cnvrtutfd2r();
 
-#define myPATH "SCLINSTALLDIR/skt_gen/compounds/"
-
 int main (int argc, char *argv[]) {
 char cmd[MEDIUM];
 char avigraha[MEDIUM];
@@ -178,9 +177,9 @@ char encoding[MEDIUM];
      print_samAsaprakAra(avigraha_utf,"समासप्रकारः",samAsaprakAra_utf,sUwrastr);
   }
 
-  sprintf(cmd,"%s/samAsAnwa.out \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\"",myPATH, encoding,avigraha,argv[3],argv[4],argv[5],argv[6],sUwrasaMKyA,samAsaprakAra); 
+  sprintf(cmd,"%s/skt_gen/compounds/samAsAnwa.out \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\" \"%s\"",SCLINSTALLDIR, encoding,avigraha,argv[3],argv[4],argv[5],argv[6],sUwrasaMKyA,samAsaprakAra); 
   system(cmd);
-  return 1;
+  return 1; 
 }
 
 void call_samAsaprakAralex(char *in){
@@ -203,7 +202,3 @@ void print_samAsaprakAra (char *avigraha, char *title, char *samAsaprakAra, char
      printf("<td><font color=\"red\"> %s </font></td>",sUwra);
      fflush(stdout);
   }
-
-
-
-

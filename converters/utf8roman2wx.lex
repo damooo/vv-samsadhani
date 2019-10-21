@@ -30,6 +30,7 @@
 ai	printf("E");
 au	printf("O");
 ṃ	printf("M");
+ṁ 	printf("M");
 ḥ	printf("H");
 
 kh	printf("K");
@@ -56,4 +57,5 @@ bh	printf("B");
 
 ś	printf("S");
 ṣ	printf("R");
+'	printf("Z");
 %%

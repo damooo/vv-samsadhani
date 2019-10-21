@@ -1,4 +1,4 @@
-#!PERLPATH -w 
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -73,12 +73,12 @@ sub print_table{
                @anu = split(/,/,$possible_anu);
                for($j=0;$j<$#anu;$j++) {
                 $tmp = $rel.":".$count.",".$anu[$j];
-                print "<a href=\"CGIURL/NN/parser/select.cgi?pid=$pid&amp;instr=$tmp\">$anu[$j]</a>";
+                print "<a href=\"/cgi-bin/scl/NN/parser/select.cgi?pid=$pid&amp;instr=$tmp\">$anu[$j]</a>";
 		print ",";
                 $more_choices = 1;
                }
                 $tmp = $rel.":".$count.",".$anu[$j];
-                print "<a href=\"CGIURL/NN/parser/select.cgi?pid=$pid&amp;instr=$tmp\">$anu[$j]</a>";
+                print "<a href=\"/cgi-bin/scl/NN/parser/select.cgi?pid=$pid&amp;instr=$tmp\">$anu[$j]</a>";
 	    }
            print "</td></tr>";
       }
@@ -187,6 +187,9 @@ $ret_str;
        if (($i==1) && ($c == 0)) { $c = 1;}
        $ans .= "<" x $c;
        if (($type[$i] eq "concept") && ($level[$i] eq "")){
+         my $j = $i; while($level[$j] eq "") {$j++;}
+          $ans .= $word[$i].":".$level[$j];
+       } elsif (($type[$i] eq "relation") && ($level[$i] eq "")){
          my $j = $i; while($level[$j] eq "") {$j++;}
           $ans .= $word[$i].":".$level[$j];
        } else {

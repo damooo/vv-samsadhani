@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2017-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -29,36 +29,59 @@ while($in = <STDIN>){
 
 # print $word,"=";
  
-print $word,"=",$analysis[0];
+print $word,"=";
 #print "\n";
  
 # Split the word and its analysis.
 # remove the analysis that are repeated.
-# If same analysis with both level 1 and 2, or level 1 and 3, or level 1 and 4 then remove the analysis with level 2 or 3 or 4.
-# Earlier it used to retain level 1 analysis. But it is changed to level 2/3/4, because many of the words in the MW dictionary are derived nouns, and we require the deeper analysis for kaaraka analysis.
 
 # Algo: For each of the analysis, check whether it has been repeated earlier.
 # If not, then print.
 
-  foreach ($i=1; $i<=$#analysis;$i++){
-#     print "i=$i", $analysis[$i],"\n";
-     $diff = 1;
-     foreach ($j=0; $j<$i && $diff; $j++){
-#       print "j = $j", $analysis[$j],"\n";
-       if($analysis[$i] eq $analysis[$j]) { $diff = 0;}
-       else {
-              $tmp = $analysis[$j];
-              $tmp1 = $analysis[$i];
-              $tmp =~ s/<level:[234]>/<level:1>/;
-              $tmp1 =~ s/<level:[234]>/<level:1>/;
-# Taddhita analysis is removed, since we do not require it for kaaraka analysis
-	      $tmp =~ s/nA_[^>]+>/nA>/;  # This is to remove the taddhita analysis, if present
-	      $tmp1 =~ s/nA_[^>]+>/nA>/;  # This is to remove the taddhita analysis, if present
-              if ($tmp eq $tmp1) { $diff = 0;}
-           }
-     } 
-     if($diff) { print "/"; print $analysis[$i];}
+# Current  Following  Actions				
+#  1        2,3       print, remove analysis with 2,3	
+#  1        4         Skip				
+#  2,3      1,4       Skip				
+#  2        3         print				
+#  3        2         print				
+#  4        1,2,3     print, remove analysis with 1,2,3	
+
+  $ans = "";
+  foreach ($i=0; $i<=$#analysis;$i++){
+     #print "i=$i", $analysis[$i],"\n";
+     $tmp = $analysis[$i];
+     $tmp =~ s/<level:[1234]>//;
+     #print "tmp=", $tmp,"\n";
+     #print "analysis = $#analysis\n";
+     if($#analysis == 0) { $ans = $analysis[$i];}
+     else {
+      $diff = 1;
+      foreach ($j=$i+1; $j <= $#analysis; $j++){
+       if($analysis[$j] ne "") {
+       #print "j=$j", $analysis[$j],"\n";
+         $tmp1 = $analysis[$j];
+         $tmp1 =~ s/<level:[1234]>//;
+         #print "tmp1=", $tmp1,"\n";
+         if ($tmp eq $tmp1) {
+           if($analysis[$i] eq $analysis[$j]) { $analysis[$j] = ""; $ans .= "/". $analysis[$i];}
+           elsif ((($analysis[$i] =~ /<level:1>/) && ($analysis[$j] =~ /<level:4>/))
+          || (($analysis[$i] =~ /<level:[23]>/) && ($analysis[$j] =~ /<level:[14]>/)))
+           { $diff = 0;}
+           elsif ((($analysis[$i] =~ /<level:4>/) && ($analysis[$j] =~ /<level:[123]>/))
+            || (($analysis[$i] =~ /<level:1>/) && ($analysis[$j] =~ /<level:[23]>/)))
+            {$analysis[$j] = "";} 
+#	      $tmp =~ s/nA_[^>]+>/nA>/;  # This is to remove the taddhita analysis, if present
+#	      $tmp1 =~ s/nA_[^>]+>/nA>/;  # This is to remove the taddhita analysis, if present
+           #print "ans = $ans\n";
+     #    print "j=$j", $analysis[$j],"\n";
+        }
+       }
+      }
+     if ($diff) { $ans .= "/". $analysis[$i];}
+   }
   }
+     $ans =~ s/^\///;
+     print $ans;
  }
  print "\n";
 }

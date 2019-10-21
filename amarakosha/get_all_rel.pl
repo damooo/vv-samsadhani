@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2006-2011 Shivaja Nair and 2006-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2006-2011 Shivaja Nair and 2006-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,14 +17,57 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-my $myPATH="SCLINSTALLDIR";
-use GDBM_File;
+BEGIN{require "../paths.pl";}
 
-@rel = ("stem2head","avayava","avayavI","aparAjAwi","parAjAwi","janaka","janya","pawi","pawnI","svAmI","sevaka","vESiRtya","vESiRtyavaw","sambanXiwa","vqwwi","vqwivAn");
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+
+@rel = ("stem2head","avayava","avayavI","aparAjAwi","parAjAwi","janaka","janya","pawi","pawnI","svAmI","sevaka","vESiRtya","vESiRtyavaw","sambanXiwa","vqwwi","vqwwivAn");
+
+#for $rel (@rel){
+#$name = "LEX_".$rel;
+#tie(%{$name},GDBM_File,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/$rel.gdbm",GDBM_READER,0444);
+#}
 
 for $rel (@rel){
 $name = "LEX_".$rel;
-tie(%{$name},GDBM_File,"$myPATH/amarakosha/DBM/$rel.gdbm",GDBM_READER,0444);
+open(TMP,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/all_kANdas") || die "Can't open amarakosha/DBM/all_kANdas for reading";
+if ($rel eq "stem2head") { $key = 0; $value = 4; }
+elsif ($rel eq "avayava") { $key = 5; $value = 4; }
+elsif ($rel eq "avayavI") { $key = 4; $value = 5; }
+elsif ($rel eq "aparAjAwi") { $key = 6; $value = 4; }
+elsif ($rel eq "parAjAwi") { $key = 4; $value = 6; }
+elsif ($rel eq "janaka") { $key = 4; $value = 7; }
+elsif ($rel eq "janya") { $key = 7; $value = 4; }
+elsif ($rel eq "pawi") { $key = 4; $value = 8; }
+elsif ($rel eq "pawnI") { $key = 8; $value = 4; }
+elsif ($rel eq "svAmI") { $key = 4; $value = 9; }
+elsif ($rel eq "sevaka") { $key = 9; $value = 4; }
+elsif ($rel eq "vESiRtya") { $key = 4; $value = 10; }
+elsif ($rel eq "vESiRtyavaw") { $key = 10; $value = 4; }
+elsif ($rel eq "sambanXiwa") { $key = 4; $value = 11; }
+elsif ($rel eq "vqwwi") { $key = 4; $value = 12; }
+elsif ($rel eq "vqwwivAn") { $key = 12; $value = 4; }
+
+$name = "LEX_".$rel;
+while(<TMP>) {
+  chomp;
+  @flds = split(/,/,$_);
+  if(($flds[0] !~ /^%/) && ($flds[$key] ne "") && ($flds[$value] ne "")) {
+     if(${$name}{$flds[$key]} eq "") {
+        ${$name}{$flds[$key]}  =  $flds[$value];
+     }else {
+        if ((${$name}{$flds[$key]} !~ /::$flds[$value]::/) &&
+             (${$name}{$flds[$key]} !~ /^$flds[$value]::/) &&
+             (${$name}{$flds[$key]} !~ /::$flds[$value]$/) &&
+             (${$name}{$flds[$key]} !~ /^$flds[$value]$/)) {
+        ${$name}{$flds[$key]}  .= "::". $flds[$value];
+        }
+     }
+  }
+}
+close(TMP);
 }
 
 $in_word = $ARGV[0];
@@ -41,9 +84,9 @@ foreach $word (@word) {
 }
 
 if($out_encoding eq "DEV" ) {
-   open TMP, "| $myPATH/converters/wx2utf8.sh";
-} elsif($out_encoding eq "ROMAN" ) {
-   open TMP, "| $myPATH/converters/wx2utf8roman.sh";
+   open TMP, "| $GlblVar::SCLINSTALLDIR/converters/ri_skt | $GlblVar::SCLINSTALLDIR/converters/iscii2utf8.py 1";
+} elsif($out_encoding eq "IAST" ) {
+   open TMP, "| $GlblVar::SCLINSTALLDIR/converters/wx2utf8roman.out";
 }
 print TMP $nodes,$rels;
 close TMP;

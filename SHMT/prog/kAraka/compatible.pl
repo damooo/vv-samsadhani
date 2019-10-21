@@ -1,4 +1,4 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
 $multiple_relations_begin=21;
 
@@ -25,7 +25,7 @@ foreach $rel (@relations) {
   $cfrom_wrd = $4;
   $cfrom_mid = $5;
 #If a word with a certain mid is chosen, then all the edges goin to or coming from other mids of the same id are to be rejected.
-  if (($crel1 != 2) && ($rel1 != 2) ) { # niwya_sambanXaH
+  if (($crel1 != $kAraka_num{"niwya_sambanXaH"}) && ($rel1 != $kAraka_num{"niwya_sambanXaH"})) {
   if(($from_wrd eq $cfrom_wrd) && ($from_mid eq $cfrom_mid) && ($rel1 eq $crel1) && ($rel1 < $multiple_relations_begin) && ($wrd_no ne $cwrd_no)) {  #print STDERR "cond1 failed"; 
 return 0;} 
 # More than one outgoing arrows with same label

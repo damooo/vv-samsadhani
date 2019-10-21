@@ -3,50 +3,70 @@ The distribution contains various tools related to Sanskrit computations develop
 Pre-requisites:
 apache HTTP server
 bash
-lttoolbox
-graphviz
-libgdbm (required for CLIPS, and hash tables in perl)
-gcc/g++
-flex
 bison
+flex
+graphviz
+gcc
+g++
+lttoolbox
+make
 perl
 python
-java (for Ashtadhyayi simulator)
+xsltproc
+default-jdk
 
-Perl modules:
-LWP.pm	(required for webdot.pl)
-Time::Out (0.11 or above)
-GDBMFile.pm
-#Log4perl (1.39 or above)
+AND
 
-Ocaml
-Ocamlpr4 patch
+Ocaml, Ocamlp4 patch
 
-The distribution comes in two forms:
-a) Following modules bundled together
-   Morph analyser, Morph generator, Sandhi, Sandhi splitter, Anusaaraka Skt-Hnd MT system, transliteration modules, Amarakosha and Sankshepa Ramayana
-  (scl.tgz)
-b) Individual modules
-   morph analyser (scl_ana.tgz)
-   morph generator (scl_gen.tgz)
-   sandhi  (scl_san.tgz)
-   sandhi_splitter (scl_san_spl.tgz)
-   transliteration (scl_trans.tgz)
-   amarakosha (scl_amara.tgz)
+-------------------------------------------------------------------
+Installation commands for Pre-requisites are as under:
+
+sudo apt-get install apache2 bash bison flex graphviz gcc lttoolbox make perl python xsltproc default-jdk g++
+
+#Install Objective Caml (ocaml-4.07.1.tar.gz)
+available at http://ocaml.org/releases/
+./configure
+make world.opt
+sudo make install
+
+#Install package Ocamlbuild from (ocamlbuild-0.13.0.tar.gz)
+available at https://github.com/ocaml/ocamlbuild/releases
+make configure #% beware: not ./configure
+make
+sudo make install
+
+#Then install Camlp4 (camlp4-4.07-1.tar.gz)
+https://github.com/ocaml/camlp4/releases
+./configure
+make all # beware: not just make
+sudo make install
+
+#Install Zen (zen-master.tar.gz)
+https://gitlab.inria.fr/huet/Zen.git
+cd Zen/ML 
+make
+
+sudo a2enmod cgid
+sudo systemctl restart apache2
+
+-------------------------------------------------------------------
+
+The distribution has following modules bundled together
+   Morph analyser, Morph generator, Sandhi joiner, Sandhi splitter, Anusaaraka Skt-Hnd MT system, transliteration modules, Amarakosha, Ashtadhyayi Simulator, Navya-Nyaya Diagramatic Representation, Compound word generator, and e-readers for Sankshepa Ramayanam and SrimadBhagvadGita
 
 To install Sanskrit Computational Linguistics tools
 
-a) tar -xvzf scl.tgz (or scl_module.tgz in case you are installing a specific module))
+a) git pull http://scl.samsaadhanii.in:3000/amba/scl.git
 
-b) cp appropriate SPEC/spec*txt file to scl directory. Name it as spec.txt
+b) cp appropriate SPEC/spec*.txt file to scl directory. Name it as spec.txt
    Check that the paths are correct, else make necessary changes.
 
-c) ./configure
+c) ./configure 
 
 d) make
 
 e) sudo make install
-
 
 All the packages are available under GPL. You would have received a copy of GPL license with this package.
 
@@ -54,7 +74,7 @@ In case of any queries, please contact ambapradeep@gmail.com.
 
 
 -- Amba Kulkarni
-15th July 2012
+10th Sept 2018
 -------------------------------------------------------------------------------
 
 History:
@@ -64,7 +84,7 @@ Mr. Jain worked on the Sanskrit morphological analyser from 2002-2003 towards hi
 
 Ms. Sheeba worked as a part of work on her Ph.D. thesis contributed towards the development of morphological analyser from 2004-2006. Her major contribution was for subantas and kridantas.
 
-Mr. Anil Gupta contributed for the development of tinganta analyser between 2006-2007, especially with the Dhaturatnakar entries.
+Dr. Anil Kumar contributed for the development of tinganta analyser between 2006-2007, especially with the Dhaturatnakar entries.
 
 Later from 2004-2006, various students at the Rashtriya Sanskrit Vidyapeetham Tirupati contributed to the development of Sandhi package. Contribution of Ms. Sivaja Nair, Pankaj Vyasa and Ms. Sushama Vempati deserve special mention.
 
@@ -72,7 +92,7 @@ University of Hyderabad later supported further development under the University
 
 During 2006-2008 Pawan Goyal, IIT Kanpur worked with Amba Kulkarni towards the development of Ashtadhyayi simulator.
 
-Though Amba Kulkarni worked on various modules at her own pace, the project got a boost when the Technology Development for Indian Languages(TDIL)  division of Ministry of Information and Communication Technology supported the activity in the form of a Consortium of 7 Institutes.
+Though Amba Kulkarni worked on various modules at her own pace, the project got a boost when the Technology Development for Indian Languages(TDIL)  division of Ministry of Information and Communication Technology supported the activity in the form of a Consortium of 7 Institutes (2009-13).
 
 The Principal Investigators at the 7 institutes are:
 Amba Kulkarni, Department of Sanskrit Studies, University of Hyderabad (Consortium Leader)
@@ -96,14 +116,22 @@ All these modules were developed at the Department of Sanskrit Studies, Universi
 
 Various consortium members have contributed by developing annotated tests for building these modules. In addition JNU developed a POS tagger and IIIT-H deveoped a POS tagger and a parser, which are not part of this distribution.
 
+During 2015-17 Amba Kulkarni was awarded a fellowship at Indian Institute of Advanced Study, Shimla. During this period she improved the parsing algorithms taking into account the yogyataa as a constraint.
+
 Following persons had major contribution in the development of the tools:
 a) Dr. Sheeba
 b) Dr. Devanand Shukl
-c) Mr. Anil Gupta
+c) Dr. Anil Kumar
 d) Ms. Bhavani
 e) Ms. Gauri
 f) Ms. Kiranmayi
 g) Mr. Karunakar
+h) Dr. Shivaja
+i) Dr. Shailaja
+j) Dr. Pavankumar Satuluri
+k) Dr. Monali Das
+l) Dr. Arjun K
+m) Dr. Preeti Shukla
 
 In addition Converters and Transliteration modules for converting/transliterating from one scheme to the other are developed. Following schemes have been addressed.
 a) Unicode Devanagari (UTF-8)
@@ -113,11 +141,23 @@ d) Itrans
 e) SLP
 f) Kyoto Harvard
 
-Ms. Sivaja Nair worked on her Ph.D. thesis on the Amarakosha from 2007-2011. The package she developed in the process is also available for distribution.
+Dr. Sivaja Nair worked on her Ph.D. thesis on the Amarakosha from 2007-2011. The package she developed in the process is also available for distribution.
 
-Mr. Anil Kumar developed the Compound processor as a part of his PhD thesis from 2008-2011.
+Dr. Anil Kumar developed the Compound processor as a part of his PhD thesis from 2008-2011.
 
-Since 2007 Amba Kulkarni is also collaborating with Gerard Huet, INRIA. As a result of this collaboration, an inter-communication between the Sanskrit Heritage tools and the Anusaaraka tools has been possible.
+Dr. Shailaja developed the concordance of three Paninian Dhatuvrttis as a part of her PhD thesis from 2009-13.
+
+Dr. Pavankumar Satuluri developed the compound generator as a part of his PhD thesis (2011-15).
+
+Dr. Arjuna developed the Nyaayacitradiipikaa, an analyser for Navya Nyaya Expressions as a prt of his PhD thesis (2013-17).
+
+Dr. Monali Das provided the Kaaraka analysis of Sankshepa Ramayanam.
+
+Dr. Preeti Patel (Shukl) developed the e-reader for SrimadBhagvadGeeta.
+
+Dr. Anupama Ryali developed the e-reader for Shishupalavadham as a part of her Post Doctoral Fellowship.
+
+Since 2007 Amba Kulkarni is also collaborating with Gérard Huet, INRIA. As a result of this collaboration, an inter-communication between the Sanskrit Heritage tools and the Anusaaraka tools has been possible.
 
 Finally I would like to acknowledge Prof. K V Ramkrishnamacharyulu for his guidance throughout the development of these tools.
 

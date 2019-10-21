@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,21 +17,21 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-$myPATH="SCLINSTALLDIR";
+require "../../../paths.pl";
 package main;
 use CGI qw/:standard/;
 
    if (param) {
-      $dirname=param("filename");
-      $outscript=param("outscript");
-      $relations=param("rel");
-      $sentnum=param("sentnum");
-      $save=param("save");
-      $translate=param("translate");
+      my $dirname=param("filename");
+      my $outscript=param("outscript");
+      my $relations=param("rel");
+      my $sentnum=param("sentnum");
+      my $save=param("save");
+      my $translate=param("translate");
 
       $filename = "morph".$sentnum.".out.out";
       $pid = $dirname;
-      $pid =~ s/\.\/tmp_in//;
+      $pid =~ s/.*\/tmp_in//;
 
       my $cgi = new CGI;
       print $cgi->header (-charset => 'UTF-8');
@@ -39,22 +39,22 @@ use CGI qw/:standard/;
       print "<html xmlns=\"http://www.w3.org/1999/xhtml\">";
       print "<html><head><title>Anusaaraka</title>\n";
       print "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\" />\n";
-      print "<link href=\"SCLURL/SHMT/Sanskrit_style.css\" type=\"text/css\" rel=\"stylesheet\" />\n ";
+      print "<link href=\"/scl/SHMT/Sanskrit_style.css\" type=\"text/css\" rel=\"stylesheet\" />\n ";
       print "<style type=\"text/css\">\n";
       print "table { margin-top:20px;}\n";
       print "<\/style>\n";
 
       if($relations eq "") { $relations = "''";}
 
-      $total_filtered_solns = 0;
+      my $total_filtered_solns = 0;
       print "<\/head>\n<body>\n<div>\n";
       print "<center>\n";
       if($translate eq "yes") {
-         system("$myPATH/SHMT/prog/shell/callmtshell_after_parse.sh $dirname $pid");
+         system("$GlblVar::SCLINSTALLDIR/SHMT/prog/shell/callmtshell_after_parse.sh $dirname $pid $outscript");
       } elsif($save eq "yes") {
-        system("$myPATH/SHMT/prog/kAraka/mk_summary.pl $outscript TFPATH/$dirname/clips_files/$filename $myPATH/SHMT/prog/kAraka/gdbm_n $dirname $relations $sentnum TFPATH/$dirname/clips_files/parseop_new.txt $save < TFPATH/$dirname/clips_files/parseop$sentnum.txt");
+        system("$GlblVar::SCLINSTALLDIR/SHMT/prog/kAraka/mk_summary.pl $GlblVar::SCLINSTALLDIR $outscript $dirname/parser_files/$filename $GlblVar::SCLINSTALLDIR/SHMT/prog/kAraka/list_n $dirname $relations $sentnum $dirname/parser_files/parseop_new.txt $save < $dirname/parser_files/parseop$sentnum.txt");
       } else {
-      open(TMP,"<TFPATH/$dirname/clips_files/parseop1.txt") || die "Can't open TFPATH/$dirname/clips_files/parseop1.txt for reading";
+      open(TMP,"<$dirname/parser_files/parseop1.txt") || die "Can't open $dirname/parser_files/parseop1.txt for reading";
       @tmp = <TMP>;
       close(TMP);
       if($tmp[1] =~/Total Complete Solutions=([0-9]+)/){
@@ -63,7 +63,7 @@ use CGI qw/:standard/;
       } else {
          print "<h2> Summary of Possible Relations <\/h2>\n";
       }
-        system("$myPATH/SHMT/prog/kAraka/mk_summary.pl $outscript TFPATH/$dirname/clips_files/$filename $myPATH/SHMT/prog/kAraka/gdbm_n $dirname $relations $sentnum TFPATH/$dirname/clips_files/parseop_new.txt $save < TFPATH/$dirname/clips_files/parseop$sentnum.txt");
+        system("$GlblVar::SCLINSTALLDIR/SHMT/prog/kAraka/mk_summary.pl $GlblVar::SCLINSTALLDIR $outscript $dirname/parser_files/$filename $GlblVar::SCLINSTALLDIR/SHMT/prog/kAraka/list_n $dirname $relations $sentnum $dirname/parser_files/parseop_new.txt $save < $dirname/parser_files/parseop$sentnum.txt");
       print "<\/center>\n";
       print "<\/div>\n";
       print "<\/body>\n<\/html>\n";

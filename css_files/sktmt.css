@@ -1,6 +1,7 @@
 body{
  font-family: Helvetica; 
- background-color:#FFFAFA;
+ /*background-color:#FFFAFA;*/
+ background-color:#FFFED1;
 }
 
 
@@ -10,10 +11,11 @@ body{
     position:relative;
     border:5px none #FFFFFF;
     margin-top:10px;
+    background-color:#FFFED1;
 }
 
 #project-name{
-    background-color:#FFFFFF;
+    background-color:#FFFED1;
     box-shadow: 1px 1px 4px gray;
     border-radius:3px;    
 }
@@ -36,7 +38,7 @@ body{
 
 #input-area{
     width:100%;
-    background-color:#FFFFFF;
+    background-color:#FFFED1;
     box-shadow: 1px 1px 4px gray;
     border-radius:3px;    
     vertical-align:top;
@@ -49,7 +51,8 @@ body{
  border:1px solid peru;
  box-shadow: 1px 1px 4px gray;
  border-radius:3px;
- background-color:#FFFFFF;
+ #background-color:#FFFFFF;
+ background-color:#FFFED1;
  margin-left:auto;
  margin-right:auto;
 }

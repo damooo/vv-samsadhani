@@ -1,4 +1,4 @@
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -16,5 +16,5 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-
-SCLINSTALLDIR/converters/ri_skt | SCLINSTALLDIR/converters/iscii2utf8.py 1
+SCLINSTALLDIR=$1
+$SCLINSTALLDIR/converters/ri_skt | $SCLINSTALLDIR/converters/iscii2utf8.py 1

@@ -1,4 +1,6 @@
-#!PERLPATH
+#!/usr/bin/perl
+
+require "../../paths.pl";
 
 use warnings;
 use CGI ':standard';
@@ -199,7 +201,7 @@ select{margin-top:10px; width:200px !important; padding:3px !important;}
 	<h3>समस्तपदव्युत्पादिका</h3>   
 	<h3>A Compound stem generator</h3>
 	<h4>Department of Sanskrit Studies, University of Hyderabad.</h4>
-<h3><a href=\"SCLURL/index.html\">Samsaadhanii</a></h3>
+<h3><a href=\"/scl/start.html\">Samsaadhanii</a></h3>
 </center>
 <br /> <br />";
 #print $cgi->start_html(-title => 'समस्त-पद-निर्माण-प्रक्रिया ',
@@ -244,7 +246,7 @@ if (param) {
           $ch6 = "";
 
 
-  my $a = `echo "$avigraha" | SCLINSTALLDIR/converters/wx2utf8.sh`;
+  my $a = `echo "$avigraha" | $GlblVar::SCLINSTALLDIR/converters/ri_skt | $GlblVar::SCLINSTALLDIR/converters/iscii2utf8.py 1`;
 
   if($user_choices =~ /Y$/) { $rem_ques =~ s/^[0-9]+b;//;}
   
@@ -269,8 +271,8 @@ if (param) {
              my $sup2 = $4;
              my $sutra = $5;
 
-             my $prAwi1 = `echo "$prAwipaxikam1" | SCLINSTALLDIR/converters/wx2utf8.sh`; chomp($prAwi1);
-             my $prAwi2 = `echo "$prAwipaxikam2" | SCLINSTALLDIR/converters/wx2utf8.sh`; chomp($prAwi2);
+             my $prAwi1 = `echo "$prAwipaxikam1" | $GlblVar::SCLINSTALLDIR/converters/ri_skt | $GlblVar::SCLINSTALLDIR/converters/iscii2utf8.py 1`; chomp($prAwi1);
+             my $prAwi2 = `echo "$prAwipaxikam2" | $GlblVar::SCLINSTALLDIR/converters/ri_skt | $GlblVar::SCLINSTALLDIR/converters/iscii2utf8.py 1`; chomp($prAwi2);
 
              my $associated_question = 0;
    	     $ch_table = "<center><table>";
@@ -299,7 +301,6 @@ if (param) {
                 }
                 $rem_ques_nos =~ s/^;//;
               } 
-              #print "window.open('CGIURL/skt_gen/compounds/choice.cgi?vigraha='+avigraha+'&ch0='+ch0+'&ch1='+ch1+'&ch2'+ch2+'&ch3='+ch3+'&ch4='+ch4+'&ch5='+ch5+'&ch6='+ch6+'ques_nos='+rem_ques_nos+'&user_choices='&user_choices+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus()";
                &call_choice($avigraha,$ch_table,$rem_ques_nos,$user_choices);
         }
     }
@@ -313,7 +314,7 @@ sub call_generator{
       print "<br />";
       #print "<div id=\"output2\">";
       print "<center><pre>\n";
-      my $cmd = "echo '$user_choices' | SCLINSTALLDIR/skt_gen/compounds/sanskrit_grammar.out \"$avigraha\" 1 | SCLINSTALLDIR/converters/wx2utf8.sh";
+      my $cmd = "echo '$user_choices' | $GlblVar::SCLINSTALLDIR/skt_gen/compounds/sanskrit_grammar.out \"$avigraha\" 1 | $GlblVar::SCLINSTALLDIR/converters/ri_skt | $GlblVar::SCLINSTALLDIR/converters/iscii2utf8.py 1";
       system($cmd);
       print "</pre></center>\n";
       #print "</div>";
@@ -323,7 +324,7 @@ sub call_generator{
 sub call_choice{
   my($avigraha,$ch_table,$rem_ques_nos,$user_choices) = @_;
   my($form);
-          $form =  "<form name=\"f1\" method=\"get\" action=\"CGIURL/skt_gen/compounds/choice.cgi\">\n";
+          $form =  "<form name=\"f1\" method=\"get\" action=\"/cgi-bin/scl/skt_gen/compounds/choice.cgi\">\n";
           $form .= "<input type=\"hidden\" name=\"vigraha\" id=\"vigraha_vAkya\" value=\"$avigraha\" />";
           $form .= $ch_table;
           $form .= "<input type=\"hidden\" name=\"ques_nos\" id=\"rem_ques_nos\" value=\"$rem_ques_nos\" />";

@@ -1,6 +1,8 @@
-#!PERLPATH
+#!/usr/bin/perl
 
-my $myPATH = "SCLINSTALLDIR/skt_gen/compounds";
+require "../../paths.pl";
+
+my $myPATH = "$GlblVar::SCLINSTALLDIR/skt_gen/compounds";
 require "$myPATH/cnvrt2utf.pl";
 require "$myPATH/cnvrt2utfr.pl";
 
@@ -24,8 +26,7 @@ if (param) {
   my $dividpUrva = param("dividpUrva");
   my $anspUrva = param("anspUrva");
   
- #print "Within pUrvapaxa.cgi\n";
- #print "samAsAnwa = $samAsAnwapUrva <br />";
+# print "samAsAnwa = $samAsAnwapUrva <br />";
   $dividpUrva =~ s/#output//;
   $dividpUrva++;
 
@@ -42,18 +43,24 @@ if (param) {
 
   if ($encodingpUrva eq "RMN") {
      $p1utfr = &cnvrt2utfr($p1utf);
-     $pUrvapaxautfr = &cnvrt2utfr($pUrvapaxastrutf);
+     $pUrvapaxautfr = &cnvrt2utfr($pUrvapaxautf);
      $sUwrastrutf = &cnvrt2utfr($sUwrastrpUrva);
   }
 
-  if ($pUrvapaxastr ne "") {
+  if ($anspUrva eq "Yes") {
       if ($encodingpUrva eq "RMN") {
         print "<font color=\"blue\">$p1utfr -&gt; $pUrvapaxautfr</font> <font color=\"red\">$sUwrastrutf</font>";
       } else {
         print "<font color=\"blue\">$p1utf -&gt; $pUrvapaxautf</font> <font color=\"red\">$sUwrastrpUrva</font>";
       }
-      $p1pUrva = $pUrvapaxastr;
+#  } else {
+#      if ($encodingpUrva eq "RMN") {
+#       print " There is no pūrvapadaviśiṣṭakārya\n";
+#      } else {
+#       print " पूर्वपदविशिष्टकार्यम् नास्ति\n";
+#      }
   }
+      $p1pUrva = $pUrvapaxastr;
       $cmd = "$myPATH/uwwarapaxa.out \"$encodingpUrva\" \"$p1pUrva\" \"$p2pUrva\" \"$samAsAnwapUrva\" \"$samAsaprakArapUrva\" $dividpUrva";
       system($cmd);
 }

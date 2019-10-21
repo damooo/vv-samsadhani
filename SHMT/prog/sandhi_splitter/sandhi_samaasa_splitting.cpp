@@ -58,9 +58,9 @@ void splitstring(string str, string seperater, string &first, string &second) //
 
 int main(int argc,char *argv[])
 {
-	if(argc!=8)
+	if(argc!=9)
 	{
-		printf("Usage : ./a.out [option1] [option2] <word probabilities file> <rule file> <fst bin file> <input file> no_of_splits\n");
+		printf("Usage : ./a.out [option1] [option2] <word probabilities file> <rule file> <fst path> <fst bin file> <input file> no_of_splits\n");
 		printf("---------- OPTION 1 ---------\n");
 		printf("-t for getting the optimal solution (testing)\n");
 		printf("-c for comparing with the correct solution\n");
@@ -220,7 +220,7 @@ int main(int argc,char *argv[])
 	ch4[2]='\0';
 	string opt=(string)ch3;
 	string opt1=(string)ch4;
-	ifstream fin3(argv[6]);
+	ifstream fin3(argv[7]);
 	int no=1,correct_ones=0;
 	map < int, int > ranks;
 	while(fin3.getline(line,MAX_LENGTH))
@@ -267,7 +267,7 @@ int main(int argc,char *argv[])
 			{
 				//cout<<"\nfor split : "<<split[i]<<"\n";
 				//if(no_of_splits[i]<=4)
-				if(no_of_splits[i]<=atoi(argv[7]))
+				if(no_of_splits[i]<=atoi(argv[8]))
 				{
 					if(index[i]>=input.length())
 					{
@@ -433,9 +433,10 @@ int main(int argc,char *argv[])
 		split.clear();
 		no_of_splits.clear();
 		rule_applied.clear();
-		string command="LTPROCBINDIR/lt-proc -c "+(string)argv[5]+" < temp_result > temp_result_mo; cat temp_result_mo | grep '*' > result";
+		string command=(string)argv[5]+" -c "+(string)argv[6]+" < temp_result > temp_result_mo; grep '*' temp_result_mo > todelete; sed 's/[^\\/]\\+sa-u-pa[^\\/]\\+//g' temp_result_mo | grep '\\/$'>> todelete";
+// Delete all unanalysed segments as well as segments which are sa-u-pa pratipadikas
 		system(command.c_str());
-		ifstream fin1("result");
+		ifstream fin1("todelete");
 		while(fin1.getline(line,MAX_LENGTH))
 		{
 			p=strtok(line,"/");

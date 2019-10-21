@@ -1,10 +1,9 @@
 (**************************************************************************)
 (*                                                                        *)
-(*                     The Sanskrit Heritage Platform                     *)
 (*                                                                        *)
-(*                              Gérard Huet                               *)
 (*                                                                        *)
-(* ©2015 Institut National de Recherche en Informatique et en Automatique *)
+(* ©2015  Gérard Huet                                                     *)
+(* ©2016 - 2019 Amba Kulkarni                                             *)
 (**************************************************************************)
 
 (* A simple lexer recognizing idents formed from ASCII letters and integers 
@@ -152,17 +151,18 @@ value next_token_fun =
       if s = "(mid" then KEYWORD "(mid" else
       if s = "(word" then KEYWORD "(word" else
       if s = "(rt" then KEYWORD "(rt" else 
-      if s = "(compound_hd" then KEYWORD "(compound_hd" else 
+      if s = "(pUrvapaxa" then KEYWORD "(pUrvapaxa" else 
+      if s = "(uwwarapaxa" then KEYWORD "(uwwarapaxa" else 
       if s = "(wif" then KEYWORD "(wif" else 
       if s = "(kqw" then KEYWORD "(kqw" else 
       if s = "(avy" then KEYWORD "(avy" else 
       if s = "(avykqw" then KEYWORD "(avykqw" else 
       if s = "(avywaxXiwa" then KEYWORD "(avywaxXiwa" else 
       if s = "(waxXiwa" then KEYWORD "(waxXiwa" else 
-      if s = "(waxXiwa_rt" then KEYWORD "(waxXiwa_rt" else 
+    (*  if s = "(waxXiwa_rt" then KEYWORD "(waxXiwa_rt" else *)
       if s = "(waxXiwa_prawyayaH" then KEYWORD "(waxXiwa_prawyayaH" else 
       if s = "(avywaxXiwa" then KEYWORD "(avywaxXiwa" else 
-      if s = "(kqw_vb_rt" then KEYWORD "(kqw_vb_rt" else 
+      if s = "(kqw_vrb_rt" then KEYWORD "(kqw_vrb_rt" else 
       if s = "(kqw_prawyayaH" then KEYWORD "(kqw_prawyayaH" else 
       if s = "(prayogaH" then KEYWORD "(prayogaH" else 
       if s = "(lakAraH" then KEYWORD "(lakAraH" else 
@@ -171,10 +171,10 @@ value next_token_fun =
       if s = "(paxI" then KEYWORD "(paxI" else 
       if s = "(XAwuH" then KEYWORD "(XAwuH" else 
       if s = "(gaNaH" then KEYWORD "(gaNaH" else 
-      if s = "(sanAxiH" then KEYWORD "(sanAxiH" else 
+      if s = "(sanAxi_prawyayaH" then KEYWORD "(sanAxi_prawyayaH" else 
+      if s = "(upasarga" then KEYWORD "(upasarga" else 
       if s = "(lifgam" then KEYWORD "(lifgam" else 
       if s = "(viBakwiH" then KEYWORD "(viBakwiH" else 
-      if s = "(vacanam" then KEYWORD "(vacanam" else  
       if s = "(level" then KEYWORD "(level" 
       else IDENT s
     | [: `c :] _ep -> KEYWORD (String.make 1 c)

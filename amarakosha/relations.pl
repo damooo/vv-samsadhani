@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2006-2011 Shivaja Nair and (2006-2016) Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2006-2011 Shivaja Nair and (2006-2019) Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,9 +17,11 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-use GDBM_File;
+BEGIN{require "../paths.pl";}
 
-my $myPATH = "SCLINSTALLDIR";
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
 
 my $rel_dbm = $ARGV[0];
 my $heading = $ARGV[1];
@@ -28,14 +30,123 @@ my $out_encoding = $ARGV[3];
 
 my(%LEX,%LEX1,%LEX2,%LEX3,$head,$vargaH,$synset,$heading_info,$relata_info,$synset_info);
 
-tie(%LEX,GDBM_File,"$myPATH/amarakosha/DBM/stem2head.gdbm",GDBM_READER,0666) || die "can't open DBM/stem2head.gdbm";
-tie(%LEX1,GDBM_File,"$myPATH/amarakosha/DBM/synset_info.gdbm",GDBM_READER,0666) || die "can't open DBM/synsetinfo.gdbm";
+#tie(%LEX,GDBM_File,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/stem2head.gdbm",GDBM_READER,0666) || die "can't open DBM/stem2head.gdbm";
+open(TMP,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/all_kANdas") || die "can't open DBM/all_kANdas";
+$key = 0;
+$value = 4;
+while(<TMP>) {
+  chomp;
+  @flds = split(/,/,$_);
+  if(($flds[0] !~ /^%/) && ($flds[$key] ne "") && ($flds[$value] ne "")) {
+     if($LEX{$flds[$key]} eq "") {
+        $LEX{$flds[$key]}  =  $flds[$value];
+     }else {
+        if (($LEX{$flds[$key]} !~ /::$flds[$value]::/) &&
+             ($LEX{$flds[$key]} !~ /^$flds[$value]::/) &&
+             ($LEX{$flds[$key]} !~ /::$flds[$value]$/) &&
+             ($LEX{$flds[$key]} !~ /^$flds[$value]$/)) {
+        $LEX{$flds[$key]}  .= "::". $flds[$value];
+        }
+     }
+  }
+}
+close(TMP);
+
+#tie(%LEX1,GDBM_File,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/synset_info.gdbm",GDBM_READER,0666) || die "can't open DBM/synsetinfo.gdbm";
+
+open(TMP,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/all_kANdas") || die "can't open DBM/all_kANdas";
+#Fields: Word(0), Reference(1), Gender(2), Varga(3), Head_word(4), is_a_part_of(5), is_a_kind_of(6), janya_janaka(7), pawi_pawnI(8), svasvAmI(9), vESiRtya(10), saMbanXiwa(11), vqwwi(12), English name(13),
+
+while(<TMP>) {
+  chomp;
+  @flds = split(/,/,$_);
+  if($flds[0] !~ /^%/)  {
+
+     if($LEX1{$flds[4]} eq "") {
+        $LEX1{$flds[4]}  =  $flds[0]."#".$flds[1]."#".$flds[2]."#".$flds[3];
+     }else {
+        $LEX1{$flds[4]}  .= "::". $flds[0]."#".$flds[1]."#".$flds[2]."#".$flds[3];
+     }
+  }
+}
+close(TMP);
 
 if($rel_dbm ne "NULL") {
-   tie(%LEX2,GDBM_File,"$myPATH/amarakosha/DBM/$rel_dbm.gdbm",GDBM_READER,0666) || die "can't open DBM/$rel_dbm.gdbm";
-}
+#   tie(%LEX2,GDBM_File,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/$rel_dbm.gdbm",GDBM_READER,0666) || die "can't open DBM/$rel_dbm.gdbm";
+open(TMP,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/all_kANdas");
 if($rel_dbm eq "onto") {
-   tie(%LEX3,GDBM_File,"$myPATH/amarakosha/DBM/rule_onto.gdbm",GDBM_READER,0666) || die "can't open DBM/rule_onto.gdbm";
+while(<TMP>) {
+  chomp;
+  @flds = split(/,/,$_);
+ # print "input = ",$_,"\n";
+  if(($flds[4] !~ /^%/) && (($flds[13] ne "") || ($flds[14] ne ""))) {
+
+     $str  =  $flds[13]."#".$flds[14];
+     if($LEX2{$flds[4]} eq "") {
+        $LEX2{$flds[4]}  =  $str;
+     } elsif (($LEX2{$flds[4]} !~ /^$str$/) && ($LEX{$flds[4]} !~ /^$str::/) && ($LEX{$flds[4]} !~ /::$str$/) && ($LEX{$flds[4]} !~ /::$str::/)){
+#        print "str = $str\n";
+#        print "LEX = $LEX{$flds[4]}\n";
+        $LEX2{$flds[4]}  .= "::". $str;
+     }
+  }
+}
+}
+else {
+if ($rel_dbm eq "stem2head") { $key = 0; $value = 4; }
+elsif ($rel_dbm eq "avayava") { $key = 5; $value = 4; }
+elsif ($rel_dbm eq "avayavI") { $key = 4; $value = 5; }
+elsif ($rel_dbm eq "aparAjAwi") { $key = 6; $value = 4; }
+elsif ($rel_dbm eq "parAjAwi") { $key = 4; $value = 6; }
+elsif ($rel_dbm eq "janaka") { $key = 4; $value = 7; }
+elsif ($rel_dbm eq "janya") { $key = 7; $value = 4; }
+elsif ($rel_dbm eq "pawi") { $key = 4; $value = 8; }
+elsif ($rel_dbm eq "pawnI") { $key = 8; $value = 4; }
+elsif ($rel_dbm eq "svAmI") { $key = 4; $value = 9; }
+elsif ($rel_dbm eq "sevaka") { $key = 9; $value = 4; }
+elsif ($rel_dbm eq "vESiRtya") { $key = 4; $value = 10; }
+elsif ($rel_dbm eq "vESiRtyavaw") { $key = 10; $value = 4; }
+elsif ($rel_dbm eq "sambanXiwa") { $key = 4; $value = 11; }
+elsif ($rel_dbm eq "vqwwi") { $key = 4; $value = 12; }
+elsif ($rel_dbm eq "vqwwivAn") { $key = 12; $value = 4; }
+while(<TMP>) {
+  chomp;
+  @flds = split(/,/,$_);
+  if(($flds[0] !~ /^%/) && ($flds[$key] ne "") && ($flds[$value] ne "")) {
+     if($LEX2{$flds[$key]} eq "") {
+        $LEX2{$flds[$key]}  =  $flds[$value];
+     }else {
+        if (($LEX2{$flds[$key]} !~ /::$flds[$value]::/) &&
+             ($LEX2{$flds[$key]} !~ /^$flds[$value]::/) &&
+             ($LEX2{$flds[$key]} !~ /::$flds[$value]$/) &&
+             ($LEX2{$flds[$key]} !~ /^$flds[$value]$/)) {
+        $LEX2{$flds[$key]}  .= "::". $flds[$value];
+        }
+     }
+  }
+}
+}
+close(TMP);
+}
+
+if($rel_dbm eq "onto") {
+#   tie(%LEX3,GDBM_File,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/rule_onto.gdbm",GDBM_READER,0666) || die "can't open DBM/rule_onto.gdbm";
+
+   open(TMP,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/rules_onto") || die "can't open DBM/rules_onto";
+while(<TMP>) {
+  chomp;
+  @flds = split(/,/,$_);
+ # print "input = ",$_,"\n";
+  if(($flds[0] !~ /^%/) && ($flds[1] ne "")) {
+
+     if($LEX3{$flds[0]} eq "") {
+        $LEX3{$flds[0]}  =  $flds[1];
+     }else {
+        $LEX3{$flds[0]}  .= "::". $flds[1];
+     }
+  }
+ }
+ close(TMP);
 }
 
    $heading_info = "<\@br><\@font \@color=\"\@magenta\">$heading</\@font><\@br>";
@@ -43,9 +154,9 @@ if($rel_dbm eq "onto") {
   if($rel_dbm eq "NULL") { print "<\@center>$heading_info</\@center>"; }
 
   if($LEX{$word} eq "") {
-     $out = `$myPATH/amarakosha/shw_stem.pl $word | /usr/bin/sort -u`;
+     $out = `$GlblVar::SCLINSTALLDIR/amarakosha/shw_stem.pl $word | /usr/bin/sort -u`;
      if ($out) {
-        ` echo $out | $myPATH/amarakosha/showMsg.pl $rel_dbm $out_encoding`;
+        ` echo $out | $GlblVar::SCLINSTALLDIR/amarakosha/showMsg.pl $rel_dbm $out_encoding`;
      } else {print "\@Could \@not \@find $word \@in \@the \@Amarakosha\n";}
   } else {
     @head = split(/::/,$LEX{$word});
@@ -127,14 +238,14 @@ sub synset_info{
         $synset_info .= "<\@font \@color=\"\@black\">";
         for ($i=0;$i<=$#synset;$i++) {
            ($wrd,$kANda,$lifgam,$vargaH) = split(/#/,$synset[$i]);
+           chop($lifgam);
            if($i == 0){
               $synset_info .= "<\@font \@color=\"\@red\">vargaH :: $vargaH</\@font> | ";
            }
            if($wrd eq $word) {
-              $synset_info .= ", <\@a \@title=\"kANda,varga,Sloka,pAxa :: $kANda\,lifga :: $lifgam". "\"><\@span \@style=\"\@background:\@yellow;\">".$wrd."<\/\@span></\@a>";
-           } else {
-              $synset_info .= ", <\@a \@title=\"kANda,varga,Sloka,pAxa :: $kANda\,lifga :: $lifgam". "\">".$wrd."</\@a>";
-           }
+              $style = "<\@span \@style=\"\@background:\@yellow;\">";
+           } else { $style = "<\@span \@style=\"\">";}
+           $synset_info .= ", $style <\@a \@title=\"kANda,varga,Sloka,pAxa :: $kANda\,lifga :: $lifgam\" \@href=\"\@javascript:\@generate_\@noun_\@forms('\@Unicode','$wrd','$lifgam')\">".$wrd."</\@a><\/\@span>";
         }
         $synset_info .= "</\@font></\@div>";
 $synset_info;
@@ -166,7 +277,7 @@ sub get_sloka_info1{
 		foreach $nums (@nums){
 		$nums =~ /([0-9]+\.[0-9]+\.[0-9]+)\.*/; $s = $1;
 		$count = 0;
-		die "can't open file for reading $!" unless open(TMP,"$myPATH/amarakosha/amara.wx");
+		die "can't open file for reading $!" unless open(TMP,"$GlblVar::SCLINSTALLDIR/amarakosha/amara.wx");
            	 while(my $in = <TMP>){
 			chomp $in;
 			if($in =~ /<Sloka_$s>/ and $count ==0){  $result .= $in; $count =1; }

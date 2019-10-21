@@ -1,4 +1,4 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
 my $DEBUG=0;
 $pra="praWamapaxam";
@@ -8,7 +8,8 @@ $sa="sanXiH";
 $sut="sUwram/vArwikam";
 $pra1="prakriyA";
 
-$myPATH="SCLINSTALLDIR/skt_gen/compounds";
+require "../../paths.pl";
+$myPATH="$GlblVar::SCLINSTALLDIR/skt_gen/compounds";
 
 require "$myPATH/apavAxa_any.pl";
 require "$myPATH/internal_sandhi.pl";

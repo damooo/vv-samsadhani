@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,11 +18,13 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-require "SCLINSTALLDIR/SHMT/prog/morph/bin/get_std_spelling_fn.pl";
+$SCLINSTALLDIR = $ARGV[0];
+require "$SCLINSTALLDIR/paths.pl";
+require "$GlblVar::SCLINSTALLDIR/SHMT/prog/Normalisation/get_std_spelling_fn.pl";
 
 
 $PUNC = "[\.\|!]?";
-open(TMP, "<$ARGV[0]") || die "can't open $ARGV[0] for reading";
+open(TMP, "<$ARGV[1]") || die "can't open $ARGV[1] for reading";
 
 while($in = <TMP>){
   chomp($in);

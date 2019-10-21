@@ -1,19 +1,20 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-my $myPATH="SCLINSTALLDIR";
 
-require "$myPATH/converters/convert.pl";
-require "$myPATH/sandhi/sandhi.pl";
-require "$myPATH/sandhi/apavAxa_any.pl";
-require "$myPATH/sandhi/any_sandhi.pl";
+require "../paths.pl";
+require "$GlblVar::SCLINSTALLDIR/converters/convert.pl";
+require "$GlblVar::SCLINSTALLDIR/sandhi/sandhi.pl";
+require "$GlblVar::SCLINSTALLDIR/sandhi/apavAxa_any.pl";
+require "$GlblVar::SCLINSTALLDIR/sandhi/any_sandhi.pl";
 
 package main;
 
-    if (! (-e "TFPATH")){
-        mkdir "TFPATH" or die "Error creating directory TFPATH";
+if($GlblVar::VERSION eq "SERVER"){
+    if (! (-e "$GlblVar::TFPATH")){
+        mkdir "$GlblVar::TFPATH" or die "Error creating directory $GlblVar::TFPATH";
     }
-
-open(TMP1,">>TFPATH/sandhi.log") || die "Can't open TFPATH/sandhi.log for writing";
+  open(TMP1,">>$GlblVar::TFPATH/sandhi.log") || die "Can't open $GlblVar::TFPATH/sandhi.log for writing";
+}
 
 use CGI qw/:standard/;
 #use CGI::Carp qw(fatalsToBrowser);
@@ -28,10 +29,10 @@ use CGI qw/:standard/;
      chomp($word2);
      $sandhi_type = "any";
 
-      $word1_wx=&convert($encoding,$word1);
+      $word1_wx=&convert($encoding,$word1,$GlblVar::SCLINSTALLDIR);
       chomp($word1_wx);
 
-      $word2_wx=&convert($encoding,$word2);
+      $word2_wx=&convert($encoding,$word2,$GlblVar::SCLINSTALLDIR);
       chomp($word2_wx);
       
       $ans = &sandhi($word1_wx,$word2_wx);
@@ -39,15 +40,17 @@ use CGI qw/:standard/;
 
        $string = $word1_wx.",".$word2_wx.",".$ans[0].",".$ans[1].",".$ans[2].",".$ans[3].",".$ans[4].",".$ans[5].",".$ans[6].",".$ans[7].",";
 
-      $cmd = "echo \"$string\" | $myPATH/converters/ri_skt | $myPATH/converters/iscii2utf8.py 1";
+      $cmd = "echo \"$string\" | $GlblVar::SCLINSTALLDIR/converters/ri_skt | $GlblVar::SCLINSTALLDIR/converters/iscii2utf8.py 1";
       $san = `$cmd`;
       $san=~s/,:/,/g;
 
+if($GlblVar::VERSION eq "SERVER"){
       if($san){ 
             print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n\n"."encoding:$encoding\t"."word1:$word1\t"."word2:$word2###############\n\n"; 
       } else { 
             print TMP1 "error:","$san\n###############\n\n";
       }
+}
 
       @san=split(/,/,$san);
       @san2=split(/:/,$san[2]);
@@ -80,4 +83,6 @@ use CGI qw/:standard/;
 
 print "<br></BODY></HTML>";
 }
-close (TMP1);
+if($GlblVar::VERSION eq "SERVER"){
+  close (TMP1);
+}

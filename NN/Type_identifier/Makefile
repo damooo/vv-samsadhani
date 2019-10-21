@@ -6,7 +6,7 @@ TARGETS: typeidentifier.out
 
 all: $(TARGETS)
 
-LIBPATH = LPATH
+LIBPATH = /usr/lib
 FLEX = lex
 CC = gcc
 CFLAGS = -L$(LIBPATH) -g -Wall -o
@@ -16,3 +16,5 @@ typeidentifier.out:  typeidentifier.lex typeidentifier.y
 	bison -d -v typeidentifier.y
 	$(CC) $(CFLAGS) typeidentifier.out -DDEBUG=0 typeidentifier.tab.c lex.yy.c -ll
 	rm lex.yy.c
+clean:
+	rm -f $(TARGETS)

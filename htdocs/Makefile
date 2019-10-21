@@ -1,10 +1,6 @@
 SHELL = /bin/bash
 
-install:
-	source ../spec.txt
-	cp -r *.html HTDOCSDIR; cp -p *.js HTDOCSDIR; cp -pr ../css_files HTDOCSDIR; cp -pr ../js_files HTDOCSDIR; cp -pr ../imgs HTDOCSDIR; cp *.cgi CGIDIR
+include ../paths.sh
 
-debian_install:
-	source ../spec_debian.txt
-	mkdir -p /tmp/sclHTDOCSDIR
-	cp -r *.html /tmp/sclHTDOCSDIR; cp -pr images /tmp/sclHTDOCSDIR; cp -p *.js /tmp/sclHTDOCSDIR; cp *.cgi /tmp/sclCGIDIR
+install:
+	cp *.html $(HTDOCSDIR)/scl; cp *.js $(HTDOCSDIR)/scl; cp -r ../css_files $(HTDOCSDIR)/scl; cp -r ../js_files $(HTDOCSDIR)/scl; cp -r ../imgs $(HTDOCSDIR)/scl; cp *.cgi $(CGIDIR)/scl

@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,21 +18,23 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
+require "../paths.pl";
+
 package main;
 use CGI qw/:standard/;
 #use CGI::Carp qw(fatalsToBrowser);
 
 
       if (param) {
-      $encoding=param("encoding");
-      $sentences=param("text");
-      $splitter=param("splitter");
-      $out_encoding=param("out_encoding");
-      $morph=param("morph");
-      $parse=param("parse");
+      my $encoding=param("encoding");
+      my $sentences=param("text");
+      my $splitter=param("splitter");
+      my $out_encoding=param("out_encoding");
+      my $morph=param("morph");
+      my $parse=param("parse");
 
       if ($out_encoding eq "Devanagari") { $script = "DEV";}
-      if ($out_encoding eq "Roman-Diacritic") { $script = "ROMAN";}
+      if ($out_encoding eq "IAST") { $script = "IAST";}
       if ($out_encoding eq "Velthuis") { $script = "VH";}
       if ($splitter eq "None") { $sandhi = "NO"; $morph = "UoHyd";}
       if ($splitter eq "Heritage Splitter") { $sandhi = "YES"; $morph = "GH";}
@@ -41,7 +43,7 @@ use CGI qw/:standard/;
       if ($parse eq "Partial") { $parse = "Partial";}
       if ($parse eq "Full") { $parse = "Full";}
 
-      $pid = $$;
+      my $pid = $$;
 
       $sentences =~ s/\r//g;
       $sentences =~ s/\n/#/g;
@@ -52,8 +54,8 @@ use CGI qw/:standard/;
       $sentences =~ s/\|[ ]+$/./g;
       $sentences =~ s/\.[ ]+$/./g;
 
-      system("mkdir -p TFPATH/tmp_in$pid");
-      open(TMP,">TFPATH/tmp_in$pid/wor.$pid") || die "Can't open TFPATH/tmp_in$pid/wor.$pid for writing";
+      system("mkdir -p $GlblVar::TFPATH/tmp_in$pid");
+      open(TMP,">$GlblVar::TFPATH/tmp_in$pid/wor.$pid") || die "Can't open $GlblVar::TFPATH/tmp_in$pid/wor.$pid for writing";
       print TMP $sentences,"\n";
       close(TMP);
 
@@ -62,6 +64,6 @@ use CGI qw/:standard/;
 
       my $cgi = new CGI;
       print $cgi->header (-charset => 'UTF-8');
-      system("SCLINSTALLDIR/SHMT/prog/shell/callmtshell.pl TFPATH $sentences $encoding $pid $script $sandhi $morph $parse");
-      system ("cat TFPATH/tmp_in${pid}/in${pid}_main.xml");
+      system("$GlblVar::SCLINSTALLDIR/SHMT/prog/shell/callmtshell.pl $GlblVar::TFPATH $sentences $encoding $pid $script $sandhi $morph $parse $GlblVar::LTPROCBIN");
+      system ("cat $GlblVar::TFPATH/tmp_in${pid}/in${pid}_main.xml");
       }

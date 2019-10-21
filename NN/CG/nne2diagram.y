@@ -48,6 +48,7 @@ examples: example
 
 example: NNE '\n' {
                                printf("@digraph @G\n{\n");
+                               printf("@labelfloat=@true;\n");
                                max = 1;
 			       for(i=1;i<=T_counter;i++){
                                  j = terminfo[i].level;
@@ -55,7 +56,7 @@ example: NNE '\n' {
                                  sprintf(level[j],"%s @Node%d",level[j],i); 
                                }
 			       for(i=1;i<T_counter;i++){
-                                  printf("@Node%d\t[@label=\"%s (%d:%d)\" ",i,terminfo[i].word,i,terminfo[i].level);
+                                  printf("@Node%d\t[@label=\"%s (%d)\" ",i,terminfo[i].word,i);
                                   printf("@fontcolor=\"@red\" @shape = \"@box\" ]\n");
                                }
 			       for(i=1;i<rel_counter;i++){

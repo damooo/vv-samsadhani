@@ -1,18 +1,16 @@
- my $mycPATH = "SCLINSTALLDIR/converters";
+#!/usr/bin/env perl
+
+require "../../paths.pl";
+ my $mycPATH = "$GlblVar::SCLINSTALLDIR/converters";
+
  sub cnvrt2utf {
   my($in) = @_;
+  chomp($in);
 
-  $pid = $$;
-  open(TMP,">TFPATH/tmpin$pid");
-  print TMP $in," "; #Idiosynchrosy of ir_skt; does not work well if con is at the end. Hence added an extra space
-  close(TMP);
+  $in = $in." "; #Idiosynchrosy of ir_skt; does not work well if con is at the end. Hence added an extra space
 
-  system("$mycPATH/wx2utf8.sh < TFPATH/tmpin$pid > TFPATH/tmpout$pid");
+  $out = `echo $in | $mycPATH/ri_skt | $mycPATH/iscii2utf8.py 1`;
 
-  open(TMP,"<TFPATH/tmpout$pid");
-  $out = <TMP>;
-  chomp($out);
-  close(TMP);
 $out;
 }
-1; 
+1;

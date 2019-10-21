@@ -1,4 +1,4 @@
-#!PERLPATH
+#!/usr/bin/env perl
 $/="\n\n";
 while($in=<STDIN>) {
 @input=split("\n",$in);

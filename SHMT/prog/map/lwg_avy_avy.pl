@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,13 +18,26 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
+#BEGIN{require "$ARGV[0]/paths.pl";}
+
+#use lib $GlblVar::LIB_PERL_PATH;
+
 $/ = "\n\n";
 
-$Data_Path=$ARGV[0];
-$LANG = $ARGV[1];
+$Data_Path=$ARGV[1];
+$LANG = $ARGV[2];
 
-use GDBM_File;
-tie(%LWG,GDBM_File,"$Data_Path/$LANG/avy_avy.dbm",GDBM_READER,0644) || die "Can't open noun.dbm for reading";
+#use GDBM_File;
+#tie(%LWG,GDBM_File,"$Data_Path/$LANG/avy_avy.dbm",GDBM_READER,0644) || die "Can't open noun.dbm for reading";
+open(TMP,"$Data_Path/$LANG/avy_avy.txt") || die "Can't open avy_avy.txt for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^([^,]+),(.*)$/;
+$key = $1;
+$val = $2;
+$LWG{$key}=$val;
+}
+close(TMP);
 
 while($in = <STDIN>){
 

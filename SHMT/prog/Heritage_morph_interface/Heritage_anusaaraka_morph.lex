@@ -1,18 +1,20 @@
  int debug;
  char word[100];
- char gen[5][20];
- char num[5][20];
- char per[5][20];
+ char gen[10][20];
+ char num[10][20];
+ char per[10][20];
+ char gaNa[10][10];
+ char gana[10];
  char vargaH[20];
  char pv[20];
- char vib[5][20];
- char prayogaH[5][30];
- char san[5][10];
- char lakAraH[5][40];
+ char vib[10][20];
+ char prayogaH[10][30];
+ char san[40];
+ char lakAraH[10][40];
  char kqw[40];
  char kqw_prati[40];
  char prati[40];
- char paxI[5][40];
+ char paxI[10][40];
  char ans[1000];
  char tmp[200];
  char iic[100];
@@ -21,16 +23,17 @@
  int word_no;
  int iic_count;
  int i;
-%x IGNORE
+ void get_gana();
+%option nounput
+%option noinput
 %%
-\<solution[ ]num=\"[0-9]+\"\>	{if(debug) { printf("found new solution\n");} sent_no++;}
 \<form[ ]wx=\"[^\"]+/\"	{ if(strcmp(pv,"")){ strcpy(word,pv); strcat(word,"-");} 
 			  else if( iic_count > 0) { strcat(word,"-");}
                           else {word[0] = '\0';}
                           strcat(word,yytext+10); 
                           word_no++;strcpy(ans,""); 
                           if(debug) {   printf("found form wx\n"); 
-					printf("word = %s",word);
+					printf("word = %s\n",word);
 					printf("ans = %s\n",ans);
 				    }
 			}
@@ -41,27 +44,23 @@
 			 word_no--;
 			 if(debug) {printf(" found tags phase pv\n pv = %s",pv);}
 			}
-\<entry[ ]wx=\"[^\"]+/\"\/\>\<krid\>	{
+\<entry[ ]wx=\"[^\"]+/\"\/\>\<krid	{
 			strcpy(kqw_prati,yytext+11);
+			iic_count=0;
 			if(!strcmp(vargaH,"nA")) {strcpy(vargaH,"kqw_nA");}
 			if(debug) {printf(" found krid = %s vargaH = %s",kqw_prati, vargaH);}
 			}
 \<entry[ ]wx=\"[^\"]+/\"	{ 
-                                  if(strcmp(pv,"")) {
-                                    strcpy(prati,pv);
-				    strcat(prati,yytext+11); 
-                                    strcpy(pv,"");
-                                  } else 
-				    strcpy(prati,yytext+11); 
+				  strcpy(prati,yytext+11); 
                         	  if(debug) {printf(" read prati\n");}
 				}
 
 \<tags[ ]phase=\"noun\"\>	{strcpy(vargaH,"nA"); 
-				 iic_count = 0;
+				 iic_count=0;
 				 if(debug) {printf(" in phase noun\n");}
 				}
 \<tags[ ]phase=\"unknown\"\>	{strcpy(vargaH,"UNKN"); 
-				 iic_count = 0;
+				 iic_count=0;
 				 if(debug) {printf(" in phase noun\n");}
 				}
 \<tags[ ]phase=\"iic\"\>	{strcpy(vargaH,"sa-pU-pa"); 
@@ -70,11 +69,13 @@
 				 if(debug) {printf(" in phase iic\n");}
 				}
 \<tags[ ]phase=\"ifc\"\>	{strcpy(vargaH,"nA");
+				 iic_count=0;
 				 if(debug) { printf(" in phase ifc\n");}
 				}
-\<tags[ ]phase=\"unde\"\>	{strcpy(vargaH,"avy");}
-\<tags[ ]phase=\"inde\"\>	{strcpy(vargaH,"avy");}
-\<tags[ ]phase=\"root\"\>	{strcpy(vargaH,"KP");}
+\<tags[ ]phase=\"unde\"\>	{strcpy(vargaH,"avy"); iic_count = 0;}
+\<tags[ ]phase=\"inde\"\>	{strcpy(vargaH,"avy"); iic_count = 0;}
+\<tags[ ]phase=\"root\"\>	{strcpy(vargaH,"KP"); iic_count = 0;}
+\<tags[ ]phase=\"voca\"\>	{strcpy(vargaH,"nA"); iic_count = 0;}
 
 \<tag\>	{count=-1; 
 	 if(debug) {printf(" new tag starts\n");}
@@ -84,7 +85,7 @@
 \<\/morpho_infl\>	{}
 \<morpho_gen\>	{}
 \<morpho_gen>[a-zA-Z]+	{strcpy(pv,yytext+12);
-			 strcat(pv,"_");
+			// strcat(pv,"_");
 			// Added 18 Jul 2015 to handle GH's new treatment of pvs
                         }
 \<\/morpho_gen\>	{}
@@ -110,9 +111,9 @@
 \<f\/\>	{strcpy(gen[count],"<lifgam:swrI>");}
 \<d\/\>	{strcpy(gen[count],"<lifgam:a>");}
 
-\<sg\/\>	{strcpy(num[count],"<vacanam:1>");}
-\<du\/\>	{strcpy(num[count],"<vacanam:2>");}
-\<pl\/\>	{strcpy(num[count],"<vacanam:3>");}
+\<sg\/\>	{strcpy(num[count],"<vacanam:eka>");}
+\<du\/\>	{strcpy(num[count],"<vacanam:xvi>");}
+\<pl\/\>	{strcpy(num[count],"<vacanam:bahu>");}
 
 \<thd\/\>	{strcpy(per[count],"<puruRaH:pra>");}
 \<snd\/\>	{strcpy(per[count],"<puruRaH:ma>");}
@@ -127,40 +128,40 @@
 \<iic\/\>	{}
 \<unknown\/\>	{}
 
-\<ca\/\>	{strcpy(san[count],"<sanAxiH:Nic>");}
-\<des\/\>	{strcpy(san[count],"<sanAxiH:san>");}
-\<int\/\>	{strcpy(san[count],"<sanAxiH:yaf>");}
+\<ca\/\>	{strcpy(san,"<sanAxi_prawyayaH:Nic>");}
+\<des\/\>	{strcpy(san,"<sanAxi_prawyayaH:san>");}
+\<int\/\>	{strcpy(san,"<sanAxi_prawyayaH:yaf>");}
 
 \<ac\/>	{strcpy(prayogaH[count],"<prayogaH:karwari>"); strcpy(paxI[count],"<paxI:parasmEpaxI>");}
 \<md\/>	{strcpy(prayogaH[count],"<prayogaH:karwari>"); strcpy(paxI[count],"<paxI:AwmanepaxI>");}
 \<ps\/>	{strcpy(prayogaH[count],"<prayogaH:karmaNi>");strcpy(paxI[count],"<paxI:AwmanepaxI>");}
 
-\<pr[ ]gana=[0-9]+\/\>	{strcpy(lakAraH[count],"<lakAraH:lat>");}
-\<imp[ ]gana=[0-9]+\/\>	{strcpy(lakAraH[count],"<lakAraH:lot>");}
-\<aor[ ]gana=[0-9]+\/\>	{strcpy(lakAraH[count],"<lakAraH:luf>");}
-\<inj[ ]gana=[0-9]+\/\>	{strcpy(lakAraH[count],"<luf>");}
-\<prps\/\>	{strcpy(lakAraH[count],"<lakAraH:lat>"); strcpy(prayogaH[count],"<prayogaH:karmaNi>");}
-\<impps\/\>	{strcpy(lakAraH[count],"<lakAraH:lot><prayogaH:karmaNi>");}
-\<optps\/\>	{strcpy(lakAraH[count],"<lakAraH:viXilif><prayogaH:karmaNi>");}
-\<impftps\/\>	{strcpy(lakAraH[count],"<lakAraH:laf><prayogaH:karmaNi>");}
-\<impft[ ]gana=[0-9]+\/\>	{strcpy(lakAraH[count],"<lakAraH:laf>");}
-\<perfut\/\>	{strcpy(lakAraH[count],"<lakAraH:lut>");}
-\<fut\/\>	{strcpy(lakAraH[count],"<lakAraH:lqt>");}
-\<pft\/\>	{strcpy(lakAraH[count],"<lakAraH:lit>");}
-\<cond\/\>	{strcpy(lakAraH[count],"<lakAraH:lqf>");}
-\<ben\/\>	{strcpy(lakAraH[count],"<lakAraH:ASIrlif>");}
+\<pr[ ]gana=[0-9]+\/\>	{get_gana(yytext[9],gana);strcpy(gaNa[count],gana); strcpy(lakAraH[count],"<lakAraH:lat>");}
+\<imp[ ]gana=[0-9]+\/\>	{get_gana(yytext[10],gana);strcpy(gaNa[count],gana);strcpy(lakAraH[count],"<lakAraH:lot>");}
+\<aor[ ]gana=[0-9]+\/\>	{get_gana(yytext[10],gana);strcpy(gaNa[count],gana);strcpy(lakAraH[count],"<lakAraH:luf>");}
+\<inj[ ]gana=[0-9]+\/\>	{get_gana(yytext[10],gana);strcpy(gaNa[count],gana);strcpy(lakAraH[count],"<luf>");}
+\<prps\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<lakAraH:lat>"); strcpy(prayogaH[count],"<prayogaH:karmaNi>");strcpy(paxI[count],"<paxI:AwmanepaxI>");}
+\<impps\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<prayogaH:karmaNi><lakAraH:lot>");strcpy(paxI[count],"<paxI:AwmanepaxI>");}
+\<optps\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<prayogaH:karmaNi><lakAraH:viXilif>");strcpy(paxI[count],"<paxI:AwmanepaxI>");}
+\<impftps\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<prayogaH:karmaNi><lakAraH:laf>");strcpy(paxI[count],"<paxI:AwmanepaxI>");}
+\<impft[ ]gana=[0-9]+\/\>	{get_gana(yytext[12],gana);strcpy(gaNa[count],gana);strcpy(lakAraH[count],"<lakAraH:laf>");strcpy(paxI[count],"<paxI:AwmanepaxI>");}
+\<perfut\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<lakAraH:lut>");strcpy(paxI[count],"<paxI:AwmanepaxI>");}
+\<fut\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<lakAraH:lqt>");}
+\<pft\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<lakAraH:lit>");}
+\<cond\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<lakAraH:lqf>");}
+\<ben\/\>	{strcpy(gaNa[count],"X");strcpy(lakAraH[count],"<lakAraH:ASIrlif>");}
 
-\<ppr[ ]gana=[1-9]\<ac\/\>	{strcpy(kqw,"<kqw_prawyayaH:Sawq_lat>"); }
-\<ppr[ ]gana=[1-9]\<md\/\>	{strcpy(kqw,"<kqw_prawyayaH:SAnac_lat>"); }
-\<ppr[ ]gana=[1-9]\<ps\/\>	{strcpy(kqw,"<kqw_prawyayaH:SAnac_lat>"); }
+\<ppr[ ]gana=[0-9]+\/\>\<ac\/\>	{get_gana(yytext[10],gana);strcpy(gaNa[count],gana);strcpy(kqw,"<kqw_prawyayaH:Sawq_lat>"); }
+\<ppr[ ]gana=[0-9]+\/\>\<md\/\>	{get_gana(yytext[10],gana);strcpy(gaNa[count],gana);strcpy(kqw,"<kqw_prawyayaH:SAnac_lat>"); }
+\<ppr[ ]gana=[0-9]+\/\>\<ps\/\>	{get_gana(yytext[10],gana);strcpy(gaNa[count],gana);strcpy(kqw,"<kqw_prawyayaH:SAnac_lat>"); }
 
 \<abs\/\>	{strcpy(kqw,"<kqw_prawyayaH:kwvA>"); strcpy(vargaH,"avykqw");}
 \<inf\/\>	{strcpy(kqw,"<kqw_prawyayaH:wumun>"); strcpy(vargaH,"avykqw");}
-\<pfp\/\>1	{strcpy(kqw,"<kqw_prawyayaH:yaw>"); /*printf("found krid pp\n"); Whether it is Nyaw / yaw / kyap ? */}
+\<pfp\/\>1	{strcpy(kqw,"<kqw_prawyayaH:yaw>");} /* This is kqw_nA and not avykqw;  strcpy(vargaH,"avykqw");} printf("found krid pp\n"); Whether it is Nyaw / yaw / kyap ? */
 \<pfp\/\>2	{strcpy(kqw,"<kqw_prawyayaH:anIyar>"); /*printf("found krid pp\n"); */}
 \<pfp\/\>3	{strcpy(kqw,"<kqw_prawyayaH:wavyaw>"); /*printf("found krid pp\n"); */}
 \<pp\/\>	{strcpy(kqw,"<kqw_prawyayaH:kwa>"); /*printf("found krid pp\n");*/}
-\<ppa\/\>	{strcpy(kqw,"<kqw_prawyayaH:kwavaw>"); /*printf("found krid pp\n");*/}
+\<ppa\/\>	{strcpy(kqw,"<kqw_prawyayaH:kwavawu>"); /*printf("found krid pp\n");*/}
 
 \<choice\>	{count++;}
 
@@ -189,12 +190,8 @@
                          tmp[0] = '\0';
                       }
                       else if(!strcmp(vargaH,"KP")) {
-                         if(strcmp(pv,"")){ 
-                            sprintf(tmp,"%s_",pv);
-			    strcat(ans,tmp);
-                            tmp[0] = '\0';
-                         }
-                         sprintf(tmp,"%s%s%s%s%s%s%s<level:1>",prati,prayogaH[i],lakAraH[i],per[i],num[i],paxI[i],san[i]);
+                         if(!strcmp(pv,"")){ strcpy(pv,"X");}
+                         sprintf(tmp,"%s<upasarga:%s>%s%s%s%s%s%s<gaNaH:%s><level:1>",prati,pv,san,prayogaH[i],lakAraH[i],per[i],num[i],paxI[i],gaNa[i]);
 			 strcat(ans,tmp);
                          tmp[0] = '\0';
                       }
@@ -204,13 +201,11 @@
                          tmp[0] = '\0';
                       }
                       else if(!strcmp(vargaH,"avykqw")) {
-                         if(strcmp(pv,"")){ 
-                            sprintf(tmp,"%s_",pv);
-			    strcat(ans,tmp);
-                            tmp[0] = '\0';
-                            if(!strcmp(kqw,"<kqw_prawyayaH:kwvA>")) { strcpy(kqw,"<kqw_prawyayaH:lyap>");}
+                         if(!strcmp(pv,"")){ strcpy(pv,"X");}
+                         else if(!strcmp(kqw,"<kqw_prawyayaH:kwvA>")) { 
+                             strcpy(kqw,"<kqw_prawyayaH:lyap>");
                          }
-                         sprintf(tmp,"%s<vargaH:avy>%s<level:1>",prati,kqw);
+                         sprintf(tmp,"%s<upasarga:%s><vargaH:avy>%s%s<level:1>",prati,pv,san,kqw);
 			 strcat(ans,tmp);
                          tmp[0] = '\0';
                       }
@@ -224,13 +219,8 @@
 			   strcat(ans,tmp);
                            tmp[0] = '\0';
                          }
-                         if(strcmp(pv,"")){ 
-                            strcat(tmp,pv);
-                            strcat(tmp,"_");
-			    strcat(ans,tmp);
-                            tmp[0] = '\0';
-                         }
-                         sprintf(tmp,"%s%s<level:0><kqw_pratipadika:%s><vargaH:nA>%s%s%s%s",prati,kqw,kqw_prati,gen[i],vib[i],num[i],san[i]);
+                         if(!strcmp(pv,"")){ strcpy(pv,"X");}
+                         sprintf(tmp,"%s<upasarga:%s>%s%s<kqw_pratipadika:%s><vargaH:nA>%s%s%s<level:1>",prati,pv,san,kqw,kqw_prati,gen[i],vib[i],num[i]);
 			 strcat(ans,tmp);
                          tmp[0] = '\0';
                       }
@@ -243,6 +233,19 @@
                   }
                   if(!strcmp(vargaH,"avykqw") || !strcmp(vargaH,"kqw_nA") || !strcmp(vargaH,"KP") || !strcmp(vargaH,"nA")){ strcpy(pv,""); strcpy(iic,"");}
                   /*printf("finished tag\n"); */
+
+                    for(i=0;i<10;i++) { 
+                      gen[i][0] = '\0';
+                      num[i][0] = '\0'; 
+                      per[i][0] = '\0'; 
+                      vib[i][0] = '\0'; 
+                      prayogaH[i][0] = '\0'; 
+                      san[0] = '\0'; 
+                      lakAraH[i][0] = '\0'; 
+                      kqw[0] = '\0'; 
+                      kqw_prati[0] = '\0'; 
+                      paxI[i][0] = '\0';
+                    }
                 }
 \<\/tags\>	{ if((!strcmp(pv,"")) && (!strcmp(iic,""))){
                      if(word_no == 1) {
@@ -254,36 +257,30 @@
                      } 
                   }
                   if(debug) {printf(" finished with tags\n");}
-                    for(i=0;i<5;i++) { 
+                    for(i=0;i<10;i++) { 
                       gen[i][0] = '\0';
                       num[i][0] = '\0'; 
                       per[i][0] = '\0'; 
                       vib[i][0] = '\0'; 
                       prayogaH[i][0] = '\0'; 
-                      san[i][0] = '\0'; 
+                      san[0] = '\0'; 
                       lakAraH[i][0] = '\0'; 
                       kqw[0] = '\0'; 
                       kqw_prati[0] = '\0'; 
                       paxI[i][0] = '\0';
                     }
                 }
-\<\/solution\>	{printf("\n");word_no = 0;
-		  /* BEGIN IGNORE; */
-                 if(debug) { printf(" solution complete\n");}}
 \>      { } /*printf("end >\n");*/
 .	{}
 \n	{ if(debug) {printf(" ignore new line\n");}}
- /*
-   <IGNORE>.	{} ignore other solutions
-   <IGNORE>\n	{} ignore other solutions 
- */
 %%
-int 
-main(int argc, char *argv[])
+void get_gana();
+
+int main(int argc, char *argv[])
 {
 extern int count, sent_no, word_no,i;
 extern int debug;
-extern char word[100], gen[5][20], num[5][20], per[5][20], vargaH[20], pv[20], vib[5][20], prayogaH[5][30], san[5][10], lakAraH[5][40], kqw[40], kqw_prati[40], prati[40], paxI[5][40], ans[1000], tmp[200], iic[100];
+extern char word[100], gen[10][20], num[10][20], per[10][20], vargaH[20], pv[20], vib[10][20], prayogaH[10][30], san[40], lakAraH[10][40], kqw[40], kqw_prati[40], prati[40], paxI[10][40], ans[1000], tmp[200], iic[100];
 
 debug = 0;
 
@@ -294,7 +291,7 @@ if(argc == 2) {
   }
 }
 
-sent_no = 0;
+sent_no = 1;
 word_no = 0;
 count = 0;
 iic_count = 0;
@@ -307,7 +304,24 @@ ans[0] = '\0';
 tmp[0] = '\0';
 iic[0] = '\0';
 
-for(i=0;i<5;i++) { gen[i][0] = '\0';num[i][0] = '\0'; per[i][0] = '\0'; vib[i][0] = '\0'; prayogaH[i][0] = '\0'; san[i][0] = '\0'; lakAraH[i][0] = '\0'; kqw[0] = '\0'; kqw_prati[0] = '\0'; paxI[i][0] = '\0';}
+for(i=0;i<10;i++) { gen[i][0] = '\0';num[i][0] = '\0'; per[i][0] = '\0'; vib[i][0] = '\0'; prayogaH[i][0] = '\0'; san[0] = '\0'; lakAraH[i][0] = '\0'; kqw[0] = '\0'; kqw_prati[0] = '\0'; paxI[i][0] = '\0';}
 
 return yylex();
+}
+
+void get_gana(int gana_id, char gana_name[10])
+{
+gana_id = gana_id - 48; /* number versus ascii code */
+switch (gana_id) {
+  case 1 : strcpy(gana_name,"BvAxiH"); break;
+  case 2 : strcpy(gana_name,"axAxiH"); break;
+  case 3 : strcpy(gana_name,"juhowyAxiH"); break;
+  case 4 : strcpy(gana_name,"xivAxiH"); break;
+  case 5 : strcpy(gana_name,"svAxiH"); break;
+  case 6 : strcpy(gana_name,"wuxAxiH"); break;
+  case 7 : strcpy(gana_name,"ruXAxiH"); break;
+  case 8 : strcpy(gana_name,"wanAxiH"); break;
+  case 9 : strcpy(gana_name,"kryAxiH"); break;
+  case 10 : strcpy(gana_name,"curAxiH"); break;
+}
 }

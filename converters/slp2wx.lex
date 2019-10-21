@@ -38,5 +38,5 @@ N	{printf("f");}
 x	{printf("L");}
 z	{printf("R");}
 \|	{printf("lYh");}
-~A	{printf("Az");}
+~	{printf("z");}
 %%

@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,14 +17,25 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-use GDBM_File;
-tie(%MORPH,GDBM_File,$ARGV[0],GDBM_READER,0444) || die "Can't open $ARGV[0] for reading";
+#BEGIN{require "$ARGV[0]/paths.pl";}
+
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+#tie(%MORPH,GDBM_File,$ARGV[1],GDBM_READER,0444) || die "Can't open $ARGV[1] for reading";
+open(TMP,$ARGV[0]) || die "Can't open $ARGV[0] for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^(.*)=(.*)$/;
+$MORPH{$1}=$2;
+}
+close(TMP);
 
 while($in = <STDIN>){
    chomp($in);
    if($in){
     ($word,$analysis) = split(/=/, $in);
-    if($MORPH{$word}) { print $word,"=",$MORPH{$word};}
+    if($MORPH{$word} ne "") { print $word,"=",$MORPH{$word};}
     else { print $in;}
    }
    print "\n";

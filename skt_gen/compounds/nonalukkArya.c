@@ -10,23 +10,23 @@ void cnvrtutfd2r();
 void fgetword();
 void call_pUrvapaxalex();
 
-char encoding[100];
-char p1_utf[300];
-char p2_utf[300];
+char encoding[MEDIUM];
+char p1_utf[MEDIUMUTF];
+char p2_utf[MEDIUMUTF];
 struct prAwipaxikam prAwi;
-char subanwam[100];
-char samAsAnwa[100];
-char samAsaprakAra[100];
+char subanwam[MEDIUM];
+char samAsAnwa[MEDIUM];
+char samAsaprakAra[MEDIUM];
 int divid;
-char p1[100];
-char p2[100];
+char p1[MEDIUM];
+char p2[MEDIUM];
 
 int main (int argc, char *argv[]) {
 
-char sup1[30];
-char sup2[30];
-char p1_utfr[300];
-char p2_utfr[300];
+char sup1[MEDIUM];
+char sup2[MEDIUM];
+char p1_utfr[MEDIUMUTF];
+char p2_utfr[MEDIUMUTF];
 
   strcpy(encoding,argv[1]);
   strcpy(p1,argv[2]);
@@ -50,26 +50,28 @@ char p2_utfr[300];
 
   // printf("calling subluk with samAsAnwa = %s",samAsAnwa);
   subluk(p1_utf,sup1,p2_utf,sup2,samAsAnwa);
-  // printf("calling pUrvapaxa\n");
   call_pUrvapaxalex();
   return 1;
 }
 
-void subluk (char p1[100], char s1[10], char p2[100], char s2[10], char sp[100]) {
+void subluk (char *p1, char *s1, char *p2, char *s2, char *sp) {
 
- char s1utf[30]; /* utf takes 3 times space */
- char s2utf[30]; /* utf takes 3 times space */
- char sputf[100];
+ char s1utf[SMALLUTF]; /* utf takes 3 times space */
+ char s2utf[SMALLUTF]; /* utf takes 3 times space */
+ char tmp[SMALLUTF]; 
+ char sputf[MEDIUM];
 
- char s1utfr[30];
- char s2utfr[30];
- char sputfr[100];
+ char s1utfr[SMALLUTF];
+ char s2utfr[SMALLUTF];
+ char sputfr[MEDIUM];
 
- char p1_utfr[100];
- char p2_utfr[100];
+ char p1_utfr[MEDIUM];
+ char p2_utfr[MEDIUM];
 
- cnvrtwx2utf(s1,s1utf);
- cnvrtwx2utf(s2,s2utf);
+ cnvrtwx2utf(s1,tmp);
+ if(!strcmp(tmp," ") || (tmp[0] == '\0')) s1utf[0] = '\0'; else sprintf(s1utf,"+[%s]",tmp);
+ cnvrtwx2utf(s2,tmp);
+ if(!strcmp(tmp," ") || (tmp[0] == '\0')) s2utf[0] = '\0'; else sprintf(s2utf,"+[%s]",tmp); 
  cnvrtwx2utf(sp,sputf);
 
  if(!strcmp(encoding,"RMN")) {
@@ -82,12 +84,12 @@ void subluk (char p1[100], char s1[10], char p2[100], char s2[10], char sp[100])
  printf("<table><tr><td>");
  if(sp[0] == '\0')
    if (!strcmp(encoding,"RMN"))
-   printf("<font color=\"blue\">%s+<font color=\"blue\">[%s] %s+<font color=\"blue\">[%s]  <font color=\"red\"> supo dhātuprātipadikayoḥ 2.4.71</font> </td> ", p1_utfr,s1utfr,p2_utfr,s2utfr);
+   printf("<font color=\"blue\">%s%s %s%s  <font color=\"red\"> supo dhātuprātipadikayoḥ 2.4.71</font> </td> ", p1_utfr,s1utfr,p2_utfr,s2utfr);
     else 
-     printf("<font color=\"blue\">%s+<font color=\"blue\">[%s] %s<font color=\"blue\">+[%s]  <font color=\"red\">सुपो धातुप्रातिपदिकयोः 2.4.71</font> </td>", p1,s1utf,p2,s2utf);
+     printf("<font color=\"blue\">%s%s %s%s  <font color=\"red\">सुपो धातुप्रातिपदिकयोः 2.4.71</font> </td>", p1,s1utf,p2,s2utf);
  else 
    if (!strcmp(encoding,"RMN"))
-     printf("<font color=\"blue\">%s+<font color=\"blue\">[%s] %s<font color=\"blue\">+[%s] %s <font color=\"red\"> supo dhātuprātipadikayoḥ 2.4.71</font> </td> ", p1_utfr,s1utfr,p2_utfr,s2utfr,sputfr);
+     printf("<font color=\"blue\">%s%s %s%s %s <font color=\"red\"> supo dhātuprātipadikayoḥ 2.4.71</font> </td> ", p1_utfr,s1utfr,p2_utfr,s2utfr,sputfr);
     else 
-     printf("<font color=\"blue\">%s+<font color=\"blue\">[%s] %s+<font color=\"blue\">[%s] %s <font color=\"red\">सुपो धातुप्रातिपदिकयोः 2.4.71</font> </td>", p1,s1utf,p2,s2utf,sputf);
+     printf("<font color=\"blue\">%s%s %s%s %s <font color=\"red\">सुपो धातुप्रातिपदिकयोः 2.4.71</font> </td>", p1,s1utf,p2,s2utf,sputf);
 }

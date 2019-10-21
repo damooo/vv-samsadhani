@@ -1,32 +1,46 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "struct.h"
+#include "paths.h"
 
 extern void fgetword();
-
-#define myPATH "SCLINSTALLDIR/converters"
 
 void cnvrtwx2utf(char *in, char *out){
   int pid;
   FILE *fp;
-  char fin[20];
-  char fout[20];
-  char cmd[100];
+  char fin[MEDIUM];
+  char fout[MEDIUM];
+  char cmd[MEDIUM];
+  char tmp[MEDIUM];
 
   pid = getpid();
-  sprintf(fin,"TFPATH/tmp%d",pid);
-  sprintf(fout,"TFPATH/result%d",pid);
+  sprintf(fin,TFPATH);
+  sprintf(tmp,"/tmp%d",pid);
+  strcat(fin,tmp);
+  sprintf(fout,TFPATH);
+  sprintf(tmp,"result%d",pid);
+  strcat(fout,tmp);
 
-  fp = fopen(fin,"w");
+  if((fp = fopen(fin,"w"))==NULL) {
+     printf("Error in %s opening for writing\n",fin);
+     exit (0);
+  }
+
   fprintf(fp,"%s ",in);
   fclose(fp);
 
-  sprintf(cmd,"%s/wx2utf8.sh < %s > %s",myPATH,fin,fout);
+  sprintf(cmd,"%s/converters/ri_skt < %s | %s/converters/iscii2utf8.py 1 > %s",SCLINSTALLDIR,fin,SCLINSTALLDIR,fout);
   system(cmd);
 
-  fp = fopen(fout,"r");
+  if((fp = fopen(fout,"r"))==NULL) {
+     printf("Error in %s opening for reading\n",fout);
+     exit (0);
+  }
   fgetword(fp,out,'\n');
   fclose(fp);
- // system ("rm fin fout");
+  sprintf(cmd,"rm %s %s",fin,fout);
+  system(cmd);
 }

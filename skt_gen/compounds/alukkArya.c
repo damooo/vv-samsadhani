@@ -5,8 +5,7 @@
 #include <unistd.h>
 
 #include "struct.h"
-
-#define myPATH "SCLINSTALLDIR/"
+#include "paths.h"
 
 void get_viBakwi_vacanam();
 void subanwa_kArya();
@@ -17,19 +16,19 @@ extern void cnvrtwx2utf();
 extern void cnvrtutfd2r();
 
 int main (int argc, char *argv[]) {
-char prAwipaxikam1[100];
-char prAwipaxikam2[100];
-char sup1[100];
-char sup2[100];
+char prAwipaxikam1[MEDIUM];
+char prAwipaxikam2[MEDIUM];
+char sup1[MEDIUM];
+char sup2[MEDIUM];
 struct prAwipaxikam prAwi;
 int vacanam;
-char subanwam[100];
-char subanwautf[300];
-char subanwautfr[300];
-char sandhiw[100];
-char sandhiwutf[300];
-char sandhiwutfr[300];
-char encoding[100];
+char subanwam[MEDIUM];
+char subanwautf[MEDIUMUTF];
+char subanwautfr[MEDIUMUTF];
+char sandhiw[MEDIUM];
+char sandhiwutf[MEDIUMUTF];
+char sandhiwutfr[MEDIUMUTF];
+char encoding[MEDIUM];
 
   strcpy(encoding,argv[1]);
   strcpy(prAwipaxikam1,argv[2]);
@@ -61,9 +60,9 @@ return 1;
 
 void subanwa_kArya(char *prawi, char *iwsup, char *lifgam, int vacanam, char *subanwa) {
 int viBakwiH,sup_vacanam;
-char cmd[200];
+char cmd[200]; 
 FILE *fp;
-char fout[20];
+char fout[100];
 int pid;
 
 pid = getpid();
@@ -71,14 +70,14 @@ pid = getpid();
 get_viBakwi_vacanam(iwsup,&viBakwiH,&sup_vacanam);
 if(vacanam == 1){ vacanam = sup_vacanam;}
 
-sprintf(fout,"TFPATH/tmp_gen%d",pid);
+ sprintf(fout,"%s/tmp_gen%d",TFPATH,pid); 
 
-sprintf(cmd,"/bin/echo \"^%s<vargaH:nA><lifgam:%s><viBakwiH:%d><vacanam:%d><level:1>$\" | LTPROCBINDIR/lt-proc -c -g %s/morph_bin/skt_gen.bin > %s",prawi,lifgam,viBakwiH,vacanam,myPATH,fout);
+sprintf(cmd,"/bin/echo \"^%s<vargaH:nA><lifgam:%s><viBakwiH:%d><vacanam:%d><level:1>$\" | LTPROCBIN -c -g %s/morph_bin/sup_gen.bin > %s",prawi,lifgam,viBakwiH,vacanam,SCLINSTALLDIR,fout);
 system(cmd);
 
 if((fp=fopen(fout,"r"))==NULL)
  {
-    printf("@Error @in @opening /@tmp/@SKT_TEMP/@tmp_gen\n");
+    printf("@Error @in @opening %s\n",fout);
     exit(0);
  } else {
     fgetword(fp,subanwa,'\n');

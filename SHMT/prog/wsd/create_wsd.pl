@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -19,11 +19,12 @@
 
 
 open(TMP,"<$ARGV[0]") || die "Can't open $ARGV[0] for reading";
+$sent = 1;
 
 while($in = <TMP>){
   if($in =~ /rl([0-9]+).clp/) {
      $sent = $1;  
-  }  elsif($in =~ /\(([0-9]+)[ ]+([0-9]+)[ ]+([^ ]+)[ ]+([^ ]+)[ ]+([^ ]+)[ ]*\)/) {
+  }  elsif($in =~ /([0-9]+)[ ]+([0-9]+)[ ]+([^ ]+)[ ]+([^ ]+)[ ]+([^ ]+)[ ]*/) {
        $id = $1;
        $mid = $2;
        $feature_name=$3;
@@ -39,7 +40,7 @@ while($in = <TMP>){
        #   $key1 = $sent.".".$id.".".$mid.".".$old_rt;
        #   $MSG{$key1} = $new_rt;
        #}
-#       print "MSG = $key = ",$MSG{$key},"\n";
+       #print "MSG = $key = ",$MSG{$key},"\n";
   }
 }
 
@@ -59,14 +60,21 @@ while($in = <STDIN>){
               $ans =~ s/(.*)<viBakwiH:$old_vib>/$1<viBakwiH:$MSG{$key}>/;
           }
       }
-      if ($ans =~ /([^<]+)</){
+      if ($ans =~ /<rt:([^>]+)>/){
           $old_rt = $1;
           $key = $sent.".".$id.".".$mid.".".$old_rt;
-          #print "MSG = $key = ",$MSG{$key},"\n";
           if (defined($MSG{$key})) { 
-              $ans =~ s/^$old_rt</$MSG{$key}</;
+              $ans =~ s/(.*)<rt:$old_rt>/$1<rt:$MSG{$key}>/;
           }
       }
+      #if ($ans =~ /([^<]+)</){
+      #    $old_rt = $1;
+      #    $key = $sent.".".$id.".".$mid.".".$old_rt;
+      #    #print "MSG = $key = ",$MSG{$key},"\n";
+      #    if (defined($MSG{$key})) { 
+      #        $ans =~ s/^$old_rt</$MSG{$key}</;
+      #    }
+      #}
       print $ans;
     $mid++;
     print "\/";

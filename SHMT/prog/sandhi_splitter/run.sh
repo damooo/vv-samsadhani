@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-#  Copyright (C) 2008-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2008-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,12 +18,14 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
+SCLINSTALLDIR=$1
+LTPROCBIN=$2
 
-myPATH=SCLINSTALLDIR
-PROG_PATH=$myPATH/SHMT/prog/sandhi_splitter
+PROG_PATH=$SCLINSTALLDIR/SHMT/prog/sandhi_splitter
 
-$PROG_PATH/sandhi_samaasa_splitter.out -t -S $PROG_PATH/samAsa_words.txt $PROG_PATH/samAsa_rules.txt $myPATH/morph_bin/skt_samAsanoun_morf.bin $1 4 > sandhi_splitter_out
+#$PROG_PATH/sandhi_samaasa_splitter.out -t -b $PROG_PATH/samAsa_words.txt $PROG_PATH/samAsa_rules.txt $LTPROCBIN $SCLINSTALLDIR/morph_bin/samAsa_splitter.bin $3 4 > sandhi_splitter_out
+#$PROG_PATH/sandhi_samaasa_splitter.out -t -S $PROG_PATH/samAsa_words.txt $PROG_PATH/samAsa_rules.txt $LTPROCBIN $SCLINSTALLDIR/morph_bin/samAsa_splitter.bin $3 4 > sandhi_splitter_out
 
-$PROG_PATH/sandhi_samaasa_splitter.out -t -s $PROG_PATH/sandhi_words.txt $PROG_PATH/sandhi_rules.txt $myPATH/morph_bin/skt_morf.bin $1 4 >> sandhi_splitter_out
+$PROG_PATH/sandhi_samaasa_splitter.out -t -s $PROG_PATH/sandhi_words.txt $PROG_PATH/sandhi_rules.txt $LTPROCBIN $SCLINSTALLDIR/morph_bin/samAsa_splitter.bin $3 4 >> sandhi_splitter_out
 
-sort sandhi_splitter_out | grep . | $myPATH/SHMT/prog/sandhi_splitter/pick_best.pl | cut -f1 
+sort sandhi_splitter_out | grep . | $SCLINSTALLDIR/SHMT/prog/sandhi_splitter/pick_best.pl | cut -f1 

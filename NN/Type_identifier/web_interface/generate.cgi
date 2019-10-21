@@ -1,6 +1,6 @@
-#!PERLPATH -I /usr/local/lib/perl/5.18.2/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2013-2015 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2013-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -21,33 +21,31 @@ package main;
 use CGI qw/:standard/;
 #use CGI::Carp qw(fatalsToBrowser);
 
-my $tmp_path="TFPATH/NN/type";
-my $converters_path="SCLINSTALLDIR/converters";
-my $NNtype_path="SCLINSTALLDIR/NN/Type_identifier";
-my $type_htdocspath="SCLURL/NN/Type_identifier";
-require "$NNtype_path/style.pl";
+require "../../paths.pl";
+my $converters_path="$GlblVar::SCLINSTALLDIR/converters";
+my $NNtype_path="$GlblVar::SCLINSTALLDIR/NN/Type_identifier";
+
+require "$GlblVar::SCLINSTALLDIR/NN/common/style.pl";
+require "$GlblVar::SCLINSTALLDIR/NN/Type_identifier/generate_samAsa_const_parse.pl";
+
+my $pid = $$;
 
       my $cgi = new CGI;
       print $cgi->header (-charset => 'UTF-8');
 
-	print $style_header;
-	print $title;
+	print $NN::style_header;
+	print $NN::title;
 
       if (param) {
-        $nne=param("nne");
-#	$type=param("type");
-        $pid = $$;
+        my $nne=param("nne");
+        my $pid = $$;
 
-        system("mkdir -p $tmp_path/tmp_in$pid");
-	
-	open(TMP,">$tmp_path/tmp_in$pid/in.txt") || die "Can't open $tmp_path/tmp_in$pid/in.txt for writing";
-        print TMP $nne,"\n";
-        close(TMP);
-        system("$converters_path/utf82wx.sh < $tmp_path/tmp_in$pid/in.txt | $NNtype_path/typeidentifier.out $type | $converters_path/wx2utf8.sh");
+        print "<center>";
+        my $samAsa = `echo '$nne' | $converters_path/utf82iscii.pl | $converters_path/ir_skt | $NNtype_path/typeidentifier.out $type | $converters_path/ri_skt | $converters_path/iscii2utf8.py 1`;
+        my $dot = &get_dot($samAsa);
+        print $samAsa,"<br />";
+        system ("echo '$dot' | dot -Tsvg;");
 
-     print "<center><br>";
-     print "<br>";
-     print "<a href=\"SCLURL/NN/segmenter/index.html\"> Try Another<\/a>";
-
-     print "<br />";
+        print "</center><br />";
 }
+	print $style_tail;

@@ -1,5 +1,6 @@
 %{
 #include "struct.h"
+#include "paths.h"
 extern char ques[LARGE];
 extern char p1[MEDIUM];
 extern char p2[MEDIUM];
@@ -627,7 +628,6 @@ int count_ac();
 int ajAxi();
 int axanwa();
 
-#define myPATH "SCLINSTALLDIR"
 
 int main (int argc, char *argv[]) {
 char input[MEDIUM];
@@ -747,17 +747,23 @@ int pid;
 
 pid = getpid();
 
-sprintf(fin,"TFPATH/tmp%d",pid);
-sprintf(fout,"TFPATH/result%d",pid);
+sprintf(fin,"/tmp/SKT_TEMP/tmp%d",pid);
+sprintf(fout,"/tmp/SKT_TEMP/result%d",pid);
 
-fp = fopen(fin,"w");
+if((fp = fopen(fin,"w"))==NULL){
+ printf("Error in opening %s for writing\n",fin);
+ exit(0);
+}
 fprintf(fp,"%s\n",str);
 fclose(fp);
 
-sprintf(cmd,"LTPROCBINDIR/lt-proc -c %s/morph_bin/skt_morf.bin < %s | grep -c 'kqw_prawyayaH:%s' > %s",myPATH,fin,kqw_str,fout);
+sprintf(cmd,"%s -c %s/morph_bin/all_morf.bin < %s | grep -c 'kqw_prawyayaH:%s' > %s",LTPROCBIN,SCLINSTALLDIR,fin,kqw_str,fout);
 system(cmd);
 
-fp = fopen(fout,"r");
+if((fp = fopen(fout,"r"))==NULL){
+ printf("Error in opening %s for reading\n",fout);
+ exit(0);
+}
 fscanf(fp,"%c",ans);
 fclose(fp);
 

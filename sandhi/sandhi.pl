@@ -1,7 +1,7 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
 #  Copyright (C) 2002-2006 Sushama Vempati
-#  Copyright (C) 2002-2012 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -32,11 +32,12 @@ $pra1="prakriyA";
 sub sandhi{
  my($first,$second)=@_;
  my($ans);
+ $ans = "";
  $complete=$first."+".$second;
- $ans=&apavAdaniyamAH($complete);
- if($DEBUG) { print "ans from apavAda niyama = $ans\n";}
- if($ans eq ""){
-         $ans = "";
+ ($ans,$ans1,$ans2,$cont)=split(/,/,&apavAdaniyamAH($complete));
+# if($DEBUG) { print "ans from apavAda niyama = $ans\n";}
+ if($cont == 1){
+         #$ans = "";
          $first =~ /^(.*)(.)$/;
          $f_rem1 = $1;
          $lf1 = $2;
@@ -61,7 +62,7 @@ sub sandhi{
                  $Sakya_uwwara =~ s/ /  /g;
                  $an = $f_rem1. $Sakya_uwwara.$s_rem;
                  $ans=$ans.":".$an;
-                 $an1=$rule2[3]."-sanXiH";
+                 $an1=$rule2[3];#."-sanXiH";
                  $ans1=$ans1.":".$an1;
                  $an2=$rule2[4];
          	 $ans2=$ans2.":".$an2;
@@ -75,7 +76,7 @@ sub sandhi{
                       $Sakya_uwwara =~ s/ /  /g;
                       $an=$f_rem2.$Sakya_uwwara.$s_rem;
                       $ans=$ans.":".$an;
-                      $an1=$rule2[3]."-sanXiH";
+                      $an1=$rule2[3]; #."-sanXiH";
            	      $ans1=$ans1.":".$an1;
                       $an2=$rule2[4];
                       $ans2=$ans2.":".$an2;
@@ -92,7 +93,7 @@ sub sandhi{
     $ans1=":".$ans1."-sanXiH";
     $ans2=":".$ans2;
     $result=$ans.",".$ans1.",".$ans2.",".$pra.",".$dvi.",".$sam.",".$sa.",".$sut.",".$pra1;
+    }
 $result;
-}
 }
 1;

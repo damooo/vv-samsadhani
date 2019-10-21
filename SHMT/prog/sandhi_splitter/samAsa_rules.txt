@@ -589,8 +589,6 @@ ad	a+d	2
 af	a+f	1
 ag	a+g	941
 ah	a+h	540
-ah	gra+h	1
-aiB	I+B	1
 aj	a+j	855
 ak	a+k	2462
 al	A+L	1
@@ -598,7 +596,6 @@ al	a+L	1
 al	a+l	500
 am	a+m	1583
 an	a+n	1100
-anA	a+a	1
 anB	a+B	1
 anE	a+E	2
 ane	a+e	76
@@ -2322,7 +2319,6 @@ xa	W+a	1
 xa	X+a	1
 xa	n+a	1
 xa	w+a	54
-xa	wa+a	1
 xa	x+a	51
 xb	W+b	1
 xb	X+b	1

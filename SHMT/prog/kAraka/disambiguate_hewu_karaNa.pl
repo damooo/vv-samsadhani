@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,9 +17,21 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-use GDBM_File;
+#BEGIN{require "$ARGV[0]/paths.pl";}
 
-tie(%amUrwa,GDBM_File,"$ARGV[0]/amUrwa.dbm",GDBM_READER,0644) || die "Can't open $ARGV[0]/amUrwa.dbm for reading";
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+
+#tie(%amUrwa,GDBM_File,"$ARGV[1]/amUrwa.dbm",GDBM_READER,0644) || die "Can't open $ARGV[1]/amUrwa.dbm for reading";
+
+open(TMP,"$ARGV[1]/amUrwa.txt") || die "Can't open $ARGV[1]/amUrwa.txt for reading";
+while(<TMP>) {
+chomp;
+$key = $_;
+$amUrwa{$key}=1;
+}
+close(TMP);
 
 $/ = "\n\n";
 while($in = <STDIN>){

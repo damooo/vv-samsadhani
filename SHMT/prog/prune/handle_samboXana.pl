@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -36,7 +36,7 @@ while($in = <STDIN>){
 $yuRmax_present = 0;
 
 for($i=0;$i<=$#mo_ana;$i++){
-    if($mo_ana[$i] =~ /yuRmax<vargaH:sarva><lifgam:a><viBakwiH:1><vacanam:[123]>/){
+    if($mo_ana[$i] =~ /yuRmax<vargaH:sarva><lifgam:a><viBakwiH:1>/){
        $yuRmax_present = 1;
     }
 }
@@ -46,7 +46,7 @@ $verb_vacanam = 0;
 $verb_pos = -1;
 
 for($i=0;$i<=$#mo_ana;$i++){
-    if($mo_ana[$i] =~ /<puruRaH:ma><vacanam:([123])>/){
+    if($mo_ana[$i] =~ /<puruRaH:ma><vacanam:([^>]+)>/){
        $maXyama_puruRa_analysis = 1;
        $verb_vacanam = $1;
        $verb_pos = $i;
@@ -77,8 +77,8 @@ if($DEBUG) {
 print STDERR "word index ",$i,"\n";
 print STDERR "morph analysis ",$mo_ana[$i],"\n";
 }
-    if(($mo_ana[$i] =~ /<viBakwiH:8><vacanam:[123]>/) && ($mo_ana[$i] =~ /\//)){
-        $mo_ana[$i] =~ /<viBakwiH:8><vacanam:([123])>/;
+    if(($mo_ana[$i] =~ /<viBakwiH:8><vacanam:/) && ($mo_ana[$i] =~ /\//)){
+        $mo_ana[$i] =~ /<viBakwiH:8><vacanam:([^>]+)>/;
        $samboXana_vacanam = $1;
        $samboXana_pos = $i;
        $store = $mo_ana[$i];
@@ -87,7 +87,9 @@ print STDERR "samboXana vacanam = ",$samboXana_vacanam,"\n";
 print STDERR "samboXana pos = ",$samboXana_pos,"\n";
 print STDERR "store = ",$store,"\n";
 }
-       if((($samboXana_vacanam != $verb_vacanam) && ($samboXana_sUcaka_avy_pos != $samboXana_pos - 1) && ($yuRmax_present == 0)) || ($samboXana_pos == $verb_pos)) {
+#       if((($samboXana_vacanam != $verb_vacanam) && ($samboXana_sUcaka_avy_pos != $samboXana_pos - 1) && ($yuRmax_present == 0)) || ($samboXana_pos == $verb_pos)) {
+#       Irrespective of all the above conditions, if there is an analysis with level > 1 with vibhakti = 8, we remove it  -- Amba 28th June 2019
+#       #Several words such as pariSuRyawi are analysed with samboXanam in kqxanwa.
        $tmp = "";
        $ana = $mo_ana[$i];
        $ana =~ /^([^=]+)=(.*)/;
@@ -105,7 +107,7 @@ print STDERR "store = ",$store,"\n";
         }
         if($tmp eq "") { $tmp = join ('/',@mo);}
         $mo_ana[$i] = $wrd."=".$tmp;
-       }
+#       }
        if($mo_ana[$i] eq "") { $mo_ana[$i] = $store;}
      }
 }

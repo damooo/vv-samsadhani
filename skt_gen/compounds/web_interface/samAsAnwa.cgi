@@ -1,7 +1,10 @@
-#!PERLPATH
+#!/usr/bin/perl
+
 $| = 1;
 
-my $myPATH = "SCLINSTALLDIR/skt_gen/compounds/";
+require "../../paths.pl";
+
+my $myPATH = "$GlblVar::SCLINSTALLDIR/skt_gen/compounds/";
 
 require "$myPATH/cnvrt2utf.pl";
 require "$myPATH/cnvrt2utfr.pl";

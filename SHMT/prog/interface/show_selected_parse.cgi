@@ -1,6 +1,6 @@
-#!GraphvizDot/perl -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2012-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2012-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -20,14 +20,15 @@
 package main;
 use CGI qw/:standard/;
 #use CGI::Carp qw(fatalsToBrowser);
+require "../../../paths.pl";
 
           if (param) {
-            $filename=param("filename");
-            $sentnum=param("sentnum");
-            $start=param("start");
-          }
+            my $filename=param("filename");
+            my $sentnum=param("sentnum");
+            my $start=param("start");
+            my $outscript=param("outscript");
 
-open(TMP,"<TFPATH/$filename/clips_files/parseop_new.txt") || die "Can't open $filename/clips_files/parseop_new.txt for reading";
+open(TMP,"<$filename/parser_files/parseop_new.txt") || die "Can't open $filename/parser_files/parseop_new.txt for reading";
 
 $sent_found = 0;
 $i=0;
@@ -49,9 +50,11 @@ close(TMP);
           @parse_nos = split(/#/,$parse_nos);
 
           foreach $i (@parse_nos) {
-            if(-e "HTDOCSDIR/SHMT/DEMO/$filename/${sentnum}.$i.dot") {
-              system("GraphvizDot/dot -Tjpg -oTFPATH/$filename/${sentnum}.$i.jpg TFPATH/$filename/${sentnum}.$i.dot");
-              #print "<li> <img src=\"CGIURL/SHMT/software/webdot.pl/SCLURL/SHMT/DEMO/$filename/${sentnum}$i.dot.dot.jpg\" width=\"\" height=\"\" kddalt=\"graph from public webdot server\"></li>\n";
-              print "<li> <img src=\"SCLURL/SHMT/DEMO/$filename/${sentnum}.$i.jpg\" width=\"\" height=\"\" kddalt=\"graph for parse number $i\"></li>\n";
+            if($i != 1) {
+              system("$GlblVar::SCLINSTALLDIR/SHMT/prog/kAraka/prepare_dot_files.sh $GlblVar::SCLINSTALLDIR $GlblVar::GraphvizDot $outscript $sentnum mk_kAraka_help.pl $SCLINSTALLDIR $filename/parser_files/morph$sentnum.out $filename/parser_files/parseop1.txt $filename $i");
             }
+            system("$GlblVar::GraphvizDot -Tsvg -o$filename/${sentnum}.$i.svg $filename/${sentnum}.$i.dot");
+             $filename =~ s/^$GlblVar::TFPATH//;
+             print "<img src=\"/scl/SHMT/DEMO/$filename/${sentnum}.$i.svg\" width=\"\" height=\"\" kddalt=\"graph for parse number $i\">\n";
           }
+}

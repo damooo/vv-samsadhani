@@ -1,7 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-
-#  Copyright (C) 2006-2011 Sivaja Nair and (2006-2016) Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2006-2011 Sivaja Nair and (2006-2019) Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,11 +17,35 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-my $myPATH="SCLINSTALLDIR";
-use GDBM_File;
+BEGIN{require "../paths.pl";}
 
-my($LEX);
-tie(%LEX,GDBM_File,"$myPATH/amarakosha/DBM/stem2head.gdbm",GDBM_READER,0666) || die "can't open DBM/stem2head.gdbm";
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+
+#my($LEX);
+#tie(%LEX,GDBM_File,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/stem2head.gdbm",GDBM_READER,0666) || die "can't open DBM/stem2head.gdbm";
+
+open(TMP,"$GlblVar::SCLINSTALLDIR/amarakosha/DBM/all_kANdas") || die "can't open DBM/all_kANdas";
+$key = 0;
+$value = 4;
+while(<TMP>) {
+  chomp;
+  @flds = split(/,/,$_);
+  if(($flds[0] !~ /^%/) && ($flds[$key] ne "") && ($flds[$value] ne "")) {
+     if($LEX{$flds[$key]} eq "") {
+        $LEX{$flds[$key]}  =  $flds[$value];
+     }else {
+        if (($LEX{$flds[$key]} !~ /::$flds[$value]::/) &&
+             ($LEX{$flds[$key]} !~ /^$flds[$value]::/) &&
+             ($LEX{$flds[$key]} !~ /::$flds[$value]$/) &&
+             ($LEX{$flds[$key]} !~ /^$flds[$value]$/)) {
+        $LEX{$flds[$key]}  .= "::". $flds[$value];
+        }
+     }
+  }
+}
+close(TMP);
 
 $word = $ARGV[0];
 
@@ -33,7 +56,7 @@ untie(%LEX);
 sub shwMorph{
 my($word) = @_;
 $word =~ s/[^a-zA-Z]//g;
-$result = `echo $word | LTPROCBINDIR/lt-proc -c $myPATH/morph_bin/skt_morf.bin`;
+$result = `echo $word | $GlblVar::LTPROCBIN -c $GlblVar::SCLINSTALLDIR/morph_bin/skt_morf.bin`;
 $result=~ s/\^|\$//g;
 $result=~ s/\//#/g;
 @flds=split(/#/,$result);

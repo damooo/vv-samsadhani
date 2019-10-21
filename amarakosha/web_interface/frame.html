@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Amarakosha</title>
-<script type="text/javascript" src="SCLURL/js_files/jquery.tools.min.js"></script>
+<script type="text/javascript" src="/scl/js_files/jquery.tools.min.js"></script>
 <script type="text/javascript">
 	function amarakoshavalidation(){
 		 var data=$("#word").val();
@@ -116,7 +116,7 @@
                }
               // calling interface.cgi file here
 		$("#result").html("Loading data , please wait ...");
-            $.get("CGIURL/amarakosha/interface.cgi",{"word":data,"encoding":inputlang,"relation":relation,"out_encoding":out_encoding},function(data){
+            $.get("/cgi-bin/scl/amarakosha/interface.cgi",{"word":data,"encoding":inputlang,"relation":relation,"out_encoding":out_encoding},function(data){
 		data1 = data.replace(/@।/g,".");
  		$("#result").html(data1); 
               });
@@ -163,15 +163,14 @@ a{cursor:pointer;}
 <tr><td><img src="logouoh.png" alt="university logo"/>
 </td><td align="center" width="40%"><font size="6">Amarakosha</font></td>
 <td>
-<label><a href="SCLURL/amarakosha/index.html">Home</a></label>&nbsp;&nbsp;&nbsp;
-<label><a href="SCLURL/">Sanskrit Tools</a></label> &nbsp;&nbsp;&nbsp;
+<label><a href="index.html">Home</a></label>&nbsp;&nbsp;&nbsp;
+<label><a href="/scl">Sanskrit Tools</a></label> &nbsp;&nbsp;&nbsp;
 <a id="feedbackbutton"><font color="Green"><b>Feedback</b></font></a>
 </td></tr></table>
 
 <p>Welcome to the web version of Amarakosha. This web version helps you in searching words in Amarakosh bearing various kinds of semantic relations to the given word. The semantic relations enabled are: <b> synonymy (paryaaya padas), hyponymy(aparaajaati), hyprenymy(paraajaati), part of (avayava), whole (avayavI), pati-patni, sva-svaamibhaava, etc.</b>  Place the cursor on a word to get its position in the Amarakosha, its gender and the relevant shloka. </p>
 <p>By selecting the option 'all relations', one can also see all the possible relations depicted in Amarakosh for a given word. An attempt is also made to provide an ontology for each word. 
-More details are available in <a href="DEPTURL/faculty/amba/PUBLICATIONS/amarakosha.pdf">The Knowledge Structure in Amarakosha</a>. 
-This work is reported in the <a href="DEPTURL/faculty/amba/PUBLICATIONS/Student_thesis/shivaja.pdf">Ph.D. thesis</a> of Ms. Shivaja Nair. </p>
+This work is reported in the <a href="amarakosha_knowledge_structure.pdf">Ph.D. thesis</a> of Dr. Sivaja Nair. </p>
 </div>
 <div class="feed">
                 Your feedback is important to us for improving the system further. <br> You may alternately write to Amba Kulkarni (ambapradeep@gmail.com).
@@ -232,7 +231,7 @@ This work is reported in the <a href="DEPTURL/faculty/amba/PUBLICATIONS/Student_
 <td width="20%"><font size="2" color="#4E387E">Output encoding</font>
 <select id="out_encoding" name="out_encoding">
 <option value="DEV">Unicode-Devanagari</option>
-<option value="ROMAN">Roman Diacritic</option>
+<option value="IAST">Roman Diacritic</option>
 </select>
 </td>
 <td align="center"><br /><input type="submit" value="submit" onclick="return amarakoshavalidation()"/></td></tr>

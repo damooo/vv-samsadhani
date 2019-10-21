@@ -22,9 +22,13 @@ function check(){
 
 <p><b>Department of Sanskrit Studies, University of Hyderabad.</b></p>
 <textarea name ="nne" cols="80" rows = "1" value=""></textarea>
+<select name="type" class="form-control" id="typeSelect">
+     <option value="R">Conceptual Graph</option>
+     <option value="C">Compressed Conceptual Graph</option>
+</select>
 <br>
 
-<form name="test" method="post" action="CGIURL/NN/CG/generate_open.cgi">
+<form name="test" method="post" action="/cgi-bin/scl/NN/CG/generate_open.cgi">
 
 <input value="submit" type="submit" alert= "Please give an input.">
 <font size="3px"><p><b>Some instructions:</b> </font> <br>

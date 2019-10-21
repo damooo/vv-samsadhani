@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -22,8 +22,10 @@ while($in = <STDIN>){
  chomp($in);
  if($in) {
     ($word,$ana,$kaaraka) = split(/\t/,$in);
-    $ana =~ s/</></;
-    $ana =~ s/^/<rt:/;
+    if($ana =~ /</) {
+       $ana =~ s/</></;
+       $ana =~ s/^/<rt:/;
+    } else {$ana =~ s/^/<rt:/; $ana =~ s/$/>/;}
     print "<word:$word>",$ana;
     if($kaaraka) {
        $kaaraka =~ s/^/<rel_nm:/;

@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -17,11 +17,18 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-require "SCLINSTALLDIR/SHMT/prog/interface/modify_mo_fn.pl";
+$SCLINSTALLDIR = $ARGV[0];
+
+require "$SCLINSTALLDIR/SHMT/prog/interface/modify_mo_fn.pl";
 
 while($in = <STDIN>){
  chomp $in;
  $in = &modify_mo($in);
+ $in =~ s/<kqw_vrb_rt:([^>]+)>< upasarga:([^>]+)>/$2_$1/g;
+ $in =~ s/<kqw_vrb_rt:([^>]+)>/$1/g;
+
+ $in =~ s/^[^\/]+<level:0>//;
+ $in =~ s/\/[^\/]+<level:0>//g;
 # $in =~ s/^[^<]+<level:4>//;
 # $in =~ s/\/[^<]+<level:4>//g;
  print "$in\n";

@@ -2,6 +2,38 @@
 
 source ./spec.txt
 
-perl -i -p -e "s#SCLINSTALLDIR#$SCLINSTALLDIR#; s#HTDOCSDIR#$HTDOCSDIR#; s#CGIDIR#$CGIDIR#; s#CGIURL#$CGIURL#; s#TFPATH#$TFPATH#;" Makefile start_servers.sh stop_servers.sh 
+echo "value sclinstalldir = \"$SCLINSTALLDIR\"" > ./skt_gen/Sentence/paths.ml
+echo "and ltprocbin = \"$LTPROCBIN\" ;" >> ./skt_gen/Sentence/paths.ml
 
-mkdir -p $SCLINSTALLDIR
+echo "value sclinstalldir = \"$SCLINSTALLDIR\";" > ./SHMT/prog/kAraka/Prepare_Graph/paths.ml
+
+echo "#define SCLINSTALLDIR \"$SCLINSTALLDIR\"" > ./skt_gen/compounds/paths.h
+echo "#define TFPATH \"$TFPATH\"" >> ./skt_gen/compounds/paths.h
+echo "#define LTPROCBIN \"$LTPROCBIN\"" >> ./skt_gen/compounds/paths.h
+
+echo "#!/usr/bin/env perl" > ./paths.pl
+echo "package GlblVar;" >> ./paths.pl
+echo "\$SCLINSTALLDIR=\"$SCLINSTALLDIR\";" >> ./paths.pl
+echo "\$HTDOCSDIR=\"$HTDOCSDIR\";" >> ./paths.pl
+echo "\$LTPROCBIN=\"$LTPROCBIN\";" >> ./paths.pl
+echo "\$GraphvizDot=\"$GraphvizDot\";" >> ./paths.pl
+echo "\$HERITAGE_CGIURL=\"$HERITAGE_CGIURL\";" >> ./paths.pl
+echo "\$TFPATH=\"$TFPATH\";" >> ./paths.pl
+echo "\$VERSION=\"$VERSION\";" >> ./paths.pl
+
+echo "ZENDIR=$ZENDIR" > ./paths.sh
+echo "SCLINSTALLDIR=$SCLINSTALLDIR" >> ./paths.sh
+echo "LTPROCBIN=$LTPROCBIN" >> ./paths.sh
+echo "TFPATH=$TFPATH" >> ./paths.sh
+echo "HTDOCSDIR=$HTDOCSDIR" >> ./paths.sh
+echo "JAVAPATH=$JAVAPATH" >> ./paths.sh
+echo "CGIDIR=$CGIDIR" >> ./paths.sh
+echo "GraphvizDot=$GraphvizDot" >> ./paths.sh
+echo "APACHE_USER_GROUP=$APACHE_USER_GROUP" >> ./paths.sh
+
+echo "Configuration Completed"
+echo
+echo
+echo "For compilation run"
+echo "make"
+echo "sudo make install"

@@ -31,10 +31,15 @@ char *word;
      for(i=0;i<(strlen(word)-2);i++) temp[i] = word[i+2];
      temp[i]='\0';
      }
-   else if(isdigit(temp[1]) && temp[2] == '.'){
+   /*else if(isdigit(temp[1]) && temp[2] == '.'){
      for(i=3;i<strlen(word);i++) temp[i-3] = word[i];
      temp[i-3]='\0';
-     }
+     }  Commented by Amba on 19th Aug 2018; since with else, temp[1] and temp[2] would be uninitialised. */
+    if(isdigit(temp[1]) && temp[2] == '.'){
+     for(i=3;i<strlen(word);i++) temp[i-3] = word[i];
+     temp[i-3]='\0';
+    } 
+
   }
   if(temp[0]!='\0') strcpy(word,temp);
   if(word[0]=='+') shift_right(word);

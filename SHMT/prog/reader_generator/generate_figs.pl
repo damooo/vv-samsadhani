@@ -1,6 +1,7 @@
-#!PERLPATH -w
+#!/usr/bin/env perl
 
 use strict;
+use warnings;
 
 $/ = "\n\n";
 

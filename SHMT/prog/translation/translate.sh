@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,4 +18,5 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-cut -f1,17 | $SHMT_PATH/prog/translation/translate.out | $1
+SCLINSTALLDIR=$1
+cut -f1,17 | $SCLINSTALLDIR/SHMT/prog/translation/translate.out | $2 $1

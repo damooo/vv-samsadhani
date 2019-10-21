@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -18,22 +18,21 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-use GDBM_File;
-tie(%RD_KQW,GDBM_File,"$ARGV[0]",GDBM_READER,0644) || die "Can't open $ARGV[0] for reading"; 
-tie(%KQW_MO,GDBM_File,"$ARGV[1]",GDBM_READER,0644) || die "Can't open $ARGV[1] for reading"; 
-open(TMP,"<$ARGV[2]") || die "Can't open $ARGV[2] for reading";
+#BEGIN{require "$ARGV[0]/paths.pl";}
 
-while($in = <TMP>){
-chomp($in);
-@in = split(/\//,$in);
- for($i=1;$i<=$#in;$i++){
-     if(($in[$i] =~ /<level:0>/) && &frequent_kqw_suffix($in[$i])) {
-        $in[$i] =~ s/<level:0>//g;
-        $in[$i] =~ s/\$//;
-        $KQW{$in[0]} .= "#". $in[$i];
-     }
- }
- $KQW{$in[0]} =~ s/^#//;
+#use lib $GlblVar::LIB_PERL_PATH;
+
+#use GDBM_File;
+##tie(%RD_KQW,GDBM_File,"$ARGV[0]",GDBM_READER,0644) || die "Can't open $ARGV[0] for reading"; 
+#tie(%KQW_MO,GDBM_File,"$ARGV[1]",GDBM_READER,0644) || die "Can't open $ARGV[1] for reading"; 
+
+open(TMP,"$ARGV[1]") || die "Can't open $ARGV[1] for reading"; 
+while(<TMP>) {
+chomp;
+$_ =~ /^([^\t]+)\t(.+)$/;
+$key = $1;
+$val = $2;
+$KQW_MO{$key}=$val;
 }
 close(TMP);
 
@@ -43,18 +42,19 @@ chomp($in);
     @ana = split(/\//,$in);
     $ans = "";
     foreach $ana (@ana) {
+       $ana =~ s/<kqw_vrb_rt:([^>]+)>/$1/;
+       $ana =~ s/>([a-zA-Z]+)</><kqw_pratipadika:$1></;
        $ana =~ /^([^<]*\-)*([^<\-]+)</;
        $ppada = $1;$rt = $2;
-       if((!$RD_KQW{$rt}) && ($ana !~ /<vargaH:nA_/)){
+     #  if((!$RD_KQW{$rt}) && ($ana !~ /<vargaH:nA_/)){
+       if($ana !~ /<vargaH:nA_/){
            $tmp = $ana;
            $ana =~ /<lifgam:([^>]+)>/;
            $ana_lifgam = $1;
-           if($KQW_MO{$rt} || $KQW{$rt}) {
+           if($KQW_MO{$rt}) {
              if($KQW_MO{$rt}) {
                 @kqw_ana = split(/\//,$KQW_MO{$rt});
-             } elsif($KQW{$rt}) {
-                @kqw_ana = split(/#/,$KQW{$rt});
-             }
+             } 
              foreach $kqw_ana (@kqw_ana) {
                $kqw_ana =~ /<lifgam:([^>]+)>/;
                $kqw_lifgam = $1;
@@ -67,14 +67,17 @@ chomp($in);
                }
              } if($ans eq "") { $ans = $ana;}
            } else {$ans .= "/".$ana;}
-       } else {$ans .= "/".$ana;}
+       } else {
+#If it is a rUDa kqxanwa, and has kqw analysis, remove the kqw analysis
+       $ana =~ s/^[^<]+.*<kqw_pratipadika:([^>]+)>/$1/;
+       $ans .= "/".$ana;
+       }
      }
      $ans =~ s/^\///;
      #print $wrd,"=",$ans,"\n";    
      print $ans,"\n";    
   } else { print "\n";}
 }
-untie(%RD_KQW);
 untie(%KQW_MO);
 
 sub frequent_kqw_suffix {

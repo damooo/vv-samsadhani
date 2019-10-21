@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -33,8 +33,10 @@ while($in = <STDIN>){
 
     print $word,"=";
  
+     my $ans = "";
      foreach ($i=0; $i<=$#analysis;$i++){
-        if ($analysis[$i] =~ /viBakwiH:7.*level:2/) {
+        #if ($analysis[$i] =~ /kqw_prawyayaH.*viBakwiH:7/) {
+        if ($analysis[$i] =~ /kqw_prawyayaH:(kwa|kwavawu|Sawq|SAnac).*viBakwiH:7/) {
              $found = 0;
              foreach ($j=0; $j<=$#in; $j++){
                if($j != $k) {
@@ -43,10 +45,11 @@ while($in = <STDIN>){
                   }
                } 
              }
-             if($found) { if($i>0) { print "/";} print $analysis[$i];}
-        } else { if($i>0) { print "/";} print $analysis[$i];}
+             if($found) { if($i>0) { $ans .= "/";} $ans .= $analysis[$i];}
+        } else { if($i>0) { $ans .= "/";} $ans .= $analysis[$i];}
      }
-     print "\n";
+     if ($ans eq "") { $ans = join ("/",@analysis);}
+     print $ans, "\n";
   }
  }
  print "\n";

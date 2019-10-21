@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -25,9 +25,8 @@ sub modify_mo{
   $in =~ s/<वर्गः:अव्य्>/ अव्य/g;
   $in =~ s/<वर्गः:[^>]+>//g;
   $in =~ s/<कृत्_प्रटिपडिक:[^>]+>//g;
-  $in =~ s/<वचनम्:1>/ एक/g;
-  $in =~ s/<वचनम्:2>/ द्वि/g;
-  $in =~ s/<वचनम्:3>/ बहु/g;
+  $in =~ s/<कृत्_व्र्ब_र्ट्:[^>]+>//g;
+  $in =~ s/<वचनम्:([^>]+)>/ $1/g;
   $in =~ s/<लिङ्गम्:अ>/ /g;
   $in =~ s/<लिङ्गम्:([^>]+)>/ $1/g;
   $in =~ s/<विभक्तिः:([^>]+)>/ $1/g;
@@ -41,6 +40,12 @@ sub modify_mo{
   $in =~ s/<लकारः:([^>]+)>/ $1/g;
   $in =~ s/<रेल्_न्म्:([^>]*)>//g;
   $in =~ s/<रेलट_पोस्:[0-9]*>//g;
+  if ($in !~ /उपसर्ग:ध्/) {
+    $in =~ s/\/([^<]+-)?([^\-<]+)<उपसर्ग:([^>]+)>/\/$1$3_$2/g;
+    $in =~ s/^([^<]+-)?([^\-<]+)<उपसर्ग:([^>]+)>/$1$3_$2/g;
+  } else { $in =~ s/<उपसर्ग:ध्>//;}
+  $in =~ s/\/([^<]+)<उपपद_च्प्:([^>]+)>/\/$1-$2/g;
+  $in =~ s/^([^<]+)<उपपद_च्प्:([^>]+)>/$1-$2/g;
   $in =~ s/ [ ]+/ /g;
   $in =~ s/\$//g;
   $in =~ s/{TITLE}/<TITLE>/g;

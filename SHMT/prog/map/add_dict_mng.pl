@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
 #  as published by the Free Software Foundation; either
@@ -16,20 +16,80 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+#BEGIN{require "$ARGV[0]/paths.pl";}
 
-$Data_Path=$ARGV[0];
+#use lib $GlblVar::LIB_PERL_PATH;
+
+$Data_Path=$ARGV[1];
+
 if($ARGV[2] eq "D") { $DEBUG = 1; } else {$DEBUG = 0;}
 
-use GDBM_File;
-tie(%NOUN,GDBM_File,"$Data_Path/hi/noun.dbm",GDBM_READER,0644) || die "Can't open $Data_Path/hi/noun.dbm for reading";
-tie(%PRONOUN,GDBM_File,"$Data_Path/hi/pronoun.dbm",GDBM_READER,0644) || die "Can't open pronoun.dbm for reading";
-tie(%TAM,GDBM_File,"$Data_Path/hi/tam.dbm",GDBM_READER,0644) || die "Can't open tam.dbm for reading";
-tie(%VERB,GDBM_File,"$Data_Path/hi/verb.dbm",GDBM_READER,0644) || die "Can't open verb.tam for reading";
-tie(%AVY,GDBM_File,"$Data_Path/hi/avy.dbm",GDBM_READER,0644) || die "Can't open avy.dbm for reading";
-tie(%PRATIPADIKAM,GDBM_File,"$Data_Path/hi/noun_pronoun_pratipadika.dbm",GDBM_READER,0644) || die "Can't open noun_pronoun_pratipadika.dbm for reading";
+#use GDBM_File;
+#tie(%NOUN,GDBM_File,"$Data_Path/hi/noun.dbm",GDBM_READER,0644) || die "Can't open $Data_Path/hi/noun.dbm for reading";
+#tie(%PRONOUN,GDBM_File,"$Data_Path/hi/pronoun.dbm",GDBM_READER,0644) || die "Can't open pronoun.dbm for reading";
+#tie(%TAM,GDBM_File,"$Data_Path/hi/tam.dbm",GDBM_READER,0644) || die "Can't open tam.dbm for reading";
+#tie(%VERB,GDBM_File,"$Data_Path/hi/verb.dbm",GDBM_READER,0644) || die "Can't open verb.tam for reading";
+#tie(%AVY,GDBM_File,"$Data_Path/hi/avy.dbm",GDBM_READER,0644) || die "Can't open avy.dbm for reading";
+#tie(%PRATIPADIKAM,GDBM_File,"$Data_Path/hi/noun_pronoun_pratipadika.dbm",GDBM_READER,0644) || die "Can't open noun_pronoun_pratipadika.dbm for reading";
+#tie(%FEM,GDBM_File,"$Data_Path/hi/fem_hnd_noun.dbm",GDBM_READER,0644) || die "Can't open avy.dbm for reading";
 
-tie(%FEM,GDBM_File,"$Data_Path/hi/fem_hnd_noun.dbm",GDBM_READER,0644) || die "Can't open avy.dbm for reading";
+open(TMP,"$Data_Path/hi/noun.txt") || die "Can't open $Data_Path/hi/noun.txt for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^([^,]+),([^,]+),([^,]+),([^,]+)/;
+$key = $1."_".$2;
+$val = $3.":".$4;
+$PRATIPADIKAM{$1}=$3;
+$NOUN{$key}=$val;
+}
+close(TMP);
 
+open(TMP,"$Data_Path/hi/pronoun.txt") || die "Can't open pronoun.txt for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^([^,]+),([^,]+),([^,]+)$/;
+$key = $1."_".$2;
+$val = $3;
+$PRATIPADIKAM{$1}=$val;
+$PRONOUN{$key}=$val;
+}
+close(TMP);
+open(TMP,"$Data_Path/hi/tam.txt") || die "Can't open tam.txt for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^([^,]+),(.*)$/;
+$key = $1;
+$val = $2;
+$TAM{$key}=$val;
+}
+close(TMP);
+
+open(TMP,"$Data_Path/hi/verb.txt") || die "Can't open verb.tam for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^([^,]+),v,([^,]+)(,.*)?$/;
+$key = $1;
+$val = $2;
+$VERB{$key}=$val;
+}
+close(TMP);
+
+open(TMP,"$Data_Path/hi/avy.txt") || die "Can't open avy.txt for reading";
+while(<TMP>) {
+chomp;
+$_ =~ /^([^,]+),avy,(.*)$/;
+$key = $1;
+$val = $2;
+$AVY{$key}=$val;
+}
+close(TMP);
+open(TMP,"$Data_Path/hi/fem_hnd_noun.lst") || die "Can't open fem_hnd_noun.lst for reading";
+while(<TMP>) {
+chomp;
+$key = $_;
+$FEM{$key}=1;
+}
+close(TMP);
 
 $rNOUN = \%NOUN;
 $rPRONOUN = \%PRONOUN;
@@ -59,15 +119,12 @@ while($tmpin = <STDIN>){
   $ans = "";
 
   if($in =~ /\-/) {
-     $in =~ /<rt:([^\-]+)-([^>]+)>/;
+     $in =~ /<rt:([^>]+)-([^>]+)>/;
      $pUrvapaxa = $1;
      $uwwarapaxa = $2;
-     #print "pUrvapaxa = $pUrvapaxa\n";
-     #print "uwwarapaxa = $uwwarapaxa\n";
      $pUrvapaxa =~ s/<[^>]+>//g;
      $pUrvapaxa =~ s/><//g;
      $pUrvapaxa =~ s/>//g;
-     #print "pUrvapaxa = $pUrvapaxa\n";
      $pUrvapaxa =~ s/\/[^\-]+\-//g;
      $pUrvapaxa =~ s/\/[^\-]+$//g;
      #print "pUrvapaxa = $pUrvapaxa\n";
@@ -82,7 +139,7 @@ while($tmpin = <STDIN>){
   #print "in = $in\n";
 
   if($in =~ /rt:(.+)\-([^;]+)/) { 
-     $samAsa_pUrvapaxa = &get_dict_mng($1,"TMP_N",$rPRATIPADIKAM); 
+     $samAsa_pUrvapaxa = &get_dict_mng($1,$rPRATIPADIKAM)."-"; 
      $in =~ s/rt:[^;]+/rt:$uwwarapaxa/;
   } else { $samAsa_pUrvapaxa = "";}
 
@@ -98,15 +155,12 @@ while($tmpin = <STDIN>){
         ($rt,$lifga,$viBakwi,$vacana) = split(/:/, &get_noun_features($in[$i]));
 
        $key = $rt."_".$lifga;
-       $map_rt = &get_dict_mng($key,"TMP_P", $rPRONOUN);
+       $map_rt = &get_dict_mng($key, $rPRONOUN);
        if($map_rt =~ /(.*):(.*)/) { $map_rt = $1; $hn_lifga = &get_skt_hn_lifga($2);}
-       $map_viBakwi = &get_dict_mng($viBakwi, "TMP_T", $rTAM);
+       $map_viBakwi = &get_dict_mng($viBakwi, $rTAM);
 
-       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa."-".$map_rt;}
+       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa.$map_rt;}
       
-    #   if($map_rt =~ /(.*):(.*)/) { $map_rt = $1; 
-    #      $hn_lifga = &get_skt_hn_lifga($2);
-    #   }
        $hn_lifga = &get_hn_P_lifga($map_rt,$lifga);
        $hn_vacana = &get_hn_vacana($vacana);
        $hn_puruRa = &get_hn_purURa_sarvanAma($rt);
@@ -119,38 +173,38 @@ while($tmpin = <STDIN>){
 
        $key = $kqw_pratipadika."_".$lifgam;
 
-       $map_rt = &get_dict_mng($key,"TMP_N", $rNOUN);
+       $map_rt = &get_dict_mng($key, $rNOUN);
+       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa.$map_rt;}
        if($NOUN{$key} ne "") {
           $cat = "n";
-          if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa."-".$map_rt;}
 
-          $map_viBakwi = &get_dict_mng($viBakwi, "TMP_T", $rTAM);
+          $map_viBakwi = &get_dict_mng($viBakwi, $rTAM);
 
           if($map_rt =~ /(.*):(.*)/) { $map_rt = $1; $hn_lifga = &get_skt_hn_lifga($2);}
          # $hn_lifga = &get_hn_lifga($map_rt,$lifgam);
           $hn_vacana = &get_hn_vacana($vacana);
 
-          $ans .= "/$map_rt $cat $hn_lifga $hn_vacana $default_puruRa $map_viBakwi";
+          $ans .= "/$samAsa_pUrvapaxa$map_rt $cat $hn_lifga $hn_vacana $default_puruRa $map_viBakwi";
        } else {
          $cat = "v";
 
-         $map_rt = &get_dict_mng($rt, "TMP_V", $rVERB);
-         $map_kqw = &get_dict_mng($kqw, "TMP_T", $rTAM);
+         $map_rt = &get_dict_mng($rt, $rVERB);
+         $map_kqw = &get_dict_mng($kqw, $rTAM);
 
          $hn_lifga = &get_skt_hn_lifga($lifgam);
          $hn_vacana = &get_hn_vacana($vacana);
-         $ans .=  "/$map_rt $cat $hn_lifga $hn_vacana $default_puruRa $map_kqw";
+         $ans .=  "/$samAsa_pUrvapaxa$map_rt $cat $hn_lifga $hn_vacana $default_puruRa $map_kqw";
       }
       }elsif($cat eq "n") {
 
         ($rt,$lifga,$viBakwi,$vacana) = split(/:/, &get_noun_features($in[$i]));
 
        $key = $rt."_".$lifga;
-       $map_rt = &get_dict_mng($key, "TMP_N", $rNOUN);
+       $map_rt = &get_dict_mng($key, $rNOUN);
 
-       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa."-".$map_rt;}
+       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa.$map_rt;}
 
-       $map_viBakwi = &get_dict_mng($viBakwi, "TMP_T", $rTAM);
+       $map_viBakwi = &get_dict_mng($viBakwi, $rTAM);
       
        if($map_rt =~ /(.*):(.*)/) { $map_rt = $1; $hn_lifga = &get_skt_hn_lifga($2);}
        #$hn_lifga = &get_hn_lifga($map_rt,$lifga);
@@ -160,8 +214,8 @@ while($tmpin = <STDIN>){
       } elsif($cat eq "kqw-avy") {
         ($rt,$kqw,$XAwu,$gaNa) = (split/:/, &get_kqw_avy_features($in[$i]));
 
-       $map_rt = &get_dict_mng($rt,"TMP_V", $rVERB);
-       $map_kqw = &get_dict_mng($kqw, "TMP_T", $rTAM);
+       $map_rt = &get_dict_mng($rt, $rVERB);
+       $map_kqw = &get_dict_mng($kqw, $rTAM);
 
        $cat = "v";
        $ans .= "/$map_rt $cat $default_lifga $default_vacana $default_puruRa $map_kqw";
@@ -172,15 +226,15 @@ while($tmpin = <STDIN>){
        #print "rt = $rt waxXiwa = $waxXiwa lifga = $lifga\n";
 
        if($lifga eq "avy") {
-          $map_rt = &get_dict_mng($rt, "TMP_A", $rAVY);
+          $map_rt = &get_dict_mng($rt, $rAVY);
        } else {
           $key = $rt."_".$lifga;
-          $map_rt = &get_dict_mng($key, "TMP_N", $rNOUN);
+          $map_rt = &get_dict_mng($key, $rNOUN);
        }
 
-       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa."-".$map_rt;}
+       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa.$map_rt;}
 
-       $map_waxXiwa = &get_dict_mng($waxXiwa, "TMP_T", $rTAM);
+       $map_waxXiwa = &get_dict_mng($waxXiwa, $rTAM);
       
        if($map_rt =~ /(.*):(.*)/) { $map_rt = $1; $hn_lifga = &get_skt_hn_lifga($2);}
        else { $hn_lifga = "m";}
@@ -195,9 +249,8 @@ while($tmpin = <STDIN>){
 
           $rt = &get_avy_feature($in[$i]);
 
-          $map_rt = &get_dict_mng($rt, "TMP_A", $rAVY);
-          #$ans .= "/$map_rt avy $default_lifga $default_vacana $default_puruRa $default_tam";
-          if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa."-".$map_rt;}
+          $map_rt = &get_dict_mng($rt, $rAVY);
+          if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa.$map_rt;}
           $ans .= "/$map_rt avy NW NW NW NW";
 
       } elsif($cat eq "v") {
@@ -205,10 +258,10 @@ while($tmpin = <STDIN>){
        ($rt,$prayoga,$lakAra,$purURa,$vacana,$XAwu,$gaNa) = 
           split(/:/, &get_verb_features($in[$i]));
        
-       $map_rt = &get_dict_mng($rt, "TMP_V", $rVERB);
+       $map_rt = &get_dict_mng($rt, $rVERB);
 
        $pra_lakAra = $prayoga."_".$lakAra;
-       $map_lakAra = &get_dict_mng($pra_lakAra, "TMP_T", $rTAM);
+       $map_lakAra = &get_dict_mng($pra_lakAra, $rTAM);
 
        $hn_purURa = &get_hn_purURa($purURa);
        $hn_vacana = &get_hn_vacana($vacana);
@@ -220,7 +273,7 @@ while($tmpin = <STDIN>){
        $cat = "n";
        $map_rt = $in[$i];
        $map_rt =~ s/{word:.*;rel_nm:;relata_pos:}//;
-       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa."-".$map_rt;}
+       if($samAsa_pUrvapaxa) { $map_rt = $samAsa_pUrvapaxa.$map_rt;}
        $ans .=  "/$map_rt $cat $default_lifga $default_vacana $default_puruRa $default_tam";}
   } # Do for each analysis
      $ans =~ s/^\///; 
@@ -312,9 +365,11 @@ $purURa;
 sub get_hn_vacana{
  my($vacana) = @_;
 
- if($vacana eq "1") { $vacana = "s";}
- elsif($vacana eq "2") { $vacana = "p";}
- elsif($vacana eq "3") { $vacana = "p";}
+# if($vacana eq "1") { $vacana = "s";}
+# elsif($vacana eq "2") { $vacana = "p";}
+# elsif($vacana eq "3") { $vacana = "p";}
+ if($vacana eq "eka") { $vacana = "s";}
+ else { $vacana = "p";}
 
 $vacana;
 }
@@ -385,7 +440,13 @@ my($ans);
 
 if($in =~ /^.*rt:([^;]+).*vargaH:avy;kqw_prawyayaH:([^;]+);XAwuH:([^;]+);gaNaH:([^;]+)/){
 
- $ans = join(":",$1,$2,$3,$4);
+     $rt = $1;
+     $kqw_prawyayaH = $2;
+     $XAwu = $3;
+     $gaNa = $4;
+     if ($in =~ /upasarga:([^;]+)/) { $rt = $1."_".$rt;}
+     if ($in =~ /sanAxi_prawyayaH:([^;]+)/) { $rt = $rt."_".$1;}
+ $ans = join(":",$rt,$kqw_prawyayaH,$XAwu,$gaNa);
 }
 $ans;
 }
@@ -397,7 +458,16 @@ my($ans);
 
     if($in =~ /^.*rt:([^;]+).*prayogaH:([^;]+);lakAraH:([^;]+);puruRaH:([^;]+);vacanam:([^;]+);.*XAwuH:([^;]+);gaNaH:([^;]+)/){
 
-     $ans = join(":",$1,$2,$3,$4,$5,$6,$7);
+     $rt = $1;
+     $prayoga = $2;
+     $lakAra = $3;
+     $puruRa = $4;
+     $vacana = $5;
+     $XAwu = $6;
+     $gaNa = $7;
+     if ($in =~ /upasarga:([^;]+)/) { $rt = $1."_".$rt;}
+     if ($in =~ /sanAxi_prawyayaH:([^;]+)/) { $rt = $rt."_".$1;}
+     $ans = join(":",$rt,$prayoga,$lakAra,$puruRa,$vacana,$XAwu,$gaNa);
     }
 $ans;
 }
@@ -410,7 +480,17 @@ my($ans);
 
   if($in =~ /^.*rt:([^;]+).*kqw_prawyayaH:([^;]+);XAwuH:([^;]+);gaNaH:([^;]+).*kqw_pratipadika:([^;]+).*lifgam:([^;]+).*viBakwiH:([^;]+).*vacanam:([^;}]+)/){
 
-  $ans = join(":",$1,$2,$3,$4,$5,$6,$7,$8);
+     $rt = $1;
+     $kqw_prawyayaH = $2;
+     $XAwu = $3;
+     $gaNa = $4;
+     $kqw_prAwipaxika = $5;
+     $lifgam = $6;
+     $viB = $7;
+     $vacana = $8;
+  if ($in =~ /upasarga:([^;]+)/) { $rt = $1."_".$rt;}
+  if ($in =~ /sanAxi_prawyayaH:([^;]+)/) { $rt = $rt."_".$1;}
+  $ans = join(":",$rt,$kqw_prawyayaH,$XAwu,$gaNa,$kqw_prAwipaxika,$lifgam,$viB,$vacana);
   }
 $ans;
 }
@@ -444,20 +524,28 @@ $rt;
 1;
 
 sub get_dict_mng{
-my($rt,$missing_fl_nm,$rdatabase) = @_;
+#my($rt,$missing_fl_nm,$rdatabase) = @_;
+my($rt,$rdatabase) = @_;
 my($ans) = "";
        
        if($$rdatabase{$rt} ne "") {
           $ans = &clean($$rdatabase{$rt});
-       } else { 
-          print $missing_fl_nm $rt,"\n"; 
-    #      if($rt !~ /[1-9]/) { # If not a verb
-    #         $rt =~ s/_.*//; # To remove the lifga info
-    #      }
+       } elsif($rt =~ /_Nic/) {
+           $rt =~ s/_Nic//;
+           $hnd_rt = &clean($$rdatabase{$rt});
+             ## Before calling the causative handler, we need to disambiguate Nic with verbs in curaxi gaNa. If they are in svArWa, we need not call the causative handler.
+## For example, rAmaH puswakam corayawi Versus rAmaH mohanena puswakam corayawi.
+## In the first example, it is not Nic while in the second it is.
+           $ans = `python $SCLINSTALLDIR/SHMT/prog/map/causal_verb_handler.py $hnd_rt`;
+           chomp($ans);
+          } else {
           if($rt =~ /1_/) { $rt =~ s/1_/_/;} 
+          $rt =~ s/X_//; # In case of upasargas
 #This has been added to take care of Names that are not to be translated.
           $ans = $rt;
-	  $ans =~ s/_/:/;
+	  $ans =~ s/_puM/:puM/; 
+	  $ans =~ s/_napuM/:napuM/; 
+	  $ans =~ s/_swrI/:swrI/; 
        }
 $ans;
 }

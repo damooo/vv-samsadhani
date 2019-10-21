@@ -32,7 +32,8 @@ Q		{ printf("ṝ");}
 E		{ printf("ai");}
 O		{ printf("au");}
 H		{ printf("ḥ");}
-M		{ printf("ṃ");}
+M		{ printf("ṃ");} /* m with dot below */
+z		{ printf("ṁ");} /* m with dot above */
 
 K		{ printf("kh");}
 G		{ printf("gh");}

@@ -1,8 +1,8 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
 #  Copyright (C) 2002-2012 Pankaj Vyas
 #  Copyright (C) 2002-2012 Sivaja Nair
-#  Copyright (C) 2002-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2002-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -345,7 +345,7 @@
 "q,e,re,yaN,iko yaNaci (6.1.77),mAwq+e",
 "q,E,rE,yaN,iko yaNaci (6.1.77),",
 "q,o,ro,yaN,iko yaNaci (6.1.77),mAwq+os",
-"q,O,rO,yaN,iko yaNaci (6.1.77),mAwq+OwkaNYyam",
+"q,O,rO,yaN,iko yaNaci (6.1.77),mAwq+OwkaNTyam",
 "q,k,qk,diPAlt,,,",
 "q,K,qK,diPAlt,,,",
 "q,g,qg,diPAlt,,,",
@@ -610,6 +610,7 @@
 "E,s,Es,diPAlt,,,",
 "E,h,Eh,diPAlt,,,",
 "o,a,oZ,pUrvarUpa,efaH paxAnwAxawi (6.1.109),so+ayam",
+"o,aM,oMZ,pUrvarUpa,efaH paxAnwAxawi (6.1.109),so+ayam",
 "o,A,avA,yAnwavAnwa,ecoZyavAyAvaH (6.1.78),",
 "o,A,a A,lopa,lopaH SAkalyasya (8.3.19),",
 "o,i,avi,yAnwavAnwa,ecoZyavAyAvaH (6.1.78),viRNo+iha",
@@ -873,8 +874,8 @@
 "g,P,kP,carwva,Kari ca (8.4.55),wAxqg+Palam",
 "g,b,gb,jaSwva,JalAM jaS JaSi (8.4.53),",
 "g,B,gB,jaSwva,JalAM jaS JaSi (8.4.53),",
-"g,m,gm,jaSwva,JalAM jaSoZnwe (8.2.39),vAg+mUlam",
-"g,m,fm,anunAsika,yaroZnunAsikeZnunAsiko vA (8.4.45),vAg+mUlam",
+"g,m,gm,jaSwva,JalAM jaSoZnwe (8.2.39),vAk+mUlam",
+"g,m,fm,anunAsika,yaroZnunAsikeZnunAsiko vA (8.4.45),vAk+mUlam",
 "g,y,gy,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "g,r,gr,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "g,l,gl,jaSwva,JalAM jaSoZnwe (8.2.39),",
@@ -882,8 +883,8 @@
 "g,S,kS,carwva,Kari ca (8.4.55),",
 "g,R,kR,carwva,Kari ca (8.4.55),",
 "g,s,ks,carwva,Kari ca (8.4.55),",
-"g,h,gG,pUrvasavarNa,Jayo hoZnyawarasyAm (8.4.62),vaNig+hasawi",
-"g,h,gh,jaSwva,JalAM jaSoZnwe (8.2.39),vaNig+hasawi",
+"g,h,gG,pUrvasavarNa,Jayo hoZnyawarasyAm (8.4.62),vaNik+hasawi",
+"g,h,gh,jaSwva,JalAM jaSoZnwe (8.2.39),vaNik+hasawi",
 "G,a,ga,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "G,A,gA,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "G,i,gi,jaSwva,JalAM jaSoZnwe (8.2.39),",
@@ -1034,7 +1035,7 @@
 "c,r,jr,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "c,l,jl,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "c,v,jv,jaSwva,JalAM jaSoZnwe (8.2.39),ac+varNaH",
-"c,S,cS,carwva,Kari ca (8.4.55),tac+SivaH",
+"c,S,cS,carwva,Kari ca (8.4.55),tac+SivaH ??",
 "c,R,cR,carwva,Kari ca (8.4.55),",
 "c,s,cs,carwva,Kari ca (8.4.55),",
 "c,h,jh,jaSwva,JalAM jaSoZnwe (8.2.39),",
@@ -1141,8 +1142,8 @@
 "j,S,cS,carwva,Kari ca (8.4.55),",
 "j,R,cR,carwva,Kari ca (8.4.55),",
 "j,s,cs,carwva,Kari ca (8.4.55),",
-"j,h,jJ,pUrvasavarNa,Jayo hoZnyawarasyAm (8.4.62),aj+halaO",
-"j,h,jh,jaSwva,JalAM jaSoZnwe (8.2.39),aj+halaO",
+"j,h,jJ,pUrvasavarNa,Jayo hoZnyawarasyAm (8.4.62),aj+halO",
+"j,h,jh,jaSwva,JalAM jaSoZnwe (8.2.39),aj+halO",
 "J,a,ja,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "J,A,jA,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "J,i,ji,jaSwva,JalAM jaSoZnwe (8.2.39),",
@@ -1710,47 +1711,56 @@
 "X,s,ws,carwva,Kari ca (8.4.55),",
 "X,h,xh,jaSwva,JalAM jaSoZnwe (8.2.39),",
 "X,h,xX,pUrvasavarNa,Jayo hoZnyawarasyAm (8.4.62),",
-"n,a,na,diPAlt,,,",
-"n,A,nA,diPAlt,,kavIn+Ahvayasva",
-"n,i,ni,diPAlt,,,",
-"n,I,nI,diPAlt,,,",
-"n,u,nu,diPAlt,,,",
-"n,U,nU,diPAlt,,,",
-"n,q,nq,diPAlt,,,",
-"n,Q,nQ,diPAlt,,,",
-"n,L,nL,diPAlt,,,",
-"n,e,ne,diPAlt,,,",
-"n,E,nE,diPAlt,,,",
-"n,o,no,diPAlt,,,",
-"n,O,nO,diPAlt,,,",
-"n,k,nk,dePAlt,,,",
-"n,K,nK,dePAlt,,,",
-"n,g,ng,dePAlt,,,",
-"n,G,nG,dePAlt,,,",
-"n,f,nf,dePAlt,,,",
-"n,c,nc,dePAlt,,,",
-"n,C,nC,dePAlt,,,",
+#"n,a,na,diPAlt,,,", #Commented by Amba
+#"n,A,nA,diPAlt,,kavIn+Ahvayasva", #Commented by Amba
+#"n,i,ni,diPAlt,,,", #Commented by Amba
+#"n,I,nI,diPAlt,,,", #Commented by Amba
+#"n,u,nu,diPAlt,,,", #Commented by Amba
+#"n,U,nU,diPAlt,,,", #Commented by Amba
+#"n,q,nq,diPAlt,,,", #Commented by Amba
+#"n,Q,nQ,diPAlt,,,", #Commented by Amba
+#"n,L,nL,diPAlt,,,", #Commented by Amba
+#"n,e,ne,diPAlt,,,", #Commented by Amba
+#"n,E,nE,diPAlt,,,", #Commented by Amba
+#"n,o,no,diPAlt,,,", #Commented by Amba
+#"n,O,nO,diPAlt,,,", #Commented by Amba
+#"n,k,nk,dePAlt,,,",#Commented by Amba
+#"n,K,nK,dePAlt,,,",#Commented by Amba
+#"n,g,ng,dePAlt,,,",#Commented by Amba
+#"n,G,nG,dePAlt,,,",#Commented by Amba
+#"n,f,nf,dePAlt,,,",#Commented by Amba
+"n,k,fk,dePAlt,,,", #Added by Amba
+"n,K,fK,dePAlt,,,", #Added by Amba
+"n,g,fg,dePAlt,,,", #Added by Amba
+"n,G,fG,dePAlt,,,", #Added by Amba
+"n,f,f,dePAlt,,,", #Added by Amba
+"n,c,Fc,dePAlt,,,",
+"n,C,FC,dePAlt,,,",
 "n,j,Fj,Scuwva,swoH ScunA ScuH (8.4.40),",
-"n,J,nJ,dePAlt,,,",
-"n,F,nF,dePAlt,,,",
-"n,t,nt,dePAlt,,,",
-"n,T,nT,dePAlt,,,",
-"n,d,nd,dePAlt,,,",
+"n,J,FJ,dePAlt,,,",#Commented by Amba
+#"n,F,nF,dePAlt,,,",#Commented by Amba
+"n,F,F,dePAlt,,,", #Added by Amba
+#"n,t,nt,dePAlt,,,",#Commented by Amba
+#"n,T,nT,dePAlt,,,",#Commented by Amba
+#"n,d,nd,dePAlt,,,",#Commented by Amba
+"n,t,Nt,dePAlt,,,", #added by Amba
+"n,T,NT,dePAlt,,,", #added by Amba
+"n,d,Nd,dePAlt,,,", #added by Amba
 "n,D,ND,Rtuwva,RtunA RtuH (8.4.41),",
-"n,N,nN,dePAlt,,,",
-"n,w,nw,dePAlt,,,",
-"n,W,nW,dePAlt,,,",
+#"n,N,nN,dePAlt,,,",#Commented by Amba
+#"n,w,nw,dePAlt,,,",#commentaed by Amba
+#"n,W,nW,dePAlt,,,",#commentaed by Amba
 "n,x,nx,dePAlt,,,",
 "n,X,nX,dePAlt,,,",
 "n,n,nn,dePAlt,,,",
-"n,p,np,dePAlt,,,",
-"n,P,nP,dePAlt,,,",
-"n,b,nb,dePAlt,,,",
-"n,B,nB,dePAlt,,,",
-"n,m,nm,dePAlt,,,",
+"n,p,np,dePAlt,,,",#naSca apaxAnwSca Jali
+"n,P,nP,dePAlt,,,",#naSca apaxAnwSca Jali
+"n,b,nb,dePAlt,,,",#naSca apaxAnwSca Jali
+"n,B,nB,dePAlt,,,",#naSca apaxAnwSca Jali
+"n,m,nm,dePAlt,,,",#naSca apaxAnwSca Jali
 "n,y,ny,dePAlt,,,",
 "n,r,nr,dePAlt,,,",
-"n,l,lazl,parasavarNa,worli (8.4.60),",
+"n,l,lzl,parasavarNa,worli (8.4.60),",
 "n,v,nv,dePAlt,,,",
 "n,S,FcS,wugAgama -> Scuwva-> carwva,Si wuk (8.3.31)-> swoH ScunA ScuH (8.4.40)-> Kari ca (8.4.55),",
 "n,S,FS,Scuwva,swoH ScunA ScuH (8.4.40),",
@@ -1808,12 +1818,12 @@
 "m,B,M B,anusvAra,moZnusvAraH (8.3.23),",
 "m,m,mm,anusvAra -> parasavarNa,moZnusvAraH (8.3.23)-> vA paxAnwasya (8.4.59),",
 "m,m,M m,anusvAra,moZnusvAraH (8.3.23),",
-"m,y,yazy,anusvAra -> parasavarNa,moZnusvAraH (8.3.23)-> vA paxAnwasya (8.4.59),",
+"m,y,zy,anusvAra -> parasavarNa,moZnusvAraH (8.3.23)-> vA paxAnwasya (8.4.59),",
 "m,y,M y,anusvAra,moZnusvAraH (8.3.23),",
 "m,r,M r,anusvAra,moZnusvAraH (8.3.23),karuNam+roxiwi",
 "m,l,zll,anusvAra -> parasavarNa,moZnusvAraH (8.3.23)-> vA paxAnwasya (8.4.59),",
 "m,l,M l,anusvAra,moZnusvAraH (8.3.23),",
-"m,v,vazv,anusvAra -> parasavarNa,moZnusvAraH (8.3.23)-> vA paxAnwasya (8.4.59),",
+"m,v,zv,anusvAra -> parasavarNa,moZnusvAraH (8.3.23)-> vA paxAnwasya (8.4.59),",
 "m,v,M v,anusvAra,moZnusvAraH (8.3.23),",
 "m,S,M S,anusvAra,moZnusvAraH (8.3.23),harim+Srayawe",
 "m,R,M R,anusvAra,moZnusvAraH (8.3.23),",
@@ -2377,6 +2387,7 @@
 #'[^a]s
 "s,a,H a,ruwva -> visarga,sasajuRo ruH (8.2.66)-> KaravasAnayorvisarjanIyaH (8.3.15),",
 "as,a,oZ,ruwva -> uwva-> guNa-> pUrvarupa,sasajuRo ruH (8.2.66)-> awo rorapluwAxapluwe (6.1.113)-> Ax guNaH (6.1.87)-> efaH paxAnwAxawi (6.1.109),rAmaH+api",
+"as,aM,oMZ,ruwva -> uwva-> guNa-> pUrvarupa,sasajuRo ruH (8.2.66)-> awo rorapluwAxapluwe (6.1.113)-> Ax guNaH (6.1.87)-> efaH paxAnwAxawi (6.1.109),rAmaH+api",
 "s,A,H A,ruwva -> visarga,sasajuRo ruH (8.2.66),",
 "s,i,H i,ruwva -> visarga,sasajuRo ruH (8.2.66)-> KaravasAnayorvisarjanIyaH (8.3.15),",
 "s,I,H I,ruwva -> visarga,sasajuRo ruH (8.2.66)-> KaravasAnayorvisarjanIyaH (8.3.15),",
@@ -2483,6 +2494,7 @@
 "h,s,hs,dIPAlt,,,",
 "h,h,hh,dIPAlt,,,",
 "aH,a,oZ,ruwva -> uwva-> guNa-> pUrvarupa,sasajuRo ruH (8.2.66)-> awo rorapluwAxapluwe (6.1.113)-> Ax guNaH (6.1.87)-> efaH paxAnwAxawi (6.1.109),rAmaH+api",
+"aH,aM,oMZ,ruwva -> uwva-> guNa-> pUrvarupa,sasajuRo ruH (8.2.66)-> awo rorapluwAxapluwe (6.1.113)-> Ax guNaH (6.1.87)-> efaH paxAnwAxawi (6.1.109),rAmaH+api",
 "aH,A,a A,ruwva -> yawva-> lopa,sasajuRo ruH (8.2.66)-> BoBago aGo apUrvasya yoZSi (8.3.17)-> lopaH SAkalyasya (8.3.19),rAmaH+Aswe",
 "aH,A,ayA,ruwva -> yawva,sasajuRo ruH (8.2.66)-> BoBagoaGo apUrvasya yoZSi (8.3.17),rAmaH+Aswe",
 "aH,i,a i,ruwva -> yawva-> lopa,sasajuRo ruH (8.2.66)-> BoBago aGo apUrvasya yoZSi (8.3.17)-> lopaH SAkalyasya (8.3.19),rAmaH+iha",

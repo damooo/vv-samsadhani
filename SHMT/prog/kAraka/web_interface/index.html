@@ -1,5 +1,5 @@
 <!--
-#  Copyright (C) 2009-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2009-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ function validation(){
 
 <title>Sanskrit Parser </title>
 <!-- <script type="text/javascript" src="../google.js"></script> -->
-<script type="text/javascript" src="SCLURL/jquery.tools.min.js"></script>
+<script type="text/javascript" src="jquery.tools.min.js"></script>
 <script type="text/javascript" src="validation.js"></script>
 <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8" />
 <meta name ="keywords" content="india,dictionary,indology,sanskrit,lexicography,linguistics,indo-european,panini, computational linguistics,tools, Translation, Machine Translation, Sanskrit-Hindi Machine Translation, SHMT, kaaraka analyser, parser, kAraka, sandhi, segmentation" />
@@ -55,13 +55,13 @@ function validation(){
 <div id="project-title">
 <table align="center" width="90%">
 <tr>
-<td align="right" width="20%"> <img src="SCLURL/imgs/samsadhani3.jpg" width="150px" height="100px" alt="" /></td>
+<td align="right" width="20%"> <img src="imgs/samsadhani3.jpg" width="150px" height="100px" alt="" /></td>
 <td  width="80%"> 
 <h2 align="center">कारक-विश्लेषिका (Sentential Parser)</h2>
 <h3 align="center">Department of Sanskrit Studies</h3>
 <p align="center">University of Hyderabad</p>
 </td>
-<td><a href="DEPTURL" style="color:white;">Home</a>&nbsp;&nbsp;<a href="SCLURL" style="color:white;">Sanskrit-tools</a></td>
+<td><a href="http://sanskrit.uohyd.ac.in" style="color:white;">Home</a>&nbsp;&nbsp;<a href="" style="color:white;">Sanskrit-tools</a></td>
 </tr></table>
 </div>
 <!--page title ends here-->
@@ -72,14 +72,14 @@ function validation(){
 <a id="feedbackbutton"><font color="green">Feedback </font></a>
 <font color="magenta">Version Dec 25, 2014</font></p>
 <center><ul>
-<li><a href="SCLURL/">Home</a></li>
-<li><a href="SCLURL/skt_gen/generators.html">Morph-Generator</a></li>
-<li><a href="SCLURL/morph/index.html">Morph-Analyser</a></li>
-<li><a href="SCLURL/sandhi/index.html">Sandhi</a></li>
-<li><a href="SCLURL/sandhi_splitter/index.html">Sandhi-Splitter</a></li>
-<li><a href="SCLURL/transliteration/index.html">Transliteration</a></li>
-<li><a href="SCLURL/parser/index.html">Parser</a></li>
-<li><a href="SCLURL/SHMT/shmt.html">MT(Skt-Hnd)</a></li>
+<li><a href="">Home</a></li>
+<li><a href="skt_gen/generators.html">Morph-Generator</a></li>
+<li><a href="morph/index.html">Morph-Analyser</a></li>
+<li><a href="sandhi/index.html">Sandhi</a></li>
+<li><a href="sandhi_splitter/index.html">Sandhi-Splitter</a></li>
+<li><a href="transliteration/index.html">Transliteration</a></li>
+<li><a href="parser/index.html">Parser</a></li>
+<li><a href="SHMT/shmt.html">MT(Skt-Hnd)</a></li>
 </ul> </center>
 
 </div>
@@ -106,12 +106,12 @@ function validation(){
 </p>
 <!--Input forms starts here-->
 
-<form name="test" method="post" action="CGIURL/parser/kAraka.cgi"  onsubmit="return check();">
+<form name="test" method="post" action="/cgi-bin/scl/parser/kAraka.cgi"  onsubmit="return check();">
 <div style="width:900px;margin:auto;">
 <table >
 <tr>
 <td>
-<font size="2"><a href='#' style="color:blue;" onclick="window.open('SCLURL/table.html','Details','width=800, height=500,scrollbars=yes');">Input</a></font>
+<font size="2"><a href='#' style="color:blue;" onclick="window.open('table.html','Details','width=800, height=500,scrollbars=yes');">Input</a></font>
             <select name="encoding" size="1"  style="border-style:solid;border-width:1px;" id="encoding">
 	    <option value="Unicode">Unicode-Devanagari</option>
             <option value="WX">WX-Alphabetic</option>
@@ -119,11 +119,12 @@ function validation(){
             <option value="VH">Velthuis</option>
             <option value="SLP">SLP1</option>
             <option value="KH">Kyoto-Harvard(KH)</option>
+            <option value="IAST">IAST(Roman-Diacritic)</option>
             </select> 
 <font size="2">Output:</font>
             <select name="out_encoding" id="out_encoding" size="1" style="border-style:solid;border-width:1px;">
             <option value="Devanagari">Devanagari</option>
-            <option value="Roman-Diacritic">Roman-Diacritic</option>
+            <option value="IAST">IAST(Roman-Diacritic)</option>
             <option value="Velthuis">Velthuis</option>
             </select>
 <font size="2">Segmenter</font>
@@ -169,28 +170,27 @@ function validation(){
 <!--tail starts from here-->
 <div id="dept-menu" >
 <center><p>© 2008-12 Department of Information Technology, MCIT, Govt of India.</p></center>
-<center><p>© 2002-14 <a href="DEPTURL/faculty/amba">Amba Kulkarni</a></p></center>
+<center><p>© 2002-14 <a href="http://sanskrit.uohyd.ac.in/faculty/amba">Amba Kulkarni</a></p></center>
 
 <center><p style="border-style:none;">
     <a href="http://validator.w3.org/check?uri=referer"><img
-        src="SCLURL/images/w3c.jpg"
+        src="images/w3c.jpg"
         alt="Valid XHTML 1.0 Transitional"  style="border-style:none;" /></a>&nbsp;<font color="brown">Browser compatibility:</font> <a href="http://www.mozilla.com/en-US/firefox/">Firefox 3+</a> (Recommended), Chrome, Opera
   </p></center>
 
 </div>
 <!--tail ends here-->
 
+<!-- <img src="http://scl.samsaadhanii.in/cgi-bin/Count.cgi?ft=0&df=sample.dat" alt="Count"> -->
 
 <!-- Start of StatCounter Code for Default Guide -->
-<script type="text/javascript" src="SCLURL/COUNTER"></script>
+<script type="text/javascript" src="/scl/statcounter_dummy.js"></script>
 <noscript><div class="statcounter"><a title="web analytics"
 href="http://statcounter.com/" target="_blank"><img
 class="statcounter"
 src="https://c.statcounter.com/8421849/0/34917efe/0/"
 alt="web analytics"></a></div></noscript>
 <!-- End of StatCounter Code for Default Guide -->
-<!-- Visitors Since Sept 2013 -->
-<a href="http://info.flagcounter.com/xK09"><img src="http://s08.flagcounter.com/count/xK09/bg_FFFFFF/txt_000000/border_CCCCCC/columns_9/maxflags_9/viewers_3/labels_0/pageviews_0/flags_1/" alt="Flag Counter" border="0"></a>
 </div>
 </body>
 </html>

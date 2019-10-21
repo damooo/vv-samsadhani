@@ -1,6 +1,5 @@
-#!PERLPATH -I LIB_PERL_PATH/
-
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#!/usr/bin/env perl
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -19,27 +18,22 @@
 
 use strict;
 use warnings;
-#use Shell;
-use CGI qw( :standard );
-#use LWP::Simple qw/!head/;
-#$VERSION = "2.0";
-use Date::Format;
 
-my $tmppath = "TFPATH";
-my $sclpath = "SCLINSTALLDIR";
-my $mode = "MODE";
-use lib "SCLINSTALLDIR";
-use SCLResultParser;
-#use Log::Log4perl qw(:easy);
-    if (! (-e "TFPATH")){
-        mkdir "TFPATH" or die "Error creating directory TFPATH";
+require "../paths.pl";
+require "$GlblVar::SCLINSTALLDIR/SHMT/prog/morph/web_interface/scripts.pl";
+require "$GlblVar::SCLINSTALLDIR/converters/convert.pl";
+require "$GlblVar::SCLINSTALLDIR/SCLResultParser.pl";
+
+use CGI qw( :standard );
+
+    if (! (-e "$GlblVar::TFPATH")){
+        mkdir "$GlblVar::TFPATH" or die "Error creating directory $GlblVar::TFPATH";
     }
 
-open(TMP1,">>TFPATH/morph.log") || die "Can't open TFPATH/morph.log for writing";
 
 #Declaration of all the variables
-my $word1;
-my $wordutf="";
+my $word;
+my $word_wx;
 my $ans="";
 my $encoding="";
 my $rt;
@@ -47,20 +41,38 @@ my $rt_XAwu_gaNa;
 my $XAwu;
 my $gaNa;
 my $lifga;
-my $ref;
-my $json_out;
+my $link;
+my $upasarga;
+my $prayogaH;
+my $color;
 my $out_format = "html";
 
 if (param()){ 
-    $word1 = param('morfword');
+    $word = param('morfword');
     $encoding=param("encoding");
     my $json_out=param("json_out");
     $out_format = "json" if $json_out && ($json_out ne 'false');
 }
 
-$ans = `$sclpath/SHMT/prog/morph/callmorph.pl $word1 $encoding MODE $out_format`;
+if($GlblVar::VERSION eq "SERVER"){
+  open(TMP1,">>$GlblVar::TFPATH/morph.log") || die "Can't open $GlblVar::TFPATH/morph.log for writing";
+  print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."encoding:$encoding\t"."morfword:$word\n"."tempnew_data:$ans\n############################\n\n";
+  close(TMP1);
+}
 
-print TMP1 $ENV{'REMOTE_ADDR'}."\t".$ENV{'HTTP_USER_AGENT'}."\n"."encoding:$encoding\t"."morfword:$word1\n"."tempnew_data:$ans\n############################\n\n";
+$word_wx = &convert($encoding,$word,$GlblVar::SCLINSTALLDIR);
+  open(TMP1,">>$GlblVar::TFPATH/morph.log") || die "Can't open $GlblVar::TFPATH/morph.log for writing";
+print TMP1 $word_wx;
+
+chomp($word_wx);
+$ans = `$GlblVar::SCLINSTALLDIR/SHMT/prog/morph/webrun_morph.sh $word_wx`;
+if ($out_format eq 'json') {
+    my $result = parse_morph_output($word, $encoding, $ans);
+    $ans = to_json($result);
+}
+print TMP1 $ans;
+close(TMP1);
+
 chomp($ans);
 
 if ($out_format eq 'json') {
@@ -70,95 +82,89 @@ if ($out_format eq 'json') {
     exit(0);
 }
 
-close(TMP1);
-
 print header(-type=>"text/html" , -charset=>"utf-8");
-print "<script>\n";
-print "function analyse_noun_forms(encod,word){
-  window.open('CGIURL/morph/morph.cgi?encoding='+encod+'&morfword='+word+'','popUpWindow','height=200,width=600,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();}\n";
-
-print "function generate_noun_forms(encod,prAwi,lifga,level){
-  window.open('CGIURL/skt_gen/noun/noun_gen.cgi?encoding='+encod+'&rt='+prAwi+'&gen='+lifga+'&level='+level+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
-}\n";
-
-print "function generate_kqw_forms(encod,vb){
-  window.open('CGIURL/skt_gen/kqw/kqw_gen.cgi?encoding='+encod+'&vb='+vb+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
-}\n";
-
-print "function generate_waxXiwa_forms(encod,rt,gen){
-  window.open('CGIURL/skt_gen/waxXiwa/waxXiwa_gen.cgi?encoding='+encod+'&rt='+rt+'&gen='+gen+'','popUpWindow','height=500,width=400,left=100,top=100,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no, status=yes').focus();
-}\n";
-
-print "</script>\n";
+&printscripts();
 print "<table style=\"border-collapse: collapse;\" bordercolor='brown' valign='middle' bgcolor='#297e96' border='1' cellpadding='2' cellspacing='2' >
 <tr>";
-$ans =~ s/</{/g;
-$ans =~ s/>/}/g;
-$ans =~ s/{वर्गः:ना}//g;
-$ans =~ s/\$//g;
+
 my @ans=split(/\//,$ans);
 my $i = 0;
 if($ans ne "") {
  foreach $ans (@ans) {
-   $ans =~ s/:/ /g;
+
    if($ans =~ /^[^{]+{लेवेल् 4}/) { $ans =~ s/^[^{]+{लेवेल् 4}//;}
-   $ans =~ s/^([^ ]+) / /;
-   $rt = $1;
+ # Why only level 4 entry in the beginning is deleted, why not all?
+   if($ans =~ /लेवेल् [01]/) { $ans =~ s/{लेवेल् [01]}//;}
    if($ans =~ /लेवेल् 2/) { $ans =~ s/लेवेल् 2/कृदन्त/;}
    if($ans =~ /लेवेल् 3/) { $ans =~ s/लेवेल् 3/तद्धित/;}
-   if($ans =~ /लेवेल् [01]/) { $ans =~ s/{लेवेल् [01]}//;}
 
-   if($ans =~ /कृत्_प्रत्ययः/ ){
-     if($ans =~ /{धातुः ([^}]+)/) { $XAwu = $1;}
-     if($ans =~ /{गणः ([^}]+)/) { $gaNa = $1;}
-      $rt_XAwu_gaNa = $rt."_".$XAwu."_".$gaNa;
- #   $ref = "<a href=\"CGIURL/skt_gen/kqw/kqw_gen.cgi?encoding=Unicode&vb=$rt_XAwu_gaNa\" target=\"_blank\">$rt</a>";
-      if($rt ne $word1) {
-         $ref = "<a href=\"javascript:generate_kqw_forms('Unicode','$rt_XAwu_gaNa')\">$rt</a>";
-      } else { $ref = $rt;}
-      if(($rt ne "") && ($ans ne "")) {
-        print "<td bgcolor='lavendar'>",$ref,$ans,"</td>";
-      }
-    }elsif ($ans =~ /तद्धित_प्रत्यय/){
-      if($rt ne $word1) {
-       $ref = "<a href=\"javascript:generate_waxXiwa_forms('Unicode','$rt','$lifga')\">$rt</a>";
-      } else { $ref = $rt;}
-  #  $ref = "<a href=\"CGIURL/skt_gen/waxXiwa/waxXiwa_gen.cgi?encoding=Unicode&rt=$rt&gen=$lifga\" target=\"_blank\">$rt</a>";
-       if(($rt ne "") && ($ans ne "")) {
-         print "<td bgcolor=''>",$ref,$ans,"</td>";
-       }
-     } elsif ($ans =~ /(पुं|नपुं|स्त्री)/) {
-       $lifga = $1;
-       if($ans =~ /कृदन्त|तद्धित/) { 
-          if($rt ne $word1) {
-             $ref = "<a href=\"javascript:analyse_noun_forms('Unicode','$rt')\">$rt</a>";
-          } else { $ref = $rt;}
-    # $ref = "<a href=\"CGIURL/morph/morph.cgi?encoding=Unicode&morfword=$rt\">$rt</a>";
+   $ans =~ s/^([^{ ]+)([ {])/$2/;
+   $rt = $1;
+ # We need to separate the upasarga from the rts for generation purpose.
+#   if($rt =~ /^(.+)_([^_]+)/){ $upasarga = $1; $rt = $2;}
+#   else {$upasarga = "-";}
+   if ($ans =~ /उपसर्ग ([^}]+)/) { $upasarga = $1;} else {$upasarga = "-";}
+   if ($ans =~ /{उपसर्ग [^}]+}/) { $ans =~ s/{उपसर्ग [^}]+}//;}
+
+
+   #if($rt ne $word) { #  To avoid the infinite regress
+     if (($rt ne $word) && ($ans =~ /कृत्_प्रत्ययः/ )){
+       if($ans =~ /{धातुः ([^}]+)/) { $XAwu = $1;}
+       if($ans =~ /{गणः ([^}]+)/) { $gaNa = $1;}
+       $rt_XAwu_gaNa = $rt."_".$XAwu."_".$gaNa;
+       if($upasarga ne "-"){
+          $link = "<a href=\"javascript:generate_kqw_forms('Unicode','$rt_XAwu_gaNa','$upasarga')\">${upasarga}_$rt</a>";
        } else {
-  #    $ref = "<a href=\"CGIURL/skt_gen/noun/noun_gen.cgi?encoding=Unicode&rt=$rt&gen=$lifga\" target=\"morfoutput\" onclick=\"window.open('CGIURL/skt_gen/noun/noun_gen.cgi?encoding=Unicode&rt=$rt&gen=$lifga')\">$rt</a>";
-      if(($rt ne $word1) && ($ans !~ /{धातुः ([^}]+)/) ){
-         $ref = "<a href=\"javascript:generate_noun_forms('Unicode','$rt','$lifga','1')\">$rt</a>";
-      } else { $ref = $rt;}
+          $link = "<a href=\"javascript:generate_kqw_forms('Unicode','$rt_XAwu_gaNa','$upasarga')\">$rt</a>";
        }
-       if(($rt ne "") && ($ans ne "")) {
-           print "<td bgcolor='skyblue'>",$ref,$ans,"</td>";
-       }
-     }
-     elsif ($ans =~ /(लट्|लिट्|लुट्|लोट्|लृट्|लङ्|लृङ|लुङ्|लिङ्)/) {
+       $color = "lavendar";
+#    } elsif ($ans =~ /तद्धित_प्रत्यय/){
+    } elsif ($ans =~ /तद्धित/){
+       $ans =~ s/{वर्गः ना}//;
+       $link = "<a href=\"javascript:generate_waxXiwa_forms('Unicode','$rt','$lifga')\">$rt</a>";
+       $color = "lavendar";
+    } elsif(($ans =~ /कृदन्त/) && ($ans !~ /अव्य/)) {
+             $ans =~ s/{वर्गः ना}//;
+             if ($ans =~ /(पुं|नपुं|स्त्री)/){ $lifga = $1;}
+             $link = "<a href=\"javascript:generate_any_noun_forms('Unicode','$rt','$lifga','nA','1')\">$rt</a>";
+             $color = "skyblue";
+    } elsif ($ans =~ /{वर्गः ना}/ ) {
+                $ans =~ s/{वर्गः ना}//;
+               if ($ans =~ /(पुं|नपुं|स्त्री)/){ $lifga = $1;}
+                $link = "<a href=\"javascript:generate_any_noun_forms('Unicode','$rt','$lifga','nA','1')\">$rt</a>";
+                $color = "skyblue";
+      } elsif ($ans =~ /संख्या/)  {
+         if ($ans =~ /(पुं|नपुं|स्त्री)/){ $lifga = $1;} else  {$lifga = "अ";}
+         $link = "<a href=\"javascript:generate_any_noun_forms('Unicode','$rt','$lifga','saMKyA','1')\">$rt</a>";
+         $color = "skyblue";
+      } elsif ($ans =~ /संख्येय/) {
+         if ($ans =~ /(पुं|नपुं|स्त्री)/){ $lifga = $1;} else  {$lifga = "अ";}
+         $link = "<a href=\"javascript:generate_any_noun_forms('Unicode','$rt','$lifga','saMKyeyam','1')\">$rt</a>";
+         $color = "skyblue";
+      } elsif ($ans =~ /सर्वनाम/){
+         if ($ans =~ /(पुं|नपुं|स्त्री)/){ $lifga = $1;} else  {$lifga = "अ";}
+         $link = "<a href=\"javascript:generate_any_noun_forms('Unicode','$rt','$lifga','sarva','1')\">$rt</a>";
+         $color = "skyblue";
+     } elsif (($ans =~ /(लट्|लिट्|लुट्|लोट्|लृट्|लङ्|लृङ|लुङ्|लिङ्)/) 
+      || ($ans =~ /अव्य.*कृदन्त/)) {
         if($ans =~ /{धातुः ([^}]+)/) { $XAwu = $1;}
         if($ans =~ /{गणः ([^}]+)/) { $gaNa = $1;}
+        if($ans =~ /{सनादि:णिच}/) { $prayogaH = "णिजन्त-कर्तरि";} else { $prayogaH = "कर्तरि";}
         $rt_XAwu_gaNa = $rt."_".$XAwu."_".$gaNa;
-    #$ref = "<a href=\"CGIURL/skt_gen/verb/verb_gen.cgi?encoding=Unicode&vb=$rt_XAwu_gaNa&prayoga=कर्तरि\" target=\"_blank\">$rt</a>";
-        $ref = $rt; # verb generator needs mng also. Hence temporarily disconnected
-        if(($rt ne "") && ($ans ne "")) {
-            print "<td bgcolor='pink'>",$ref,$ans,"</td>";
+        if($upasarga ne "-"){
+          $rt =~ s/[1-9]//;
+          $link = "<a href=\"javascript:generate_verb_forms('Unicode','$rt_XAwu_gaNa','$prayogaH','$upasarga','uBayapaxI')\">${upasarga}_$rt</a>";
+        } else {
+          $rt =~ s/[1-9]//;
+          $link = "<a href=\"javascript:generate_verb_forms('Unicode','$rt_XAwu_gaNa','$prayogaH','$upasarga','uBayapaxI')\">$rt</a>";
         }
-     }
-     else {
-        if(($rt ne "") && ($ans ne "")) {
-            print "<td bgcolor='lightgreen'>",$rt,$ans,"</td>";
-        }
-     }
+        $color = "pink";
+    } else {
+        $rt =~ s/[1-9]//;
+        $link = "<a href=\"javascript:show('$rt')\">$rt</a>";
+        $color = "lightgreen";
+    }
+   print "<td bgcolor='$color'>",$link,$ans,"</td>";
  $i++;
  if($i % 6 == 0) { print "</tr><tr>";}
 } # endof foreach

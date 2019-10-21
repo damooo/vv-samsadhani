@@ -1,4 +1,4 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
 #  Copyright (C) 2002-2012 Pankaj Vyays, Sivaja Nair and Amba Kulkarni (ambapradeep@gmail.com)
 #

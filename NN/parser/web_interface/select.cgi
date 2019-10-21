@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-#  Copyright (C) 2014-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2014-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -20,26 +20,26 @@
 package main;
 use CGI qw/:standard/;
 
-my $myPATH="SCLINSTALLDIR";
-require "$myPATH/NN/parser/style.pl";
-require "$myPATH/NN/parser/functions.pl";
+require "../../paths.pl";
+require "$GlblVar::SCLINSTALLDIR/NN/common/style.pl";
+require "$GlblVar::SCLINSTALLDIR/NN/parser/functions.pl";
 
   my $cgi = new CGI;
   print $cgi->header (-charset => 'UTF-8');
 
-  print $style_header;
-  print $title;
+  print $NN::style_header;
+  print $NN::title;
 
   if (param) {
       $pid=param("pid");
       $instr=param("instr");
 
-      $filepath="TFPATH/NN/parser/tmp_in$pid";
+      $filepath="$GlblVar::TFPATH/NN/parser/tmp_in$pid";
       $filename=$filepath."/out.txt";
 
       print "<center>";
-      print $instructions;
-      print "</center></div>";
+      print $NN::instructions;
+      print "</center>";
 
       print "<center><div id=\"tables\">\n";
       ($more_choices,$instr) = split(/#/,&print_table($instr,$pid,$filename));
@@ -47,10 +47,10 @@ require "$myPATH/NN/parser/functions.pl";
 
       if(!$more_choices){
          $ans = &get_parsed_string($instr,$filename);
-         &tail($ans);
+         &NN::tail($ans);
       } else { print "<div id=\"navigation\"></div>";}
 
   $ans =~ s/\<([.*])\-\^(wva|wA)\>/([.*])\-$1/g;
   $ans;
-      print $contribution;
+      print $NN::style_tail;
    }

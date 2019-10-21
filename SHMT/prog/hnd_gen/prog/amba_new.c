@@ -71,6 +71,7 @@ extern void trim_word();
 extern void cooked_TAM_suff();
 extern void prefix_suffix();
 extern int exceptional();
+extern int substring();
 
 char word_num_str[MEDIUM],map_wc[SMALL], root[VERY_LARGE];
 
@@ -124,19 +125,19 @@ char *argv[];
       /* check for multiple meaning */
      if(map_wc[0]=='\0') { /*sanjil*/
          map_no = 0;sense_no = 0;
-     }else
-      sscanf(map_wc,"%d, %d",&map_no,&sense_no);
-      if ( sense_no > 1 ) {
+     } 
+     else {sscanf(map_wc,"%d, %d",&map_no,&sense_no);}
+     if ( sense_no > 1 ) {
 	 NEXT_SENSE = 1;
-	   printf("[");
-      }
+         printf("[");
+     }
       
       /* check for multiple root */
-      if (index(root,'&')){
+     if (index(root,'&')){
          strcpy_till(root,extra_root,root,'&'); 
 	 rlen = strlen(root);
 	 EXTRA_ROOT_FLAG = 1;
-       }
+      }
 
 
       if( root[0] == '#')   /* Newline start */
@@ -175,9 +176,10 @@ char *argv[];
              else {
 	     if (!strcmp(category,"v")) {
 	     	rtam = (char *) malloc(sizeof(tam_gnp_str_ar[0]));
-	     if((rtam = (char *)my_bsearch(TAM,tam_gnp_str_ar[0].tam,TOTAL_FVG_TAMS,sizeof(tam_gnp_str_ar[0]),strcmp)) != '\0')
+	        rtam = (char *)my_bsearch(TAM,tam_gnp_str_ar[0].tam,TOTAL_FVG_TAMS,sizeof(tam_gnp_str_ar[0]),strcmp);
+	     if(rtam[0] != '\0') {
 	     /*	rtam = (char *)((int)rtam + 2*MAX_CHR_IN_TAM_STR); */
-	        rtam += 2*MAX_CHR_IN_TAM_STR;
+	        rtam += 2*MAX_CHR_IN_TAM_STR; }
 	/*Pointer rtam is incremented to point to the third field,which is the gnp_str for raw_tam_lbl */
              if(rtam != NULL && strcmp(rtam,"0")) {
 	        i=0;

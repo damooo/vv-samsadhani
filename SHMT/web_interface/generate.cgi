@@ -1,6 +1,6 @@
-#!PERLPATH -I LIB_PERL_PATH/
+#!/usr/bin/env perl
 
-my $myPATH = "SCLINSTALLDIR";
+require "../paths.pl";
 package main;
 
 use CGI qw/:standard/;
@@ -8,32 +8,30 @@ use CGI qw/:standard/;
 my $cgi = new CGI;
 print $cgi->header (-charset => 'UTF-8');
 
-@params = param;
+#@params = param;
 
-$dic_name = param('dic');
-$word = param('word');
-#$outencoding = param('encoding');
-$cword = "";
+my $dic_name = param('dic');
+my $word = param('word');
+my $outencoding = param('outencoding');
+my $word_wx = "";
 
-$Files_Path = "$myPATH/SHMT/data/hi";
+$Files_Path = "$GlblVar::SCLINSTALLDIR/SHMT/data/hi";
 
 chomp $word;
 # converting word utf8 to wx to get filename
-#if ($outencoding eq "DEV") {
-#  $cword = `echo $word | $myPATH/converters/utf82wx.sh`;
-#  chomp($cword);
-#  $sword = $word;
-#}elsif($outencoding eq "ROMAN"){
-#  $cword = `echo $word | $myPATH/converters/utf8roman2wx.out`;
-#  chomp($cword);
-#  $sword = `echo $cword | $myPATH/converters/wx2utf8.sh`;
-#}
- $cword = `echo $word | $myPATH/converters/utf82wx.sh`;
- chomp($cword);
- $sword = $word;
+if ($outencoding eq "DEV") {
+  $word_wx = `echo $word | $GlblVar::SCLINSTALLDIR/converters/utf82wx.sh $GlblVar::SCLINSTALLDIR`;
+  chomp($word_wx);
+  $sword = $word;
+}elsif($outencoding eq "IAST"){
+  $word_wx = `echo $word | $GlblVar::SCLINSTALLDIR/converters/utf8roman2wx.out`;
+  chomp($word_wx);
+  $sword = `echo $word_wx | $GlblVar::SCLINSTALLDIR/converters/wx2utf8.sh $GlblVar::SCLINSTALLDIR`;
+  chomp($sword);
+}
 
 #grep the 1st character in a word;
-$cword =~ /^(.)/;
+$word_wx =~ /^(.)/;
 $l = $1;
 #forming file name using dic_name and Word
 chomp $dic_name;
@@ -44,13 +42,13 @@ elsif($dic_name eq "mw"){
 	$filename = "$Files_Path/MW/$l.new.html";
 }
 
-if($word ne ""){
+if($sword ne ""){
    if($dic_name ne "amara") {
 	  open(TMP,"$filename") || die print "$filename does not exist";
    }
 }
          if($dic_name  eq "amara"){
-	    system("$myPATH/amarakosha/relations.sh NULL 'paryAyavAcI' $cword DEV");
+	    system("$GlblVar::SCLINSTALLDIR/amarakosha/relations.sh NULL 'paryAyavAcI' $word_wx DEV $GlblVar::SCLINSTALLDIR");
 	    $found = 1;
 	 }
 	 elsif($dic_name  eq "apte"){
@@ -62,7 +60,7 @@ if($word ne ""){
 close(TMP);
 
 if (!$found){
- print "\n$word not found in ";
+ print "\n$sword not found in ";
  if($dic_name eq "apte") {
     print "Apte's Sanskrit-Hindi dictionary\n";
  }
@@ -98,6 +96,9 @@ my $result = "";
 	@lines = split(/<segmenthd>/,$line);
 	foreach $lines (@lines){
 		if($lines =~ /<prAwipaxikam>$sword<\/prAwipaxikam>/ or $lines =~ /<root>$sword<\/root>/ ){
+                        $lines =~ s/<jAwi>[^<]+<\/jAwi>//g;
+                        $lines =~ s/<upAXi>[^<]+<\/upAXi>//g;
+                        $lines =~ s/<kind_of>[^<]+<\/kind_of>//g;
 			$result .= $lines;
 		}
 	}

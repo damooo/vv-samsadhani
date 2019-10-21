@@ -1,6 +1,6 @@
-#!PERLPATH
+#!/usr/bin/env perl
 
-#  Copyright (C) 2010-2016 Amba Kulkarni (ambapradeep@gmail.com)
+#  Copyright (C) 2010-2019 Amba Kulkarni (ambapradeep@gmail.com)
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@ while($in = <STDIN>){
     if($line_no == 0) { 
        print "<tr><td colspan=2 align=\"center\"><font color=\"brown\" size=\"5\"><b>कृदव्ययम्</b></font></td></tr>\n";
     }
+    if($in =~ /\?/) { $in = "-";}
     print "<tr><td width=20% bgcolor='#461B7E'  align='middle'><font color=\"white\" size=\"4\">$kqw_avy_prawyayaH[$line_no]</font></td><td width=80% align=\"center\" bgcolor='#E6CCFF'><font color=\"black\" size=\"4\">$in</font> </td></tr>\n";
   $line_no++;
   }
