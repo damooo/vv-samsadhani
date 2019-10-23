@@ -67,8 +67,8 @@ print TMP1 $word_wx;
 chomp($word_wx);
 $ans = `$GlblVar::SCLINSTALLDIR/SHMT/prog/morph/webrun_morph.sh $word_wx`;
 if ($out_format eq 'json') {
-    my $result = parse_morph_output($word, $encoding, $ans);
-    $ans = to_json($result);
+    my $result = SCLResultParser::parse_morph_output($word, $encoding, $ans);
+    $ans = SCLResultParser::to_json($result);
 }
 print TMP1 $ans;
 close(TMP1);
