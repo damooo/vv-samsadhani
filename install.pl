@@ -6,7 +6,9 @@ $installdir = "scl";
         #docmd("sudo apt-get update");
 docmd("sudo apt-get install -y make g++ openjdk-8-jdk apache2 graphviz flex bison git")
     || die "Error installing prerequisite packages.\n";
-docmd("sudo apt-get install -y flex ocaml camlp4-extra lttoolbox")
+docmd("sudo apt-get install -y flex ocaml camlp4-extra lttoolbox libcgi-session-perl")
+    || die "Error installing prerequisite packages.\n";
+docmd("sudo apt-get install -y libcgi-session-perl libhtml-tableextract-perl python")
     || die "Error installing prerequisite packages.\n";
 docmd("sudo a2enmod cgi && sudo service apache2 restart")
     || die "Error installing Apache2 CGI support.\n";
